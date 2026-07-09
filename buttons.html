@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buttons ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* BUTTONS GRID */
+.btns-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.btns-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.btns-grid{grid-template-columns:1fr}}
+
+/* BUTTON TILE */
+.btn-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.btn-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.btn-preview{padding:2rem 1.5rem;min-height:140px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.btn-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s}
+.btn-tile:hover .btn-preview::after{transform:translateX(100%)}
+.btn-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.btn-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.btn-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3);display:flex;align-items:center;gap:.25rem}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.btn-tile{animation:gfn-fadeInUp .4s ease both}
+.btn-tile:nth-child(1){animation-delay:.05s}.btn-tile:nth-child(2){animation-delay:.1s}.btn-tile:nth-child(3){animation-delay:.15s}
+.btn-tile:nth-child(4){animation-delay:.2s}.btn-tile:nth-child(5){animation-delay:.25s}.btn-tile:nth-child(6){animation-delay:.3s}
+.btn-tile:nth-child(7){animation-delay:.35s}.btn-tile:nth-child(8){animation-delay:.4s}.btn-tile:nth-child(9){animation-delay:.45s}
+.btn-tile:nth-child(10){animation-delay:.5s}.btn-tile:nth-child(11){animation-delay:.55s}.btn-tile:nth-child(12){animation-delay:.6s}
+.btn-tile:nth-child(13){animation-delay:.65s}.btn-tile:nth-child(14){animation-delay:.7s}.btn-tile:nth-child(15){animation-delay:.75s}
+.btn-tile:nth-child(16){animation-delay:.8s}.btn-tile:nth-child(17){animation-delay:.85s}.btn-tile:nth-child(18){animation-delay:.9s}
+.btn-tile:nth-child(19){animation-delay:.95s}.btn-tile:nth-child(20){animation-delay:1s}
+
+/* MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-tabs{display:flex;gap:.35rem;padding:.75rem 1.25rem 0;border-bottom:1px solid var(--bdr);flex-shrink:0}
+.modal-tab{padding:.4rem .85rem;font-size:.75rem;font-weight:600;border-radius:var(--rm) var(--rm) 0 0;border:1px solid transparent;color:var(--tx3);background:none;transition:all var(--tr);margin-bottom:-1px;border-bottom:1px solid var(--bdr)}
+.modal-tab.active{color:var(--accent);background:var(--surf);border-color:var(--bdr);border-bottom-color:var(--surf)}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2}
+.modal-note{margin-top:1rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+.css-note-block{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--rm);padding:1rem;margin-bottom:1rem;font-size:.73rem;line-height:1.7;color:var(--tx2)}
+.css-note-block strong{color:var(--tx);font-weight:700}
+.css-note-block code{font-family:var(--font-mono);background:var(--bg3);padding:.1rem .35rem;border-radius:4px;font-size:.7rem;color:var(--accent)}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* =====================================================
+   GRIFFIN CSS — 20 BUTTON STYLES
+   ===================================================== */
+
+/* --- SHARED BASE --- */
+.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap;-webkit-font-smoothing:antialiased}
+
+/* 1. Shimmer Pulse */
+.gfn-btn-shimmer{background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;padding:.75rem 2rem;border-radius:9999px;box-shadow:0 4px 20px rgba(30,158,140,.35);transition:box-shadow .3s,transform .2s}
+.gfn-btn-shimmer::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:gfn-shimmer 2.2s infinite}
+@keyframes gfn-shimmer{0%{left:-100%}100%{left:200%}}
+.gfn-btn-shimmer:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(30,158,140,.5)}
+.gfn-btn-shimmer:active{transform:translateY(0)}
+
+/* 2. Magnetic Lift */
+.gfn-btn-magnetic{background:#0f172a;color:#fff;padding:.75rem 2rem;border-radius:14px;box-shadow:0 6px 0 #000,0 8px 20px rgba(0,0,0,.3);transition:all .15s cubic-bezier(.34,1.56,.64,1)}
+.gfn-btn-magnetic:hover{box-shadow:0 10px 0 #000,0 14px 28px rgba(0,0,0,.35);transform:translateY(-4px)}
+.gfn-btn-magnetic:active{box-shadow:0 1px 0 #000,0 2px 8px rgba(0,0,0,.2);transform:translateY(5px)}
+
+/* 3. Neon Outline */
+.gfn-btn-neon{background:transparent;color:#1E9E8C;padding:.7rem 1.9rem;border-radius:9999px;border:2px solid #1E9E8C;font-size:.88rem;letter-spacing:.04em;transition:all .25s;box-shadow:0 0 0 rgba(30,158,140,0),inset 0 0 0 rgba(30,158,140,0)}
+.gfn-btn-neon:hover{background:#1E9E8C;color:#fff;box-shadow:0 0 18px rgba(30,158,140,.55),0 0 40px rgba(30,158,140,.25);transform:scale(1.04)}
+.gfn-btn-neon:active{transform:scale(.98)}
+
+/* 4. Gradient Sweep */
+.gfn-btn-sweep{background:#fff;color:#6366f1;padding:.75rem 2rem;border-radius:12px;border:2px solid #6366f1;font-size:.88rem;transition:color .3s}
+.gfn-btn-sweep::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-sweep span{position:relative;z-index:1}
+.gfn-btn-sweep:hover{color:#fff}
+.gfn-btn-sweep:hover::before{transform:scaleX(1)}
+.gfn-btn-sweep:active{transform:scale(.98)}
+
+/* 5. Ripple */
+.gfn-btn-ripple{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;padding:.75rem 2rem;border-radius:12px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(244,63,94,.35)}
+.gfn-btn-ripple::after{content:'';position:absolute;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.4);transform:translate(-50%,-50%);transition:width .5s,height .5s,opacity .5s;opacity:1}
+.gfn-btn-ripple:active::after{width:300px;height:300px;opacity:0;transition:0s}
+.gfn-btn-ripple:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(244,63,94,.5)}
+
+/* 6. Sliding Arrow */
+.gfn-btn-arrow{background:#0f172a;color:#fff;padding:.75rem 1.5rem .75rem 2rem;border-radius:9999px;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-arrow .gfn-arr{display:inline-flex;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .25s;opacity:.7}
+.gfn-btn-arrow:hover .gfn-arr{transform:translateX(5px);opacity:1}
+.gfn-btn-arrow:hover{padding-right:1.1rem;box-shadow:0 6px 20px rgba(0,0,0,.25);transform:translateY(-1px)}
+
+/* 7. Typewriter / Loading */
+.gfn-btn-loader{background:#f59e0b;color:#fff;padding:.75rem 2rem;border-radius:12px;box-shadow:0 4px 16px rgba(245,158,11,.35);transition:transform .2s,box-shadow .2s}
+.gfn-btn-loader:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,.45)}
+.gfn-btn-loader .gfn-dots{display:none;gap:3px;align-items:center}
+.gfn-btn-loader .gfn-dots span{width:5px;height:5px;border-radius:50%;background:#fff;animation:gfn-dot 1.2s infinite}
+.gfn-btn-loader .gfn-dots span:nth-child(2){animation-delay:.2s}
+.gfn-btn-loader .gfn-dots span:nth-child(3){animation-delay:.4s}
+@keyframes gfn-dot{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+.gfn-btn-loader.loading .gfn-label{display:none}
+.gfn-btn-loader.loading .gfn-dots{display:inline-flex}
+.gfn-btn-loader:active{transform:scale(.97)}
+
+/* 8. Glass Frost */
+.gfn-btn-glass{background:rgba(255,255,255,.18);color:#fff;padding:.75rem 2rem;border-radius:14px;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:.88rem;letter-spacing:.02em;transition:all .25s}
+.gfn-btn-glass:hover{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.55);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.gfn-btn-glass:active{transform:scale(.97)}
+
+/* 9. Bounce Soft */
+.gfn-btn-bounce{background:linear-gradient(135deg,#22d3ee,#06b6d4);color:#fff;padding:.75rem 2rem;border-radius:9999px;box-shadow:0 4px 16px rgba(6,182,212,.35);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.gfn-btn-bounce:hover{transform:translateY(-5px) scale(1.04);box-shadow:0 12px 28px rgba(6,182,212,.45)}
+.gfn-btn-bounce:active{transform:translateY(0) scale(.97)}
+
+/* 10. Split Color */
+.gfn-btn-split{background:linear-gradient(90deg,#8b5cf6 50%,#ec4899 50%);color:#fff;padding:.75rem 2rem;border-radius:9999px;background-size:200%;background-position:right;transition:background-position .4s ease,box-shadow .3s,transform .2s;box-shadow:0 4px 18px rgba(139,92,246,.3)}
+.gfn-btn-split:hover{background-position:left;box-shadow:0 6px 24px rgba(236,72,153,.4);transform:translateY(-2px)}
+.gfn-btn-split:active{transform:scale(.97)}
+
+/* 11. Border Draw */
+.gfn-btn-draw{background:transparent;color:var(--gfn-draw-c,#0f172a);padding:.72rem 1.9rem;border-radius:10px;font-size:.88rem;transition:color .3s}
+.gfn-btn-draw::before,.gfn-btn-draw::after{content:'';position:absolute;transition:all .3s ease}
+.gfn-btn-draw::before{top:0;left:0;width:0;height:2px;background:var(--gfn-draw-c,#0f172a)}
+.gfn-btn-draw::after{bottom:0;right:0;width:0;height:2px;background:var(--gfn-draw-c,#0f172a)}
+.gfn-btn-draw .gfn-draw-l,.gfn-btn-draw .gfn-draw-r{position:absolute;width:2px;height:0;background:var(--gfn-draw-c,#0f172a);transition:all .3s ease}
+.gfn-btn-draw .gfn-draw-l{left:0;bottom:0;transition-delay:.3s}
+.gfn-btn-draw .gfn-draw-r{right:0;top:0;transition-delay:.3s}
+.gfn-btn-draw:hover::before{width:100%}
+.gfn-btn-draw:hover::after{width:100%}
+.gfn-btn-draw:hover .gfn-draw-l,.gfn-btn-draw:hover .gfn-draw-r{height:100%;transition-delay:0s}
+.gfn-btn-draw:active{transform:scale(.97)}
+
+/* 12. Retro Push */
+.gfn-btn-retro{background:#fef08a;color:#713f12;padding:.7rem 1.9rem;border-radius:8px;border:2px solid #713f12;font-size:.88rem;box-shadow:4px 4px 0 #713f12;transition:all .12s}
+.gfn-btn-retro:hover{box-shadow:6px 6px 0 #713f12;transform:translate(-2px,-2px)}
+.gfn-btn-retro:active{box-shadow:1px 1px 0 #713f12;transform:translate(3px,3px)}
+
+/* 13. Glow Pulse */
+.gfn-btn-glow{background:#6366f1;color:#fff;padding:.75rem 2rem;border-radius:9999px;font-size:.88rem;box-shadow:0 0 0 0 rgba(99,102,241,.6);animation:gfn-glowpulse 2.5s infinite}
+@keyframes gfn-glowpulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,.6)}70%{box-shadow:0 0 0 12px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+.gfn-btn-glow:hover{animation:none;box-shadow:0 0 24px rgba(99,102,241,.65),0 4px 16px rgba(99,102,241,.4);transform:translateY(-2px)}
+.gfn-btn-glow:active{transform:scale(.97);animation:none}
+
+/* 14. Icon Slide */
+.gfn-btn-iconslide{background:#fff;color:#1e293b;padding:.7rem 1.5rem;border-radius:12px;border:1.5px solid #e2e8f0;font-size:.88rem;gap:0;transition:all .25s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.gfn-btn-iconslide .gfn-icon-w{width:0;opacity:0;transition:width .25s,opacity .2s}
+.gfn-btn-iconslide .gfn-icon-w span{display:block;padding-right:.5rem}
+.gfn-btn-iconslide:hover{border-color:#1E9E8C;color:#1E9E8C;background:rgba(30,158,140,.04);box-shadow:0 4px 14px rgba(30,158,140,.15)}
+.gfn-btn-iconslide:hover .gfn-icon-w{width:1.4rem;opacity:1}
+.gfn-btn-iconslide:active{transform:scale(.97)}
+
+/* 15. Neumorphic Press */
+.gfn-btn-neumorphic{background:#e8edf2;color:#4a5568;padding:.75rem 2rem;border-radius:12px;border:none;font-size:.88rem;box-shadow:5px 5px 10px #c8cfd7,-5px -5px 10px #fff;transition:all .15s}
+.gfn-btn-neumorphic:hover{box-shadow:6px 6px 12px #c0c8d1,-6px -6px 12px #fff;transform:translateY(-1px);color:#1E9E8C}
+.gfn-btn-neumorphic:active{box-shadow:inset 4px 4px 8px #c8cfd7,inset -4px -4px 8px #fff;transform:translateY(1px)}
+
+/* 16. Flip Card Button */
+.gfn-btn-flip{width:160px;height:44px;perspective:600px;cursor:pointer;border:none;background:transparent;padding:0}
+.gfn-btn-flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-flip:hover .gfn-btn-flip-inner{transform:rotateX(180deg)}
+.gfn-btn-flip-front,.gfn-btn-flip-back{position:absolute;inset:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.gfn-btn-flip-front{background:#0f172a;color:#fff}
+.gfn-btn-flip-back{background:#1E9E8C;color:#fff;transform:rotateX(180deg)}
+
+/* 17. Countdown / Liftoff */
+.gfn-btn-liftoff{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;padding:.75rem 2rem;border-radius:9999px;font-size:.88rem;box-shadow:0 4px 18px rgba(234,88,12,.35);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.gfn-btn-liftoff .gfn-rocket{display:inline-block;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.gfn-btn-liftoff:hover .gfn-rocket{transform:translateY(-24px) scale(1.2);opacity:0}
+.gfn-btn-liftoff:hover{box-shadow:0 12px 32px rgba(234,88,12,.5);transform:translateY(-2px)}
+.gfn-btn-liftoff:active{transform:scale(.97)}
+
+/* 18. Typeface Outline Morph */
+.gfn-btn-morph{background:#fff;color:#0f172a;padding:.75rem 2rem;border-radius:9999px;border:2px solid #0f172a;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-morph:hover{background:#0f172a;color:#fff;border-radius:10px;letter-spacing:.15em}
+.gfn-btn-morph:active{transform:scale(.96)}
+
+/* 19. Confetti Burst */
+.gfn-btn-confetti{background:linear-gradient(135deg,#a855f7,#ec4899);color:#fff;padding:.75rem 2rem;border-radius:12px;font-size:.88rem;box-shadow:0 4px 18px rgba(168,85,247,.35);transition:transform .2s,box-shadow .2s}
+.gfn-btn-confetti .gfn-star{display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gfn-btn-confetti:hover .gfn-star{transform:rotate(20deg) scale(1.3)}
+.gfn-btn-confetti:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 28px rgba(168,85,247,.5)}
+.gfn-btn-confetti:active{transform:scale(.96)}
+
+/* 20. Magnetic Underline */
+.gfn-btn-underline{background:transparent;color:#0f172a;padding:.75rem 1rem;border-radius:0;border:none;font-size:.95rem;font-weight:700;letter-spacing:.01em;position:relative;transition:color .25s}
+.gfn-btn-underline::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:2.5px;background:linear-gradient(90deg,#1E9E8C,#28C4AF);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-underline:hover::after{transform:scaleX(1);transform-origin:left}
+.gfn-btn-underline:hover{color:#1E9E8C}
+.gfn-btn-underline:active{transform:scale(.97)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Buttons</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link active" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Buttons</div>
+    <p class="page-sub">
+      <span>20 animated button components</span> ... click any button to view &amp; copy its HTML + CSS.
+    </p>
+  </div>
+  <div class="btns-grid" id="btns-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Button HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn-html" onclick="copyCode('html')">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code-html"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> and you're good. All button classes are prefixed <code>gfn-</code> to guarantee zero collisions.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BUTTONS = [
+{
+  name: 'Shimmer Pulse',
+  tag: 'CTA',
+  bg: 'linear-gradient(135deg,#e0fdf4,#ccfbf1)',
+  html: `<button class="gfn-btn gfn-btn-shimmer">
+  Get Started Free
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-shimmer{background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;padding:.75rem 2rem;border-radius:9999px;box-shadow:0 4px 20px rgba(30,158,140,.35);transition:box-shadow .3s,transform .2s}
+.gfn-btn-shimmer::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:gfn-shimmer 2.2s infinite}
+@keyframes gfn-shimmer{0%{left:-100%}100%{left:200%}}
+.gfn-btn-shimmer:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(30,158,140,.5)}
+.gfn-btn-shimmer:active{transform:translateY(0)}`
+},
+{
+  name: 'Magnetic Lift',
+  tag: 'Action',
+  bg: 'linear-gradient(135deg,#f1f5f9,#e2e8f0)',
+  html: `<button class="gfn-btn gfn-btn-magnetic">
+  Click Me Hard
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-magnetic{background:#0f172a;color:#fff;padding:.75rem 2rem;border-radius:14px;box-shadow:0 6px 0 #000,0 8px 20px rgba(0,0,0,.3);transition:all .15s cubic-bezier(.34,1.56,.64,1)}
+.gfn-btn-magnetic:hover{box-shadow:0 10px 0 #000,0 14px 28px rgba(0,0,0,.35);transform:translateY(-4px)}
+.gfn-btn-magnetic:active{box-shadow:0 1px 0 #000,0 2px 8px rgba(0,0,0,.2);transform:translateY(5px)}`
+},
+{
+  name: 'Neon Outline',
+  tag: 'Accent',
+  bg: 'linear-gradient(135deg,#0f172a,#1e293b)',
+  html: `<button class="gfn-btn gfn-btn-neon">
+  Explore Now
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-neon{background:transparent;color:#1E9E8C;padding:.7rem 1.9rem;border-radius:9999px;border:2px solid #1E9E8C;font-size:.88rem;letter-spacing:.04em;transition:all .25s}
+.gfn-btn-neon:hover{background:#1E9E8C;color:#fff;box-shadow:0 0 18px rgba(30,158,140,.55),0 0 40px rgba(30,158,140,.25);transform:scale(1.04)}
+.gfn-btn-neon:active{transform:scale(.98)}`
+},
+{
+  name: 'Gradient Sweep',
+  tag: 'Fill',
+  bg: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  html: `<button class="gfn-btn gfn-btn-sweep">
+  <span>Upgrade Plan</span>
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-sweep{background:#fff;color:#6366f1;padding:.75rem 2rem;border-radius:12px;border:2px solid #6366f1;font-size:.88rem;transition:color .3s}
+.gfn-btn-sweep::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#6366f1,#8b5cf6);transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-sweep span{position:relative;z-index:1}
+.gfn-btn-sweep:hover{color:#fff}
+.gfn-btn-sweep:hover::before{transform:scaleX(1)}
+.gfn-btn-sweep:active{transform:scale(.98)}`
+},
+{
+  name: 'Ripple Effect',
+  tag: 'Touch',
+  bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+  html: `<button class="gfn-btn gfn-btn-ripple">
+  Buy Now
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-ripple{background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;padding:.75rem 2rem;border-radius:12px;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 18px rgba(244,63,94,.35)}
+.gfn-btn-ripple::after{content:'';position:absolute;width:0;height:0;border-radius:50%;background:rgba(255,255,255,.4);transform:translate(-50%,-50%);transition:width .5s,height .5s,opacity .5s;opacity:1}
+.gfn-btn-ripple:active::after{width:300px;height:300px;opacity:0;transition:0s}
+.gfn-btn-ripple:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(244,63,94,.5)}`
+},
+{
+  name: 'Sliding Arrow',
+  tag: 'Nav',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html: `<button class="gfn-btn gfn-btn-arrow">
+  Learn More
+  <span class="gfn-arr">→</span>
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-arrow{background:#0f172a;color:#fff;padding:.75rem 1.5rem .75rem 2rem;border-radius:9999px;transition:all .25s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-arrow .gfn-arr{display:inline-flex;transition:transform .25s cubic-bezier(.4,0,.2,1),opacity .25s;opacity:.7}
+.gfn-btn-arrow:hover .gfn-arr{transform:translateX(5px);opacity:1}
+.gfn-btn-arrow:hover{padding-right:1.1rem;box-shadow:0 6px 20px rgba(0,0,0,.25);transform:translateY(-1px)}`
+},
+{
+  name: 'Loading Dots',
+  tag: 'State',
+  bg: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
+  html: `<button class="gfn-btn gfn-btn-loader" id="myLoaderBtn"
+  onclick="this.classList.toggle('loading')">
+  <span class="gfn-label">Submit Form</span>
+  <span class="gfn-dots">
+    <span></span><span></span><span></span>
+  </span>
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-loader{background:#f59e0b;color:#fff;padding:.75rem 2rem;border-radius:12px;box-shadow:0 4px 16px rgba(245,158,11,.35);transition:transform .2s,box-shadow .2s}
+.gfn-btn-loader:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(245,158,11,.45)}
+.gfn-btn-loader .gfn-dots{display:none;gap:3px;align-items:center}
+.gfn-btn-loader .gfn-dots span{width:5px;height:5px;border-radius:50%;background:#fff;animation:gfn-dot 1.2s infinite}
+.gfn-btn-loader .gfn-dots span:nth-child(2){animation-delay:.2s}
+.gfn-btn-loader .gfn-dots span:nth-child(3){animation-delay:.4s}
+@keyframes gfn-dot{0%,80%,100%{transform:scale(.6);opacity:.4}40%{transform:scale(1);opacity:1}}
+.gfn-btn-loader.loading .gfn-label{display:none}
+.gfn-btn-loader.loading .gfn-dots{display:inline-flex}
+.gfn-btn-loader:active{transform:scale(.97)}`
+},
+{
+  name: 'Glass Frost',
+  tag: 'Glass',
+  bg: 'linear-gradient(135deg,#667eea,#764ba2)',
+  html: `<button class="gfn-btn gfn-btn-glass">
+  ✦ Join Waitlist
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-glass{background:rgba(255,255,255,.18);color:#fff;padding:.75rem 2rem;border-radius:14px;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:.88rem;letter-spacing:.02em;transition:all .25s}
+.gfn-btn-glass:hover{background:rgba(255,255,255,.28);border-color:rgba(255,255,255,.55);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.2)}
+.gfn-btn-glass:active{transform:scale(.97)}`
+},
+{
+  name: 'Bounce Soft',
+  tag: 'Playful',
+  bg: 'linear-gradient(135deg,#ecfeff,#cffafe)',
+  html: `<button class="gfn-btn gfn-btn-bounce">
+  💧 Try It Free
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-bounce{background:linear-gradient(135deg,#22d3ee,#06b6d4);color:#fff;padding:.75rem 2rem;border-radius:9999px;box-shadow:0 4px 16px rgba(6,182,212,.35);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.gfn-btn-bounce:hover{transform:translateY(-5px) scale(1.04);box-shadow:0 12px 28px rgba(6,182,212,.45)}
+.gfn-btn-bounce:active{transform:translateY(0) scale(.97)}`
+},
+{
+  name: 'Split Slide',
+  tag: 'Dual',
+  bg: 'linear-gradient(135deg,#faf5ff,#f3e8ff)',
+  html: `<button class="gfn-btn gfn-btn-split">
+  Start Building
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-split{background:linear-gradient(90deg,#8b5cf6 50%,#ec4899 50%);color:#fff;padding:.75rem 2rem;border-radius:9999px;background-size:200%;background-position:right;transition:background-position .4s ease,box-shadow .3s,transform .2s;box-shadow:0 4px 18px rgba(139,92,246,.3)}
+.gfn-btn-split:hover{background-position:left;box-shadow:0 6px 24px rgba(236,72,153,.4);transform:translateY(-2px)}
+.gfn-btn-split:active{transform:scale(.97)}`
+},
+{
+  name: 'Border Draw',
+  tag: 'Outline',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html: `<button class="gfn-btn gfn-btn-draw">
+  <span class="gfn-draw-l"></span>
+  <span class="gfn-draw-r"></span>
+  View Portfolio
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-draw{background:transparent;color:#0f172a;padding:.72rem 1.9rem;border-radius:10px;font-size:.88rem;transition:color .3s}
+.gfn-btn-draw::before,.gfn-btn-draw::after{content:'';position:absolute;transition:all .3s ease}
+.gfn-btn-draw::before{top:0;left:0;width:0;height:2px;background:#0f172a}
+.gfn-btn-draw::after{bottom:0;right:0;width:0;height:2px;background:#0f172a}
+.gfn-btn-draw .gfn-draw-l,.gfn-btn-draw .gfn-draw-r{position:absolute;width:2px;height:0;background:#0f172a;transition:all .3s ease}
+.gfn-btn-draw .gfn-draw-l{left:0;bottom:0;transition-delay:.3s}
+.gfn-btn-draw .gfn-draw-r{right:0;top:0;transition-delay:.3s}
+.gfn-btn-draw:hover::before{width:100%}
+.gfn-btn-draw:hover::after{width:100%}
+.gfn-btn-draw:hover .gfn-draw-l,.gfn-btn-draw:hover .gfn-draw-r{height:100%;transition-delay:0s}
+.gfn-btn-draw:active{transform:scale(.97)}`
+},
+{
+  name: 'Retro Push',
+  tag: 'Retro',
+  bg: 'linear-gradient(135deg,#fefce8,#fef9c3)',
+  html: `<button class="gfn-btn gfn-btn-retro">
+  ★ Add to Cart
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-retro{background:#fef08a;color:#713f12;padding:.7rem 1.9rem;border-radius:8px;border:2px solid #713f12;font-size:.88rem;box-shadow:4px 4px 0 #713f12;transition:all .12s}
+.gfn-btn-retro:hover{box-shadow:6px 6px 0 #713f12;transform:translate(-2px,-2px)}
+.gfn-btn-retro:active{box-shadow:1px 1px 0 #713f12;transform:translate(3px,3px)}`
+},
+{
+  name: 'Glow Pulse',
+  tag: 'Attention',
+  bg: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  html: `<button class="gfn-btn gfn-btn-glow">
+  ✦ Go Premium
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-glow{background:#6366f1;color:#fff;padding:.75rem 2rem;border-radius:9999px;font-size:.88rem;box-shadow:0 0 0 0 rgba(99,102,241,.6);animation:gfn-glowpulse 2.5s infinite}
+@keyframes gfn-glowpulse{0%{box-shadow:0 0 0 0 rgba(99,102,241,.6)}70%{box-shadow:0 0 0 12px rgba(99,102,241,0)}100%{box-shadow:0 0 0 0 rgba(99,102,241,0)}}
+.gfn-btn-glow:hover{animation:none;box-shadow:0 0 24px rgba(99,102,241,.65),0 4px 16px rgba(99,102,241,.4);transform:translateY(-2px)}
+.gfn-btn-glow:active{transform:scale(.97);animation:none}`
+},
+{
+  name: 'Icon Slide',
+  tag: 'UI',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  html: `<button class="gfn-btn gfn-btn-iconslide">
+  <span class="gfn-icon-w"><span>→</span></span>
+  Open Dashboard
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-iconslide{background:#fff;color:#1e293b;padding:.7rem 1.5rem;border-radius:12px;border:1.5px solid #e2e8f0;font-size:.88rem;gap:0;transition:all .25s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.gfn-btn-iconslide .gfn-icon-w{width:0;opacity:0;transition:width .25s,opacity .2s}
+.gfn-btn-iconslide .gfn-icon-w span{display:block;padding-right:.5rem}
+.gfn-btn-iconslide:hover{border-color:#1E9E8C;color:#1E9E8C;background:rgba(30,158,140,.04);box-shadow:0 4px 14px rgba(30,158,140,.15)}
+.gfn-btn-iconslide:hover .gfn-icon-w{width:1.4rem;opacity:1}
+.gfn-btn-iconslide:active{transform:scale(.97)}`
+},
+{
+  name: 'Neumorphic',
+  tag: 'Soft',
+  bg: '#dde1e7',
+  html: `<button class="gfn-btn gfn-btn-neumorphic">
+  Save Changes
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-neumorphic{background:#e8edf2;color:#4a5568;padding:.75rem 2rem;border-radius:12px;border:none;font-size:.88rem;box-shadow:5px 5px 10px #c8cfd7,-5px -5px 10px #fff;transition:all .15s}
+.gfn-btn-neumorphic:hover{box-shadow:6px 6px 12px #c0c8d1,-6px -6px 12px #fff;transform:translateY(-1px);color:#1E9E8C}
+.gfn-btn-neumorphic:active{box-shadow:inset 4px 4px 8px #c8cfd7,inset -4px -4px 8px #fff;transform:translateY(1px)}`
+},
+{
+  name: '3D Flip',
+  tag: 'Reveal',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  html: `<button class="gfn-btn gfn-btn-flip">
+  <div class="gfn-btn-flip-inner">
+    <div class="gfn-btn-flip-front">Hover Me</div>
+    <div class="gfn-btn-flip-back">✓ Let's Go!</div>
+  </div>
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-flip{width:160px;height:44px;perspective:600px;cursor:pointer;border:none;background:transparent;padding:0}
+.gfn-btn-flip-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-flip:hover .gfn-btn-flip-inner{transform:rotateX(180deg)}
+.gfn-btn-flip-front,.gfn-btn-flip-back{position:absolute;inset:0;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.gfn-btn-flip-front{background:#0f172a;color:#fff}
+.gfn-btn-flip-back{background:#1E9E8C;color:#fff;transform:rotateX(180deg)}`
+},
+{
+  name: 'Liftoff Rocket',
+  tag: 'Fun',
+  bg: 'linear-gradient(135deg,#fff7ed,#ffedd5)',
+  html: `<button class="gfn-btn gfn-btn-liftoff">
+  <span class="gfn-rocket">🚀</span>
+  Launch App
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-liftoff{background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;padding:.75rem 2rem;border-radius:9999px;font-size:.88rem;box-shadow:0 4px 18px rgba(234,88,12,.35);transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.gfn-btn-liftoff .gfn-rocket{display:inline-block;transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.gfn-btn-liftoff:hover .gfn-rocket{transform:translateY(-24px) scale(1.2);opacity:0}
+.gfn-btn-liftoff:hover{box-shadow:0 12px 32px rgba(234,88,12,.5);transform:translateY(-2px)}
+.gfn-btn-liftoff:active{transform:scale(.97)}`
+},
+{
+  name: 'Morph Shape',
+  tag: 'Transform',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html: `<button class="gfn-btn gfn-btn-morph">
+  Read Docs
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-morph{background:#fff;color:#0f172a;padding:.75rem 2rem;border-radius:9999px;border:2px solid #0f172a;font-size:.88rem;letter-spacing:.08em;text-transform:uppercase;transition:all .3s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-morph:hover{background:#0f172a;color:#fff;border-radius:10px;letter-spacing:.15em}
+.gfn-btn-morph:active{transform:scale(.96)}`
+},
+{
+  name: 'Confetti Star',
+  tag: 'Delight',
+  bg: 'linear-gradient(135deg,#fdf4ff,#fae8ff)',
+  html: `<button class="gfn-btn gfn-btn-confetti">
+  <span class="gfn-star">✦</span>
+  Claim Reward
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-confetti{background:linear-gradient(135deg,#a855f7,#ec4899);color:#fff;padding:.75rem 2rem;border-radius:12px;font-size:.88rem;box-shadow:0 4px 18px rgba(168,85,247,.35);transition:transform .2s,box-shadow .2s}
+.gfn-btn-confetti .gfn-star{display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gfn-btn-confetti:hover .gfn-star{transform:rotate(20deg) scale(1.3)}
+.gfn-btn-confetti:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 10px 28px rgba(168,85,247,.5)}
+.gfn-btn-confetti:active{transform:scale(.96)}`
+},
+{
+  name: 'Underline Reveal',
+  tag: 'Ghost',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html: `<button class="gfn-btn gfn-btn-underline">
+  View Case Study →
+</button>`,
+  css: `.gfn-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:'Inter',system-ui,sans-serif;font-weight:700;font-size:.88rem;border:none;cursor:pointer;text-decoration:none;position:relative;overflow:hidden;white-space:nowrap}
+
+.gfn-btn-underline{background:transparent;color:#0f172a;padding:.75rem 1rem;border-radius:0;border:none;font-size:.95rem;font-weight:700;letter-spacing:.01em;position:relative;transition:color .25s}
+.gfn-btn-underline::after{content:'';position:absolute;bottom:4px;left:0;width:100%;height:2.5px;background:linear-gradient(90deg,#1E9E8C,#28C4AF);transform:scaleX(0);transform-origin:right;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.gfn-btn-underline:hover::after{transform:scaleX(1);transform-origin:left}
+.gfn-btn-underline:hover{color:#1E9E8C}
+.gfn-btn-underline:active{transform:scale(.97)}`
+}
+];
+
+// RENDER
+const grid = document.getElementById('btns-grid');
+BUTTONS.forEach((b, i) => {
+  const tile = document.createElement('div');
+  tile.className = 'btn-tile';
+  tile.innerHTML = `
+    <div class="btn-preview" style="background:${b.bg}">
+      ${b.html}
+    </div>
+    <div class="btn-meta">
+      <span class="btn-name">${b.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="btn-tag">${b.tag}</span>
+        <span class="click-hint">🖱 Click</span>
+      </div>
+    </div>
+  `;
+  tile.addEventListener('click', e => {
+    if(e.target.closest('button') && !e.target.closest('.btn-tile > .btn-meta')) return;
+    openModal(b);
+  });
+  // Only the meta area opens modal
+  tile.querySelector('.btn-meta').addEventListener('click', () => openModal(b));
+  tile.querySelector('.btn-preview').addEventListener('click', e => {
+    if(!e.target.closest('.gfn-btn')) openModal(b);
+  });
+  grid.appendChild(tile);
+});
+
+let currentBtn = null, currentTab = 'html';
+
+function openModal(b) {
+  currentBtn = b;
+  document.getElementById('modal-title').textContent = b.name;
+  document.getElementById('modal-subtitle').textContent = `${b.tag} button — copy & customize`;
+  document.getElementById('modal-code-html').textContent = b.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyCode(type) {
+  navigator.clipboard.writeText(currentBtn.html).then(() => {
+    const btn = document.getElementById('copy-btn-html');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if(s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

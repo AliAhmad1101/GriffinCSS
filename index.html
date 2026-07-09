@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  
+  <!--Designed and developed by Ali Ahmad Khan
+      Latest Update Date: 9 July, 2026
+      Designed using Figma and Excalidraw
+      Open Source components are also used
+      Coded using HTML, CSS and Vanilla JS-->
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Griffin CSS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;transition:background .4s,color .4s;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none}
+ul{list-style:none}
+button,input,textarea,select{font-family:inherit}
+
+/* INTRO */
+#intro{position:fixed;inset:0;z-index:9999;background:#0A0A0A;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity .8s ease,transform .8s ease}
+#intro.hide{opacity:0;pointer-events:none;transform:scale(1.03)}
+#intro-logo{font-family:var(--font-disp);font-size:clamp(2.5rem,8vw,5.5rem);font-weight:800;color:#fff;letter-spacing:-.04em;display:flex;align-items:center;gap:.08em}
+#intro-logo .char{display:inline-block;opacity:0;transform:translateY(50px)}
+#intro-logo .accent{color:var(--accent)}
+#intro-line{width:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent-l));border-radius:99px;transition:width 1s cubic-bezier(.4,0,.2,1)}
+#intro-sub{font-size:.85rem;color:rgba(255,255,255,.4);letter-spacing:.2em;text-transform:uppercase;opacity:0}
+#intro-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.ip{position:absolute;border-radius:50%;background:var(--accent);opacity:0}
+
+/* NAVBAR */
+#navbar{position:fixed;top:1.25rem;left:50%;transform:translateX(-50%);z-index:500;width:calc(100% - 2rem);max-width:920px;background:rgba(255,255,255,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--bdr);border-radius:var(--rf);padding:.55rem 1.1rem;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh2);transition:background .4s,border-color .4s,opacity .4s;opacity:0}
+[data-theme="dark"] #navbar{background:rgba(26,26,26,.85)}
+#navbar.visible{opacity:1}
+.nav-brand{font-family:var(--font-disp);font-weight:800;font-size:1.05rem;color:var(--tx);letter-spacing:-.02em;cursor:pointer;user-select:none}
+.nav-brand span{color:var(--accent)}
+.nav-links{display:flex;align-items:center;gap:.15rem}
+.nav-link{padding:.38rem .75rem;border-radius:var(--rf);color:var(--tx2);font-size:.8rem;font-weight:500;cursor:pointer;transition:all var(--tr);background:none;border:none;white-space:nowrap}
+.nav-link:hover{color:var(--tx);background:var(--bg2)}
+.nav-link.active{color:var(--accent);background:var(--accent-m)}
+.nav-right{display:flex;align-items:center;gap:.5rem}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+.nav-cta{padding:.38rem 1rem;border-radius:var(--rf);background:var(--accent);color:#fff;font-size:.8rem;font-weight:600;cursor:pointer;border:none;transition:all var(--tr)}
+.nav-cta:hover{background:var(--accent-d);box-shadow:var(--sha);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:4px;cursor:pointer;padding:.3rem;border:none;background:none}
+.hamburger span{display:block;width:20px;height:2px;background:var(--tx);border-radius:99px;transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--surf);z-index:490;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.mobile-menu.open{display:flex;opacity:1;pointer-events:all}
+.mobile-menu .nav-link{font-size:1.5rem;font-weight:700;padding:.75rem 2rem;color:var(--tx)}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.5rem;cursor:pointer;background:none;border:none;color:var(--tx)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:6rem 1.5rem 4rem;
+  background:radial-gradient(ellipse 80% 70% at 20% 20%,rgba(30,158,140,.07) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 50% at 80% 80%,rgba(30,158,140,.05) 0%,transparent 60%),var(--bg);}
+.hero-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.15;animation:blobfloat 6s ease-in-out infinite}
+.blob1{width:400px;height:400px;background:var(--accent);top:-100px;right:-80px;animation-delay:0s}
+.blob2{width:300px;height:300px;background:#8B5CF6;bottom:-80px;left:-60px;animation-delay:-3s}
+.blob3{width:200px;height:200px;background:#F59E0B;top:40%;left:60%;animation-delay:-1.5s}
+@keyframes blobfloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-20px) scale(1.05)}}
+.hero-3d{position:absolute;width:120px;height:120px;transform-style:preserve-3d;perspective:800px;display:none;pointer-events:none;will-change:transform}
+@media(min-width:900px){.hero-3d{display:block}}
+.cube-scene{width:100%;height:100%;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d;animation:rotateCube 12s linear infinite}
+@keyframes rotateCube{to{transform:rotateX(360deg) rotateY(360deg)}}
+.cube-face{position:absolute;width:80px;height:80px;border:2px solid var(--accent);border-radius:10px;background:var(--accent-m);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.62rem;color:var(--accent);font-weight:500}
+.cf-f{transform:translateZ(40px)}.cf-b{transform:translateZ(-40px) rotateY(180deg)}
+.cf-l{transform:translateX(-40px) rotateY(-90deg)}.cf-r{transform:translateX(40px) rotateY(90deg)}
+.cf-t{transform:translateY(-40px) rotateX(90deg)}.cf-bt{transform:translateY(40px) rotateX(-90deg)}
+.hero-content{position:relative;z-index:2;max-width:720px;text-align:center}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.3);border-radius:var(--rf);padding:.3rem .9rem;font-size:.73rem;font-weight:600;color:var(--accent);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.5rem;opacity:0;transform:translateY(20px)}
+.hero-badge-dot{width:.4rem;height:.4rem;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-title{font-family:var(--font-disp);font-size:clamp(2.8rem,6.5vw,5rem);font-weight:800;line-height:1.05;letter-spacing:-.04em;margin-bottom:1.5rem;opacity:0;transform:translateY(30px)}
+.hero-title .g{color:var(--accent)}
+.hero-sub{font-size:clamp(1rem,2vw,1.15rem);color:var(--tx2);margin-bottom:2.5rem;max-width:540px;margin-inline:auto;line-height:1.8;opacity:0;transform:translateY(20px)}
+.hero-actions{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center;margin-bottom:2.5rem;opacity:0;transform:translateY(20px)}
+.btn-primary{padding:.75rem 1.75rem;border-radius:var(--rf);background:var(--accent);color:#fff;border:none;font-weight:600;font-size:.95rem;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:.5rem;position:relative;overflow:hidden}
+.btn-primary::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.15);opacity:0;transition:opacity var(--tr)}
+.btn-primary:hover::after{opacity:1}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:var(--sha)}
+.btn-ghost{padding:.75rem 1.75rem;border-radius:var(--rf);background:transparent;color:var(--tx);border:1.5px solid var(--bdr2);font-weight:600;font-size:.95rem;cursor:pointer;transition:all var(--tr);display:inline-flex;align-items:center;gap:.5rem}
+.btn-ghost:hover{background:var(--bg2);border-color:var(--tx3);transform:translateY(-2px)}
+.cdn-box{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rm);padding:.9rem 1.1rem;max-width:540px;margin:0 auto;display:flex;align-items:center;gap:.75rem;box-shadow:var(--sh);opacity:0;transform:translateY(20px)}
+.cdn-box code{font-family:var(--font-mono);font-size:.72rem;color:var(--accent);flex:1;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.copy-btn{padding:.35rem .8rem;border-radius:var(--r);background:var(--accent-m);border:none;color:var(--accent);font-size:.72rem;font-weight:600;cursor:pointer;transition:all var(--tr);white-space:nowrap;flex-shrink:0}
+.copy-btn:hover{background:var(--accent);color:#fff}
+.copy-btn.copied{background:var(--accent);color:#fff}
+
+/* STATS */
+.stats-bar{background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:1.75rem 1.5rem}
+.stats-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:1.5rem;text-align:center}
+.stat-num{font-family:var(--font-disp);font-size:2rem;font-weight:800;color:var(--accent);line-height:1}
+.stat-lbl{font-size:.75rem;color:var(--tx3);margin-top:.3rem}
+.stat-item{opacity:0;transform:translateY(16px)}
+
+/* SECTIONS */
+.section{padding:5.5rem 1.5rem}
+.container{max-width:1100px;margin:0 auto}
+.section-label{font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.6rem}
+.section-title{font-family:var(--font-disp);font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1rem;line-height:1.1}
+.section-sub{font-size:1rem;color:var(--tx2);max-width:540px;line-height:1.8}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-top:3rem}
+.step-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);padding:1.5rem;box-shadow:var(--sh);transition:all .4s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;cursor:default;opacity:0;transform:translateY(24px)}
+.step-card::before{content:attr(data-step);position:absolute;top:.4rem;right:.75rem;font-family:var(--font-disp);font-size:3.5rem;font-weight:800;color:var(--bdr2);line-height:1;pointer-events:none}
+.step-card:hover{transform:translateY(-5px);box-shadow:0 8px 32px rgba(0,0,0,.1);border-color:var(--accent)}
+.step-card:hover .step-icon{transform:scale(1.1) rotate(-5deg)}
+.step-icon{width:2.5rem;height:2.5rem;border-radius:var(--rm);background:var(--accent-m);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.step-title{font-weight:700;font-size:.95rem;margin-bottom:.4rem;font-family:var(--font-disp)}
+.step-desc{font-size:.83rem;color:var(--tx2);line-height:1.65}
+
+/* CODE SNIPPET */
+.code-snippet{margin-top:2.5rem;background:var(--bg3);border-radius:var(--rl);overflow:hidden;border:1px solid var(--bdr)}
+.code-snippet-header{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.2rem;background:var(--bg2);border-bottom:1px solid var(--bdr)}
+.code-snippet pre{padding:1.25rem;font-family:var(--font-mono);font-size:.78rem;color:var(--accent);line-height:1.8;overflow-x:auto}
+
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.25rem;margin-top:3rem}
+.feat-card{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);padding:1.5rem;transition:all var(--tr);opacity:0;transform:translateY(20px)}
+.feat-card:hover{border-color:var(--accent);transform:translateY(-4px);box-shadow:var(--sh2)}
+.feat-icon{font-size:1.5rem;margin-bottom:.75rem}
+.feat-title{font-weight:700;font-size:.93rem;margin-bottom:.4rem}
+.feat-desc{font-size:.81rem;color:var(--tx2);line-height:1.65}
+
+/* TOKENS */
+.tokens-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:.65rem;margin-top:2rem}
+.token-item{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:.6rem .85rem;font-family:var(--font-mono);font-size:.72rem;color:var(--accent);transition:all var(--tr);cursor:default}
+.token-item:hover{background:var(--accent-m);border-color:var(--accent)}
+
+/* DOCS GRID */
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;margin-top:2.5rem}
+.doc-item{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rm);padding:1.25rem;transition:all var(--tr);cursor:pointer;text-decoration:none;display:block}
+.doc-item:hover{border-color:var(--accent);background:var(--accent-m);transform:translateY(-2px)}
+.doc-item-title{font-weight:600;font-size:.88rem;margin-bottom:.3rem;color:var(--tx)}
+.doc-item-count{font-size:.73rem;color:var(--tx3)}
+
+/* CONTRIBUTE FORM */
+.form-section{background:var(--surf2);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.contrib-form{max-width:680px;margin:2.5rem auto 0;display:flex;flex-direction:column;gap:1.1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-group label{font-size:.78rem;font-weight:600;color:var(--tx2)}
+.form-group input,.form-group textarea,.form-group select{padding:.6rem .85rem;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:var(--r);color:var(--tx);font-size:.85rem;outline:none;transition:all var(--tr)}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-m)}
+.form-group textarea{resize:vertical;min-height:90px}
+.file-drop{border:2px dashed var(--bdr2);border-radius:var(--rl);padding:1.75rem;text-align:center;cursor:pointer;transition:all var(--tr);color:var(--tx3);font-size:.83rem;background:var(--surf);position:relative}
+.file-drop:hover,.file-drop.dragover{border-color:var(--accent);background:var(--accent-m);color:var(--accent)}
+.file-drop input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.file-drop .file-icon{font-size:1.8rem;margin-bottom:.5rem}
+.file-preview{font-size:.72rem;color:var(--accent);margin-top:.35rem;font-weight:500}
+.submit-btn{padding:.75rem 2rem;border-radius:var(--rf);background:var(--accent);color:#fff;border:none;font-weight:700;font-size:.95rem;cursor:pointer;transition:all var(--tr);align-self:flex-start}
+.submit-btn:hover{background:var(--accent-d);box-shadow:var(--sha);transform:translateY(-2px)}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.form-success{background:var(--accent-m);border:1px solid var(--accent);border-radius:var(--rm);padding:1rem 1.25rem;color:var(--accent);font-size:.88rem;font-weight:500;display:none}
+.form-success.show{display:block}
+
+/* CTA */
+.cta-section{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-d) 100%);border-radius:var(--rx);padding:3.5rem 2rem;text-align:center;color:#fff;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.07);pointer-events:none}
+.cta-section::after{content:'';position:absolute;bottom:-80px;left:-40px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.05);pointer-events:none}
+.cta-title{font-family:var(--font-disp);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:.75rem;letter-spacing:-.02em;position:relative;z-index:1}
+.cta-sub{opacity:.85;margin-bottom:2rem;font-size:.95rem;position:relative;z-index:1}
+.cta-btn{padding:.75rem 2rem;border-radius:var(--rf);background:#fff;color:var(--accent);border:none;font-weight:700;font-size:.95rem;cursor:pointer;transition:all var(--tr);position:relative;z-index:1}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+
+/* FOOTER */
+footer{background:var(--surf);border-top:1px solid var(--bdr);padding:2rem 1.5rem}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.footer-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;letter-spacing:-.02em}
+.footer-brand span{color:var(--accent)}
+.footer-links{display:flex;gap:1rem}
+.footer-links a{font-size:.78rem;color:var(--tx3);transition:color var(--tr)}
+.footer-links a:hover{color:var(--accent)}
+.footer-copy{font-size:.75rem;color:var(--tx3)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* FLOATING PARTICLES */
+#particles-canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:.25}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .hamburger{display:flex}
+  .form-row{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .steps{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column;align-items:center}
+  .hero-actions .btn-primary,.hero-actions .btn-ghost{width:100%;justify-content:center}
+}
+
+/* ANIME PULSE RING */
+@keyframes ringPulse{0%{transform:scale(.8);opacity:.6}100%{transform:scale(2.5);opacity:0}}
+.pulse-ring{position:absolute;border-radius:50%;border:2px solid var(--accent);pointer-events:none;animation:ringPulse 2s ease-out forwards}
+</style>
+</head>
+<body>
+
+<canvas id="particles-canvas"></canvas>
+
+<!-- INTRO -->
+<div id="intro">
+  <div id="intro-particles"></div>
+  <div id="intro-logo">
+    <span class="char">G</span><span class="char">r</span><span class="char">i</span><span class="char">f</span><span class="char">f</span><span class="char">i</span><span class="char">n</span>
+    <span style="display:inline-block;width:.4em"></span>
+    <span class="char accent">C</span><span class="char accent">S</span><span class="char accent">S</span>
+  </div>
+  <div id="intro-line"></div>
+  <div id="intro-sub">A modern UI framework</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <span class="nav-brand" onclick="scrollToTop()"><span>G</span>riffin CSS</span>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="scrollToTop()">Home</button>
+    <a class="nav-link" href="griffin-components.html">Components</a>
+    <button class="nav-link" onclick="scrollToSection('docs')">Docs</button>
+    <button class="nav-link" onclick="scrollToSection('how')">Get Started</button>
+  </div>
+  <div class="nav-right">
+    <button class="theme-btn" onclick="toggleTheme()" id="theme-btn" title="Toggle theme">🌙</button>
+    <button class="nav-cta" onclick="scrollToSection('install')">Install ↗</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-close" onclick="toggleMenu()">✕</button>
+  <button class="nav-link" onclick="scrollToTop();toggleMenu()">Home</button>
+  <a class="nav-link" href="griffin-components.html" onclick="toggleMenu()">Components</a>
+  <button class="nav-link" onclick="scrollToSection('docs');toggleMenu()">Docs</button>
+  <button class="nav-link" onclick="scrollToSection('how');toggleMenu()">Get Started</button>
+  <button class="nav-link" onclick="scrollToSection('install');toggleMenu()">Install</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg">
+    <div class="hero-blob blob1"></div>
+    <div class="hero-blob blob2"></div>
+    <div class="hero-blob blob3"></div>
+  </div>
+  <div class="hero-3d">
+    <div class="cube-scene">
+      <div class="cube-face cf-f">.g-btn</div>
+      <div class="cube-face cf-b">.g-card</div>
+      <div class="cube-face cf-l">.g-input</div>
+      <div class="cube-face cf-r">.g-modal</div>
+      <div class="cube-face cf-t">.g-nav</div>
+      <div class="cube-face cf-bt">.g-grid</div>
+    </div>
+  </div>
+  <div class="hero-content">
+    <!-- <div class="hero-badge" id="hero-badge">
+      <span class="hero-badge-dot"></span>v1.0 ... Now Available
+    </div> -->
+    <h1 class="hero-title" id="hero-title">
+      Build stunning UIs<br>with <span class="g">Griffin CSS</span>
+    </h1>
+    <p class="hero-sub" id="hero-sub">A modern CSS framework with 130+ components, dark mode, responsive grid, and beautiful design tokens. Drop in one line and start building.</p>
+    <div class="hero-actions" id="hero-actions">
+      <button class="btn-primary" onclick="window.location.href='griffin-components.html'">Explore Components →</button>
+      <button class="btn-ghost" onclick="scrollToSection('how')">Get Started</button>
+    </div>
+    <div class="cdn-box" id="cdn-box" id="install">
+      <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code>
+      <button class="copy-btn" id="copy-cdn-btn" onclick="copyCDN(this)">Copy</button>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item"><div class="stat-num">130+</div><div class="stat-lbl">Components</div></div>
+    <div class="stat-item"><div class="stat-num">14</div><div class="stat-lbl">Categories</div></div>
+    <div class="stat-item"><div class="stat-num">~8kb</div><div class="stat-lbl">Minified+gzip</div></div>
+    <div class="stat-item"><div class="stat-num">0</div><div class="stat-lbl">Dependencies</div></div>
+    <div class="stat-item"><div class="stat-num">CSS</div><div class="stat-lbl">Pure CSS only</div></div>
+  </div>
+</div>
+
+<!-- GET STARTED -->
+<section class="section" id="how">
+  <div class="container">
+    <div class="section-label reveal">Quick Start</div>
+    <h2 class="section-title reveal">Up in 60 seconds</h2>
+    <p class="section-sub reveal">Griffin CSS is a single CSS file. No build tools, no npm, no config. Just link it and go.</p>
+    <div class="steps">
+      <div class="step-card" data-step="1">
+        <div class="step-icon">🔗</div>
+        <div class="step-title">Add the CDN link</div>
+        <div class="step-desc">Paste one &lt;link&gt; tag in your &lt;head&gt; and all classes are ready to use instantly.</div>
+      </div>
+      <div class="step-card" data-step="2">
+        <div class="step-icon">🧱</div>
+        <div class="step-title">Use component classes</div>
+        <div class="step-desc">Apply semantic class names like .g-btn, .g-card, .g-navbar to your HTML elements.</div>
+      </div>
+      <div class="step-card" data-step="3">
+        <div class="step-icon">🎨</div>
+        <div class="step-title">Customize with tokens</div>
+        <div class="step-desc">Override CSS custom properties in :root to instantly retheme every component.</div>
+      </div>
+      <div class="step-card" data-step="4">
+        <div class="step-icon">🌙</div>
+        <div class="step-title">Dark mode built in</div>
+        <div class="step-desc">Toggle [data-theme="dark"] on any element. All components respond automatically.</div>
+      </div>
+    </div>
+    <div class="code-snippet reveal" id="install">
+      <div class="code-snippet-header">
+        <span style="font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tx3)">HTML</span>
+        <button class="copy-btn" onclick="copyCDN(this)">Copy</button>
+      </div>
+      <pre>&lt;!-- Add to your &lt;head&gt; --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;
+
+&lt;!-- Dark mode --&gt;
+&lt;html data-theme="dark"&gt;
+
+&lt;!-- Use components --&gt;
+&lt;button class="g-btn g-btn-primary"&gt;Click me&lt;/button&gt;
+&lt;div class="g-card g-card-accent"&gt;Hello Griffin&lt;/div&gt;</pre>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" style="background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)">
+  <div class="container">
+    <div class="section-label reveal">Features</div>
+    <h2 class="section-title reveal">Everything you need</h2>
+    <p class="section-sub reveal">A complete design system with carefully crafted tokens, responsive utilities, and production-ready components.</p>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon">🎨</div><div class="feat-title">Design Tokens</div><div class="feat-desc">Comprehensive color palette, spacing scale, typography, shadows, and border radii via CSS custom properties.</div></div>
+      <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-title">Fully Responsive</div><div class="feat-desc">Mobile-first grid and layout utilities that adapt to any screen size with breakpoints built into every component.</div></div>
+      <div class="feat-card"><div class="feat-icon">🌙</div><div class="feat-title">Dark Mode</div><div class="feat-desc">A complete dark mode with smooth transitions. Toggle with data-theme="dark" or match system preference.</div></div>
+      <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Zero JS Required</div><div class="feat-desc">Pure CSS framework. No JavaScript bundle, no runtime overhead. Add your own JS as needed.</div></div>
+      <div class="feat-card"><div class="feat-icon">🧩</div><div class="feat-title">130+ Components</div><div class="feat-desc">Buttons, cards, modals, forms, dashboards, landing sections, animated components, and more.</div></div>
+      <div class="feat-card"><div class="feat-icon">🎭</div><div class="feat-title">3D & Animations</div><div class="feat-desc">CSS perspective scenes, floating elements, shimmer effects, entrance animations, and marquee utilities.</div></div>
+      <div class="feat-card"><div class="feat-icon">🔧</div><div class="feat-title">Easy to Customize</div><div class="feat-desc">Override a handful of CSS variables to retheme your entire project in seconds without touching component code.</div></div>
+      <div class="feat-card"><div class="feat-icon">♿</div><div class="feat-title">Accessible by Default</div><div class="feat-desc">Focus states, ARIA-friendly patterns, and sufficient color contrast baked into every component class.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCS -->
+<section class="section" id="docs">
+  <div class="container">
+    <div class="section-label reveal">Documentation</div>
+    <h2 class="section-title reveal">All component categories</h2>
+    <p class="section-sub reveal">Browse all 14 categories. Every component is documented with live previews and copy-ready HTML snippets.</p>
+    <div class="docs-grid" id="docs-grid"></div>
+
+    <div style="margin-top:4rem">
+      <h3 class="section-title reveal" style="font-size:1.4rem">Design Tokens Reference</h3>
+      <p class="reveal" style="font-size:.85rem;color:var(--tx2);margin-top:.4rem;margin-bottom:0">Override these variables in :root to customize your theme.</p>
+      <div class="tokens-grid">
+        <div class="token-item">--g-accent</div>
+        <div class="token-item">--g-bg</div>
+        <div class="token-item">--g-surface</div>
+        <div class="token-item">--g-text</div>
+        <div class="token-item">--g-border</div>
+        <div class="token-item">--g-radius</div>
+        <div class="token-item">--g-shadow</div>
+        <div class="token-item">--g-font-sans</div>
+        <div class="token-item">--g-font-display</div>
+        <div class="token-item">--g-font-mono</div>
+        <div class="token-item">--g-space-4</div>
+        <div class="token-item">--g-text-base</div>
+        <div class="token-item">--g-radius-sm</div>
+        <div class="token-item">--g-radius-lg</div>
+        <div class="token-item">--g-accent-dark</div>
+        <div class="token-item">--g-accent-muted</div>
+        <div class="token-item">--g-text-muted</div>
+        <div class="token-item">--g-text-hint</div>
+        <div class="token-item">--g-success</div>
+        <div class="token-item">--g-warning</div>
+        <div class="token-item">--g-danger</div>
+        <div class="token-item">--g-info</div>
+        <div class="token-item">--g-transition</div>
+        <div class="token-item">--g-backdrop</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTRIBUTE -->
+<section class="section form-section" id="contribute">
+  <div class="container">
+    <div class="section-label reveal">Community</div>
+    <h2 class="section-title reveal">Submit a Component</h2>
+    <p class="section-sub reveal">Built something beautiful with Griffin CSS? Share it with the community and get it added to the library.</p>
+
+    <form class="contrib-form reveal" id="contrib-form" action="https://formspree.io/f/mrewwjvw" method="POST" enctype="multipart/form-data">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-name">Your name</label>
+          <input type="text" id="f-name" name="name" placeholder="Alex Rivera" required>
+        </div>
+        <div class="form-group">
+          <label for="f-email">Email address</label>
+          <input type="email" id="f-email" name="email" placeholder="alex@example.com" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="f-comp">Component name</label>
+          <input type="text" id="f-comp" name="component_name" placeholder="e.g. Glassmorphic Card" required>
+        </div>
+        <div class="form-group">
+          <label for="f-cat">Category</label>
+          <select id="f-cat" name="category">
+            <option value="">Select a category</option>
+            <option>Buttons</option><option>Cards</option><option>Forms</option>
+            <option>Navigation</option><option>Modals</option><option>Feedback</option>
+            <option>Layout</option><option>Dashboard</option><option>Landing Pages</option>
+            <option>Animated</option><option>Design Components</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="f-desc">Description</label>
+        <textarea id="f-desc" name="description" placeholder="Describe your component — what it does, when to use it, any special behaviors..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="f-html">HTML code</label>
+        <textarea id="f-html" name="html_code" placeholder="&lt;div class=&quot;g-card&quot;&gt;...&lt;/div&gt;" style="min-height:110px;font-family:var(--font-mono);font-size:.78rem"></textarea>
+      </div>
+      <div class="form-group">
+        <!-- <label>Component screenshot / preview image</label> -->
+        <div class="file-drop" id="file-drop">
+           <!-- <input type="file" id="f-image" name="image" accept="image/*" onchange="handleFile(this)"> -->
+          <!-- <div class="file-icon">🖼</div> -->
+          <div>Drag your pointer here <strong>Just for interaction... ^ _ ^</strong></div>
+          <!-- <div style="font-size:.72rem;color:var(--tx3);margin-top:.25rem">PNG, JPG, GIF — max 5MB</div> -->
+          <!-- <div class="file-preview" id="file-preview"></div>  -->
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="f-url">Your GitHub / portfolio URL (optional)</label>
+        <input type="url" id="f-url" name="portfolio_url" placeholder="https://github.com/yourname">
+      </div>
+      <div class="form-success" id="form-success">🎉 Thank you! We'll review your component and reach out if it's a good fit.</div>
+      <button type="submit" class="submit-btn" id="submit-btn">Submit Component →</button>
+    </form>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section">
+  <div class="container">
+    <div class="cta-section reveal">
+      <div class="cta-title">Start building with Griffin CSS today</div>
+      <p class="cta-sub">One CDN link. Zero config. 130+ components ready to use.</p>
+      <button class="cta-btn" onclick="scrollToSection('install');copyCDNSilent()">Copy Install Link →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><span>G</span>riffin CSS</div>
+    <div class="footer-links">
+      <a href="griffin-components.html">Components</a>
+      <a href="griffin_css_docs.html">Docs</a>
+      <a href="#contribute" onclick="scrollToSection('contribute')">Contribute</a>
+    </div>
+    <div class="footer-copy">© 2026 Griffin CSS · MIT License</div>
+    <div class="footer-copy">Developed by <a href="https://ali-ahmad-khan.netlify.app">Ali Ahmad Khan</a></div>
+  </div>
+</footer>
+
+<script>
+const CATS=[
+  {id:'layout',label:'Layout',count:10},
+  {id:'navigation',label:'Navigation',count:10},
+  {id:'forms',label:'Forms',count:6},
+  {id:'dashboard',label:'Dashboard',count:5},
+  {id:'landing',label:'Landing Pages',count:5},
+  {id:'ui',label:'UI',count:10},
+  {id:'feedback',label:'Feedback',count:10},
+  {id:'interaction',label:'Interaction',count:10},
+  {id:'buttons',label:'Buttons',count:20},
+  {id:'cards',label:'Cards',count:20},
+  {id:'modals',label:'Modals',count:6},
+  {id:'popups',label:'Popups',count:10},
+  {id:'animated',label:'Animated',count:6},
+  {id:'design',label:'Design Components',count:6},
+];
+
+// DOCS GRID
+document.getElementById('docs-grid').innerHTML=CATS.map(c=>`
+  <a class="doc-item" href="${c.id}.html">
+    <div class="doc-item-title">${c.label}</div>
+    <div class="doc-item-count">${c.count} components</div>
+  </a>`).join('');
+
+// THEME
+function toggleTheme(){
+  const dark=document.documentElement.dataset.theme==='dark';
+  document.documentElement.dataset.theme=dark?'light':'dark';
+  document.getElementById('theme-btn').textContent=dark?'🌙':'☀️';
+  try{localStorage.setItem('griffin-theme',dark?'light':'dark')}catch(e){}
+}
+try{
+  const s=localStorage.getItem('griffin-theme');
+  if(s){document.documentElement.dataset.theme=s;document.getElementById('theme-btn').textContent=s==='dark'?'☀️':'🌙'}
+}catch(e){}
+
+// NAV HELPERS
+function scrollToTop(){window.scrollTo({top:0,behavior:'smooth'})}
+function scrollToSection(id){
+  const el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// MOBILE MENU
+function toggleMenu(){
+  const h=document.getElementById('hamburger'),m=document.getElementById('mobile-menu');
+  h.classList.toggle('open');m.classList.toggle('open');
+  document.body.style.overflow=m.classList.contains('open')?'hidden':'';
+}
+
+// COPY CDN
+function copyCDN(btn){
+  const code=`<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css">`;
+  navigator.clipboard.writeText(code).then(()=>{
+    if(!btn)return;
+    const o=btn.textContent;btn.textContent='✓ Copied!';btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent=o;btn.classList.remove('copied')},2000);
+  }).catch(()=>{});
+}
+function copyCDNSilent(){
+  const code=`<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css">`;
+  navigator.clipboard.writeText(code).catch(()=>{});
+}
+
+// FILE DROP
+function handleFile(input){
+  const f=input.files[0];
+  if(!f)return;
+  document.getElementById('file-preview').textContent='📎 '+f.name+' ('+Math.round(f.size/1024)+'KB)';
+  const drop=document.getElementById('file-drop');
+  drop.style.borderColor='var(--accent)';drop.style.background='var(--accent-m)';
+}
+const drop=document.getElementById('file-drop');
+drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('dragover')});
+drop.addEventListener('dragleave',()=>drop.classList.remove('dragover'));
+drop.addEventListener('drop',e=>{
+  e.preventDefault();drop.classList.remove('dragover');
+  const f=e.dataTransfer.files[0];
+  if(f){document.getElementById('f-image').files=e.dataTransfer.files;handleFile({files:[f]})}
+});
+
+// FORMSPREE SUBMIT
+document.getElementById('contrib-form').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('submit-btn');
+  btn.disabled=true;btn.textContent='Submitting…';
+  const fd=new FormData(e.target);
+  try{
+    const r=await fetch(e.target.action,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    if(r.ok){
+      document.getElementById('form-success').classList.add('show');
+      e.target.reset();document.getElementById('file-preview').textContent='';
+      btn.textContent='Submitted ✓';
+    }else{
+      btn.textContent='Error — try again';btn.disabled=false;
+    }
+  }catch{btn.textContent='Error — try again';btn.disabled=false;}
+});
+
+// PARTICLES CANVAS (background ambient)
+(function(){
+  const c=document.getElementById('particles-canvas');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  function mkPt(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1}}
+  for(let i=0;i<60;i++)pts.push(mkPt());
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    const isDark=document.documentElement.dataset.theme==='dark';
+    const col=isDark?'rgba(30,158,140,':'rgba(30,158,140,';
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=col+'.4)';ctx.fill();
+    });
+    pts.forEach((a,i)=>{
+      pts.slice(i+1).forEach(b=>{
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<120){
+          ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+          ctx.strokeStyle=col+((.12)*(1-d/120))+')';
+          ctx.lineWidth=.5;ctx.stroke();
+        }
+      });
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+
+
+// INTRO ANIMATION (anime.js)
+(function(){
+  anime({targets:'#intro-logo .char',translateY:[50,0],opacity:[0,1],easing:'spring(1,80,10,0)',delay:anime.stagger(80,{start:300})});
+  setTimeout(()=>{document.getElementById('intro-line').style.width='240px'},800);
+  setTimeout(()=>{
+    anime({targets:'#intro-sub',opacity:[0,1],translateY:[10,0],duration:600,easing:'easeOutCubic'});
+  },1400);
+  setTimeout(()=>{
+    anime({targets:'#intro',opacity:[1,0],scale:[1,1.03],duration:700,easing:'easeInCubic',complete:()=>{
+      document.getElementById('intro').classList.add('hide');
+      document.getElementById('navbar').classList.add('visible');
+      revealHero();
+    }});
+  },2600);
+})();
+
+function revealHero(){
+  anime({targets:'#hero-badge',opacity:[0,1],translateY:[20,0],duration:600,easing:'easeOutCubic'});
+  anime({targets:'#hero-title',opacity:[0,1],translateY:[30,0],duration:700,easing:'easeOutCubic',delay:120});
+  anime({targets:'#hero-sub',opacity:[0,1],translateY:[20,0],duration:600,easing:'easeOutCubic',delay:240});
+  anime({targets:'#hero-actions',opacity:[0,1],translateY:[20,0],duration:600,easing:'easeOutCubic',delay:360});
+  anime({targets:'#cdn-box',opacity:[0,1],translateY:[20,0],duration:600,easing:'easeOutCubic',delay:480});
+  setTimeout(()=>{
+    anime({targets:'.stat-item',opacity:[0,1],translateY:[16,0],easing:'easeOutCubic',delay:anime.stagger(80),duration:500});
+  },200);
+}
+
+// SCROLL REVEAL
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      if(e.target.classList.contains('step-card')){
+        anime({targets:e.target,opacity:[0,1],translateY:[24,0],duration:500,easing:'spring(1,80,10,0)'});
+      }
+      if(e.target.classList.contains('feat-card')){
+        anime({targets:e.target,opacity:[0,1],translateY:[20,0],duration:480,easing:'easeOutCubic'});
+      }
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:.12});
+document.querySelectorAll('.reveal,.step-card,.feat-card').forEach(el=>io.observe(el));
+
+// BUTTON RIPPLE
+document.querySelectorAll('.btn-primary').forEach(btn=>{
+  btn.addEventListener('click',function(e){
+    const ring=document.createElement('div');
+    ring.className='pulse-ring';
+    ring.style.cssText=`width:60px;height:60px;left:${e.clientX-btn.getBoundingClientRect().left-30}px;top:${e.clientY-btn.getBoundingClientRect().top-30}px`;
+    this.appendChild(ring);
+    setTimeout(()=>ring.remove(),800);
+  });
+});
+
+// CUBE DRIFT ANIMATION
+(function(){
+  const cube = document.querySelector('.hero-3d');
+  if(!cube) return;
+  const hero = document.getElementById('hero');
+
+  // Waypoints: [xPct, yPct, scale, opacity] — percentage of hero dimensions
+  const waypoints = [
+    {x:0.72, y:0.18, s:1.1, o:0.9},
+    {x:0.82, y:0.55, s:1.0, o:1.0},
+    {x:0.65, y:0.78, s:0.85, o:0.75},
+    {x:0.78, y:0.38, s:1.2, o:1.0},
+    {x:0.88, y:0.70, s:0.9, o:0.85},
+    {x:0.60, y:0.30, s:1.05, o:0.95},
+    {x:0.75, y:0.62, s:1.15, o:1.0},
+  ];
+
+  let wIdx = 0;
+  let curX, curY, curS = 1, curO = 1;
+  let tarX, tarY, tarS, tarO;
+  let startTime = null;
+  const DURATION = 3200; // ms per waypoint
+
+  function setTarget(){
+    const wp = waypoints[wIdx];
+    const rect = hero.getBoundingClientRect();
+    const heroH = hero.offsetHeight;
+    const heroW = hero.offsetWidth;
+    tarX = wp.x * heroW;
+    tarY = wp.y * heroH;
+    tarS = wp.s;
+    tarO = wp.o;
+    wIdx = (wIdx + 1) % waypoints.length;
+  }
+
+  // Init position
+  const initWP = waypoints[0];
+  curX = initWP.x * (hero.offsetWidth || window.innerWidth);
+  curY = initWP.y * (hero.offsetHeight || window.innerHeight);
+  cube.style.left = curX + 'px';
+  cube.style.top  = curY + 'px';
+  wIdx = 1;
+  setTarget();
+
+  function easeInOut(t){ return t<.5 ? 2*t*t : -1+(4-2*t)*t; }
+
+  function tick(ts){
+    if(!startTime) startTime = ts;
+    let prog = Math.min((ts - startTime) / DURATION, 1);
+    const e = easeInOut(prog);
+
+    curX += (tarX - curX) * e * 0.035;
+    curY += (tarY - curY) * e * 0.035;
+    curS += (tarS - curS) * e * 0.035;
+    curO += (tarO - curO) * e * 0.035;
+
+    cube.style.left    = curX + 'px';
+    cube.style.top     = curY + 'px';
+    cube.style.opacity = curO;
+    cube.style.transform = `scale(${curS})`;
+
+    if(prog >= 1){
+      startTime = null;
+      setTarget();
+    }
+    requestAnimationFrame(tick);
+  }
+
+  requestAnimationFrame(tick);
+})();
+
+// NAV ACTIVE ON SCROLL
+window.addEventListener('scroll',()=>{
+  const sections=['hero','how','docs','contribute'];
+  let current='hero';
+  sections.forEach(id=>{const el=document.getElementById(id);if(el&&window.scrollY>=el.offsetTop-120)current=id;});
+  document.querySelectorAll('.nav-link').forEach(l=>{
+    l.classList.remove('active');
+    if((current==='hero'&&l.textContent==='Home')||(current==='how'&&l.textContent==='Get Started')||(current==='docs'&&l.textContent==='Docs'))l.classList.add('active');
+  });
+},{passive:true});
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

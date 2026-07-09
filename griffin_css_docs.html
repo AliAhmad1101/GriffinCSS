@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Griffin CSS ... Documentation</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ac:#1E9E8C;--ac-l:#28C4AF;--ac-d:#167A6C;--ac-m:rgba(30,158,140,.1);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#fff;--bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.14);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 2px 8px rgba(0,0,0,.06);--sh2:0 4px 20px rgba(0,0,0,.09);
+  --mono:'JetBrains Mono',monospace;--disp:'Syne',sans-serif;--sans:'Inter',sans-serif;
+  --r:8px;--rl:14px;--rx:20px;--rf:999px;
+  --nav-h:64px;
+  --tr:.25s cubic-bezier(.4,0,.2,1);
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#1A1A1A;--bg3:#252525;
+  --surf:#1A1A1A;--bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.14);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#6A6460;
+  --sh:0 2px 8px rgba(0,0,0,.3);--sh2:0 4px 20px rgba(0,0,0,.5);
+}
+html{font-family:var(--sans);background:var(--bg);color:var(--tx);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;scroll-behavior:smooth;transition:background var(--tr),color var(--tr)}
+a{color:var(--ac);text-decoration:none}
+
+/* ── TOPBAR ── */
+#topbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;background:rgba(247,246,243,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 24px;gap:16px;transition:background var(--tr),border-color var(--tr)}
+[data-theme="dark"] #topbar{background:rgba(15,15,15,.85)}
+.topbar-brand{font-family:var(--disp);font-weight:800;font-size:18px;display:flex;align-items:center;gap:6px;white-space:nowrap}
+.topbar-brand span{color:var(--ac)}
+.topbar-home{display:inline-flex;align-items:center;gap:6px;padding:.35rem .85rem;background:var(--ac);color:#fff;border-radius:var(--rf);font-size:12px;font-weight:600;border:none;cursor:pointer;transition:opacity .15s,transform .15s;white-space:nowrap;text-decoration:none}
+.topbar-home:hover{opacity:.88;transform:translateY(-1px)}
+.topbar-search{flex:1;max-width:320px;position:relative;margin-left:auto}
+.topbar-search input{width:100%;padding:.4rem .75rem .4rem 2.2rem;background:var(--bg2);border:1.5px solid var(--bdr2);border-radius:var(--rf);color:var(--tx);font-size:13px;font-family:var(--sans);outline:none;transition:border-color .2s,background var(--tr)}
+.topbar-search input:focus{border-color:var(--ac);background:var(--surf)}
+.topbar-search-icon{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:var(--tx3);font-size:13px;pointer-events:none}
+.topbar-theme{width:36px;height:36px;border-radius:50%;border:1.5px solid var(--bdr2);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;transition:background var(--tr),border-color var(--tr),transform .15s}
+.topbar-theme:hover{transform:scale(1.1)}
+.topbar-version{font-family:var(--mono);font-size:11px;color:var(--ac);background:var(--ac-m);border:1px solid rgba(30,158,140,.3);padding:.2rem .6rem;border-radius:var(--rf);white-space:nowrap}
+.topbar-nav{display:flex;gap:4px;margin-left:8px}
+.topbar-nav a{font-size:13px;font-weight:500;color:var(--tx2);padding:.3rem .65rem;border-radius:6px;transition:background .15s,color .15s}
+.topbar-nav a:hover,.topbar-nav a.active{background:var(--ac-m);color:var(--ac)}
+
+/* ── LAYOUT ── */
+#layout{display:flex;min-height:100vh;padding-top:var(--nav-h)}
+
+/* ── SIDEBAR ── */
+#sidebar{width:260px;flex-shrink:0;position:sticky;top:var(--nav-h);height:calc(100vh - var(--nav-h));overflow-y:auto;padding:24px 16px;border-right:1px solid var(--bdr);background:var(--surf);transition:background var(--tr),border-color var(--tr)}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:9px}
+.side-group{margin-bottom:24px}
+.side-group-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tx3);margin-bottom:8px;padding:0 8px}
+.side-link{display:flex;align-items:center;gap:8px;padding:.4rem .65rem;border-radius:6px;font-size:13px;color:var(--tx2);cursor:pointer;transition:background .15s,color .15s;border:none;background:none;width:100%;text-align:left}
+.side-link:hover{background:var(--bg2);color:var(--tx)}
+.side-link.active{background:var(--ac-m);color:var(--ac);font-weight:600}
+.side-num{font-family:var(--mono);font-size:10px;color:var(--tx3);min-width:18px}
+
+/* ── MAIN CONTENT ── */
+#content{flex:1;min-width:0;padding:48px 56px;max-width:900px}
+
+/* ── SECTIONS ── */
+.doc-section{margin-bottom:80px;scroll-margin-top:calc(var(--nav-h) + 24px);opacity:0;transform:translateY(20px);transition:opacity .5s var(--tr),transform .5s var(--tr)}
+.doc-section.visible{opacity:1;transform:translateY(0)}
+
+/* ── CHAPTER HEADERS ── */
+.sec-divider{display:flex;align-items:center;gap:16px;margin-bottom:32px}
+.sec-divider-line{flex:1;height:1px;background:var(--bdr)}
+.sec-divider-num{font-family:var(--mono);font-size:11px;color:var(--tx3);background:var(--bg2);border:1px solid var(--bdr);border-radius:4px;padding:2px 10px}
+.ch-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ac);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.ch-label::before{content:'';width:24px;height:2px;background:var(--ac);border-radius:99px}
+.ch-title{font-family:var(--disp);font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:12px}
+.ch-sub{font-size:15px;color:var(--tx2);max-width:580px;line-height:1.7;margin-bottom:0}
+h2.sec{font-family:var(--disp);font-size:22px;font-weight:800;letter-spacing:-.02em;margin:40px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--bdr)}
+h3.sub{font-size:15px;font-weight:600;margin:28px 0 10px}
+p.body{font-size:14px;color:var(--tx2);line-height:1.75;margin-bottom:14px}
+ul.body-list{font-size:14px;color:var(--tx2);line-height:1.75;padding-left:20px;margin-bottom:14px}
+ul.body-list li{margin-bottom:4px}
+
+/* ── CODE BLOCKS ── */
+.code-wrap{background:#0C1C1B;border-radius:var(--rl);overflow:hidden;margin:16px 0;position:relative}
+.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-bottom:1px solid rgba(255,255,255,.06)}
+.code-dots{display:flex;gap:6px}
+.code-dot{width:10px;height:10px;border-radius:50%}
+.cd-r{background:#FF5F57}.cd-y{background:#FEBC2E}.cd-g{background:#28C840}
+.code-lang{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.copy-btn{font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.35);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.2rem .55rem;cursor:pointer;transition:all .15s}
+.copy-btn:hover{color:#fff;background:rgba(255,255,255,.12)}
+.copy-btn.copied{color:#28C840}
+pre.code{padding:20px 22px;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:#A8D5B7;overflow-x:auto;margin:0}
+.kw{color:#C792EA}.str{color:#ADDB67}.cm{color:rgba(255,255,255,.3)}.cls{color:#FFCB6B}.fn{color:#82AAFF}.attr{color:#F78C6C}
+
+/* ── CALLOUTS ── */
+.callout{display:flex;gap:14px;padding:16px 18px;border-radius:var(--r);margin:16px 0;font-size:13px;line-height:1.65}
+.callout-info{background:#EFF6FF;border-left:3px solid #3B82F6;color:#1E40AF}
+.callout-tip{background:var(--ac-m);border-left:3px solid var(--ac);color:var(--ac-d)}
+.callout-warn{background:#FEF6E4;border-left:3px solid #D4820A;color:#92400E}
+[data-theme="dark"] .callout-info{background:rgba(59,130,246,.1);color:#93C5FD}
+[data-theme="dark"] .callout-tip{color:var(--ac-l)}
+[data-theme="dark"] .callout-warn{background:rgba(212,130,10,.1);color:#FCD34D}
+.callout-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+
+/* ── TABLES ── */
+.ptable,.rtable{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0}
+.ptable th,.rtable th{text-align:left;padding:8px 12px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tx3);background:var(--bg2);border-bottom:2px solid var(--bdr)}
+.ptable td,.rtable td{padding:9px 12px;border-bottom:1px solid var(--bdr);color:var(--tx2);vertical-align:top}
+.ptable tr:hover td,.rtable tr:hover td{background:var(--bg)}
+.ptable code,.rtable code{font-family:var(--mono);font-size:11.5px;background:var(--bg3);color:var(--ac);padding:.1em .35em;border-radius:4px}
+
+/* ── COMPONENT CARDS ── */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:16px 0}
+.comp-card{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;transition:transform .2s,box-shadow .2s}
+.comp-card:hover{transform:translateY(-2px);box-shadow:var(--sh2)}
+.comp-preview{padding:16px;min-height:80px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--bdr)}
+.comp-label{padding:7px 10px;font-size:11px;font-weight:500;color:var(--tx3);font-family:var(--mono)}
+
+/* ── MINI BUTTONS (preview) ── */
+.gb{display:inline-flex;align-items:center;gap:.35rem;padding:.4rem .9rem;border-radius:6px;border:1.5px solid transparent;cursor:pointer;font-size:12px;font-weight:500;line-height:1;font-family:var(--sans);transition:all .15s}
+.gb:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.gb-p{background:var(--ac);color:#fff;border-color:var(--ac)}
+.gb-s{background:var(--surf);color:var(--tx);border-color:var(--bdr2)}
+.gb-o{background:transparent;color:var(--ac);border-color:var(--ac)}
+.gb-d{background:#D94F4F;color:#fff;border-color:#D94F4F}
+.gb-g{background:linear-gradient(135deg,var(--ac),var(--ac-l));color:#fff;border:none;border-radius:var(--rf)}
+.gb-n{background:transparent;color:var(--ac);border:1.5px solid var(--ac);box-shadow:0 0 8px rgba(30,158,140,.2)}
+.gb-3{background:var(--ac);color:#fff;border:none;box-shadow:0 5px 0 var(--ac-d)}
+.gb-3:hover{box-shadow:0 3px 0 var(--ac-d);transform:translateY(2px)}
+.gb-sm{padding:.25rem .55rem;font-size:11px}
+.gb-lg{padding:.6rem 1.2rem;font-size:14px;border-radius:10px}
+
+/* ── BADGES ── */
+.gbadge{display:inline-flex;align-items:center;padding:.2em .55em;border-radius:var(--rf);font-size:11px;font-weight:600}
+.gba{background:var(--ac);color:#fff}
+.gbs{background:#EDFAF4;color:#2D9B6F}
+.gbw{background:#FEF6E4;color:#D4820A}
+.gbe{background:#FEECEC;color:#D94F4F}
+.gbi{background:#EFF6FF;color:#3B82F6}
+.gbm{background:var(--bg3);color:var(--tx3)}
+[data-theme="dark"] .gbs{background:rgba(45,155,111,.15)}
+[data-theme="dark"] .gbw{background:rgba(212,130,10,.15)}
+[data-theme="dark"] .gbe{background:rgba(217,79,79,.15)}
+[data-theme="dark"] .gbi{background:rgba(59,130,246,.15)}
+
+/* ── MINI CARD ── */
+.gcard{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 12px;font-size:12px;box-shadow:var(--sh)}
+.gcard-ac{border-top:3px solid var(--ac)}
+
+/* ── SPINNER ── */
+.spin{width:18px;height:18px;border:2px solid var(--bg3);border-top-color:var(--ac);border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ── TOGGLE ── */
+.gtgl{position:relative;width:36px;height:20px;display:inline-block;flex-shrink:0}
+.gtgl-track{position:absolute;inset:0;background:var(--bg3);border-radius:99px;border:1.5px solid var(--bdr2);transition:background .2s}
+.gtgl-thumb{position:absolute;top:2px;left:2px;width:14px;height:14px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.gtgl.on .gtgl-track{background:var(--ac);border-color:var(--ac)}
+.gtgl.on .gtgl-thumb{transform:translateX(16px)}
+
+/* ── PROGRESS ── */
+.gprog{height:6px;background:var(--bg3);border-radius:99px;overflow:hidden}
+.gprog-b{height:100%;background:var(--ac);border-radius:99px;transition:width .4s}
+
+/* ── ALERT ── */
+.galert{display:flex;gap:8px;padding:8px 12px;border-radius:8px;border-left:3px solid;font-size:12px;line-height:1.5}
+.ga-s{background:#EDFAF4;border-color:#2D9B6F;color:#166534}
+.ga-w{background:#FEF6E4;border-color:#D4820A;color:#92400E}
+[data-theme="dark"] .ga-s{background:rgba(45,155,111,.12);color:#6EE7B7}
+[data-theme="dark"] .ga-w{background:rgba(212,130,10,.12);color:#FCD34D}
+
+/* ── PULSE DOT ── */
+@keyframes pulse-ring{0%{transform:scale(.8);opacity:.4}100%{transform:scale(2);opacity:0}}
+.pdot{position:relative;width:10px;height:10px;display:inline-block}
+.pdot::before{content:'';position:absolute;inset:0;border-radius:50%;background:var(--ac)}
+.pdot::after{content:'';position:absolute;inset:-4px;border-radius:50%;background:var(--ac);opacity:.4;animation:pulse-ring 1.5s ease-out infinite}
+
+/* ── TOKEN GRID ── */
+.token-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.token-card{border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;transition:transform .2s}
+.token-card:hover{transform:scale(1.03)}
+.token-swatch{height:40px}
+.token-info{padding:7px 9px;background:var(--surf)}
+.token-var{font-family:var(--mono);font-size:10px;color:var(--ac)}
+.token-name{font-size:11px;color:var(--tx3);margin-top:2px}
+
+/* ── TWO / THREE COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin:16px 0}
+
+/* ── STEP BLOCKS ── */
+.step-block{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--rl);overflow:hidden;margin:16px 0;transition:background var(--tr)}
+.step-header{display:flex;align-items:center;gap:14px;padding:16px 20px;background:var(--surf);border-bottom:1px solid var(--bdr);transition:background var(--tr)}
+.step-num{width:32px;height:32px;border-radius:50%;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
+.step-title{font-weight:600;font-size:14px}
+.step-desc{font-size:12px;color:var(--tx3);margin-top:2px}
+.step-body{padding:20px}
+
+/* ── WIREFRAME ── */
+.wf{background:#F9F8F6;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;font-size:11px}
+[data-theme="dark"] .wf{background:#1a1a1a}
+.wf-nav{height:36px;background:#0C1C1B;display:flex;align-items:center;padding:0 14px;gap:10px}
+.wf-nav-logo{color:var(--ac);font-weight:700;font-size:12px;font-family:var(--disp)}
+.wf-nav-links{display:flex;gap:8px;margin-left:auto}
+.wf-nav-link{color:rgba(255,255,255,.5);font-size:10px}
+.wf-nav-cta{background:var(--ac);color:#fff;font-size:10px;padding:.2rem .6rem;border-radius:var(--rf)}
+.wf-hero{padding:28px 24px;text-align:center;background:radial-gradient(ellipse at center,var(--ac-m),transparent)}
+.wf-hero-badge{display:inline-flex;align-items:center;gap:4px;background:var(--ac-m);border:1px solid rgba(30,158,140,.3);border-radius:var(--rf);padding:.15rem .6rem;font-size:10px;color:var(--ac);margin-bottom:10px}
+.wf-hero-h1{font-family:var(--disp);font-size:24px;font-weight:800;line-height:1.1;letter-spacing:-.02em;margin-bottom:6px}
+.wf-hero-sub{font-size:11px;color:var(--tx2);margin-bottom:14px;max-width:320px;margin-inline:auto}
+.wf-section{padding:20px 24px}
+.wf-section-label{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ac);margin-bottom:6px}
+.wf-section-h{font-family:var(--disp);font-size:16px;font-weight:800;margin-bottom:8px}
+.wf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.wf-card{background:var(--surf);border:1px solid var(--bdr);border-radius:8px;padding:10px;font-size:10px}
+.wf-card-icon{width:22px;height:22px;background:var(--ac-m);border-radius:5px;display:flex;align-items:center;justify-content:center;color:var(--ac);margin-bottom:6px;font-size:11px}
+.wf-card-t{font-weight:600;margin-bottom:2px}
+.wf-card-d{color:var(--tx3);font-size:9px;line-height:1.4}
+.wf-footer{padding:12px 24px;background:var(--surf);border-top:1px solid var(--bdr);display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--tx3)}
+.demo-section{background:var(--bg);border:1px solid var(--bdr);border-radius:var(--rl);overflow:hidden;margin:16px 0}
+.demo-bar{background:#0C1C1B;padding:8px 16px;display:flex;align-items:center;gap:8px}
+.demo-bar-dot{width:10px;height:10px;border-radius:50%}
+.demo-bar-url{flex:1;background:rgba(255,255,255,.06);border-radius:4px;height:20px;display:flex;align-items:center;padding:0 10px;font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.35);max-width:280px;margin:0 auto}
+
+/* ── STAR ── */
+.star{font-size:14px;color:var(--bg3)}
+.star.on{color:#D4820A}
+.gav{width:32px;height:32px;border-radius:50%;background:var(--ac-m);color:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex-shrink:0}
+.ginp{padding:.4rem .65rem;background:var(--surf);border:1.5px solid var(--bdr2);border-radius:var(--r);color:var(--tx);font-size:12px;font-family:var(--sans);outline:none;transition:border-color .2s}
+.ginp:focus{border-color:var(--ac)}
+
+/* ── TOC ── */
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px}
+.toc-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--bg);border-radius:var(--r);border:1px solid var(--bdr);font-size:13px;cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+.toc-item:hover{background:var(--bg2);border-color:var(--ac);transform:translateX(3px)}
+.toc-item-left{display:flex;align-items:center;gap:10px}
+.toc-num{font-family:var(--mono);font-size:11px;color:var(--tx3);min-width:20px}
+.toc-name{font-weight:500}
+.toc-page{font-family:var(--mono);font-size:11px;color:var(--tx3)}
+.toc-sep{grid-column:1/-1;height:1px;background:var(--bdr);margin:4px 0}
+
+/* ── COVER ── */
+.cover-section{border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#0C1F1D 0%,#0A2A26 40%,#071F1D 100%);padding:64px 56px;position:relative;margin-bottom:64px;scroll-margin-top:calc(var(--nav-h) + 24px)}
+.cover-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(30,158,140,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(30,158,140,.08) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.cover-blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;pointer-events:none}
+.blob-a{width:400px;height:400px;background:#1E9E8C;top:-80px;right:-60px}
+.blob-b{width:260px;height:260px;background:#8B5CF6;bottom:80px;left:-40px}
+.cover-v{background:rgba(30,158,140,.25);border:1px solid rgba(30,158,140,.4);color:#28C4AF;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .75rem;border-radius:var(--rf);display:inline-block;margin-bottom:32px;position:relative;z-index:1}
+.cover-eyebrow{font-size:12px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:16px;position:relative;z-index:1}
+.cover-title{font-family:var(--disp);font-size:72px;font-weight:800;line-height:.95;letter-spacing:-.04em;color:#fff;margin-bottom:12px;position:relative;z-index:1}
+.cover-title span{color:var(--ac)}
+.cover-sub{font-size:16px;color:rgba(255,255,255,.5);max-width:480px;line-height:1.6;margin-bottom:32px;position:relative;z-index:1}
+.cover-pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;position:relative;z-index:1}
+.cpill{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:var(--rf);padding:.3rem .85rem;font-size:12px;color:rgba(255,255,255,.65)}
+.cover-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:var(--r);overflow:hidden;position:relative;z-index:1}
+.cstat{padding:20px;background:#0A2A26}
+.cstat-n{font-family:var(--disp);font-size:28px;font-weight:800;color:var(--ac);line-height:1}
+.cstat-l{font-size:11px;color:rgba(255,255,255,.4);margin-top:4px;text-transform:uppercase;letter-spacing:.08em}
+
+/* ── PROGRESS BAR ── */
+#read-progress{position:fixed;top:var(--nav-h);left:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--ac-l));z-index:99;width:0%;transition:width .1s}
+
+/* ── MOBILE SIDEBAR TOGGLE ── */
+#sidebar-toggle{display:none;width:36px;height:36px;border-radius:8px;background:var(--bg2);border:1.5px solid var(--bdr2);cursor:pointer;align-items:center;justify-content:center;font-size:18px;color:var(--tx)}
+
+/* ── FOOTER ── */
+.doc-footer{margin-top:80px;padding:32px 0;border-top:1px solid var(--bdr);font-size:13px;color:var(--tx3);display:flex;align-items:center;justify-content:space-between}
+.doc-footer-brand{font-family:var(--disp);font-weight:800;font-size:16px;color:var(--tx)}
+.doc-footer-brand span{color:var(--ac)}
+
+/* ── SEARCH HIGHLIGHT ── */
+.search-highlight{background:rgba(30,158,140,.25);border-radius:2px;padding:0 2px}
+
+/* ── MOBILE ── */
+@media(max-width:768px){
+  #sidebar{position:fixed;left:-260px;top:var(--nav-h);height:calc(100vh - var(--nav-h));z-index:50;transition:left .3s;box-shadow:none}
+  #sidebar.open{left:0;box-shadow:4px 0 20px rgba(0,0,0,.15)}
+  #sidebar-toggle{display:flex}
+  #content{padding:32px 20px}
+  .cover-title{font-size:48px}
+  .cover-stats{grid-template-columns:repeat(2,1fr)}
+  .two-col,.three-col{grid-template-columns:1fr}
+  .token-grid{grid-template-columns:repeat(2,1fr)}
+  .toc-grid{grid-template-columns:1fr}
+  .topbar-nav{display:none}
+  .topbar-version{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- READING PROGRESS -->
+<div id="read-progress"></div>
+
+<!-- TOP BAR -->
+<header id="topbar">
+  <button id="sidebar-toggle" onclick="toggleSidebar()" title="Toggle menu">☰</button>
+  <div class="topbar-brand"><span>G</span>riffin CSS</div>
+  <!-- <span class="topbar-version">v2.0</span> -->
+  <nav class="topbar-nav">
+    <a href="#cover" class="active" onclick="setActive(this)">Home</a>
+    <a href="#ch1" onclick="setActive(this)">Docs</a>
+    <a href="#build" onclick="setActive(this)">Guide</a>
+  </nav>
+  <div class="topbar-search">
+    <span class="topbar-search-icon">🔍</span>
+    <input type="text" placeholder="Search docs…" id="searchInput" oninput="handleSearch(this.value)">
+  </div>
+  <button class="topbar-theme" onclick="toggleTheme()" title="Toggle dark mode" id="themeBtn">🌙</button>
+  <a href="index.html" class="topbar-home">🏠 Home</a>
+</header>
+
+<div id="layout">
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="side-group">
+    <div class="side-group-title">Overview</div>
+    <button class="side-link active" onclick="scrollTo('cover',this)"><span class="side-num">—</span>Cover</button>
+    <button class="side-link" onclick="scrollTo('toc',this)"><span class="side-num">00</span>Table of Contents</button>
+  </div>
+  <div class="side-group">
+    <div class="side-group-title">Foundation</div>
+    <button class="side-link" onclick="scrollTo('ch1',this)"><span class="side-num">01</span>Philosophy & Goals</button>
+    <button class="side-link" onclick="scrollTo('ch2',this)"><span class="side-num">02</span>Installation & Setup</button>
+    <button class="side-link" onclick="scrollTo('ch3',this)"><span class="side-num">03</span>Design Tokens</button>
+    <button class="side-link" onclick="scrollTo('ch4',this)"><span class="side-num">04</span>Dark Mode</button>
+  </div>
+  <div class="side-group">
+    <div class="side-group-title">Layout & Type</div>
+    <button class="side-link" onclick="scrollTo('ch56',this)"><span class="side-num">05–06</span>Layout & Grid</button>
+  </div>
+  <div class="side-group">
+    <div class="side-group-title">Components</div>
+    <button class="side-link" onclick="scrollTo('ch7',this)"><span class="side-num">07</span>Buttons</button>
+    <button class="side-link" onclick="scrollTo('ch89',this)"><span class="side-num">08–09</span>Cards & Forms</button>
+    <button class="side-link" onclick="scrollTo('ch1011',this)"><span class="side-num">10–11</span>Navigation & Feedback</button>
+  </div>
+  <div class="side-group">
+    <div class="side-group-title">Guide</div>
+    <button class="side-link" onclick="scrollTo('build',this)"><span class="side-num">🔨</span>Build Walkthrough</button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="content">
+
+<!-- COVER -->
+<section class="cover-section doc-section" id="cover">
+  <div class="cover-bg-grid"></div>
+  <div class="cover-blob blob-a"></div>
+  <div class="cover-blob blob-b"></div>
+  <!-- <span class="cover-v">v2.0 · Official Docs</span> -->
+  <div class="cover-eyebrow">Complete Developer Reference</div>
+  <div class="cover-title">Griffin<br><span>CSS</span></div>
+  <div class="cover-sub">A modern utility-first CSS framework with 130+ components, dark mode, zero dependencies, and beautiful design tokens ... drop in one line and start building.</div>
+  <div class="cover-pills">
+    <span class="cpill">🔗 CDN-ready</span>
+    <span class="cpill">🌙 Dark mode</span>
+    <span class="cpill">📱 Responsive</span>
+    <span class="cpill">⚡ Zero JS</span>
+    <span class="cpill">🎨 Themeable</span>
+    <span class="cpill">♿ Accessible</span>
+  </div>
+  <div class="cover-stats">
+    <div class="cstat"><div class="cstat-n">130+</div><div class="cstat-l">Components</div></div>
+    <div class="cstat"><div class="cstat-n">14</div><div class="cstat-l">Categories</div></div>
+    <div class="cstat"><div class="cstat-n">~8kb</div><div class="cstat-l">Gzipped</div></div>
+    <div class="cstat"><div class="cstat-n">0</div><div class="cstat-l">Dependencies</div></div>
+  </div>
+</section>
+
+<!-- TOC -->
+<section class="doc-section" id="toc">
+  <div class="ch-label">Contents</div>
+  <div class="ch-title">Table of Contents</div>
+  <div class="ch-sub">Navigate this reference. Each chapter covers a complete area of the framework.</div>
+  <div class="toc-grid">
+    <div class="toc-item" onclick="scrollTo('ch1',null)"><div class="toc-item-left"><span class="toc-num">01</span><span class="toc-name">Introduction & Philosophy</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch2',null)"><div class="toc-item-left"><span class="toc-num">02</span><span class="toc-name">Installation & Setup</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch3',null)"><div class="toc-item-left"><span class="toc-num">03</span><span class="toc-name">Design Tokens</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch4',null)"><div class="toc-item-left"><span class="toc-num">04</span><span class="toc-name">Dark Mode</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch56',null)"><div class="toc-item-left"><span class="toc-num">05–06</span><span class="toc-name">Layout & Grid</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch7',null)"><div class="toc-item-left"><span class="toc-num">07</span><span class="toc-name">Buttons</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch89',null)"><div class="toc-item-left"><span class="toc-num">08–09</span><span class="toc-name">Cards & Forms</span></div><span class="toc-page">→</span></div>
+    <div class="toc-item" onclick="scrollTo('ch1011',null)"><div class="toc-item-left"><span class="toc-num">10–11</span><span class="toc-name">Navigation & Feedback</span></div><span class="toc-page">→</span></div>
+    <div class="toc-sep"></div>
+    <div class="toc-item" onclick="scrollTo('build',null)" style="grid-column:1/-1"><div class="toc-item-left"><span class="toc-num">🔨</span><span class="toc-name" style="color:var(--ac)">Build Walkthrough — Full Website from Scratch</span></div><span class="toc-page">→</span></div>
+  </div>
+</section>
+
+<!-- CH 1 -->
+<section class="doc-section" id="ch1">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">01</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Introduction</div>
+  <div class="ch-title">Philosophy & Goals</div>
+  <div class="ch-sub" style="margin-bottom:24px">Griffin CSS is designed around a single idea: your CSS framework should disappear. You think about your product, not your styles.</div>
+
+  <h3 class="sub">Core Principles</h3>
+  <div class="three-col">
+    <div class="gcard gcard-ac">
+      <div style="font-weight:600;font-size:13px;margin-bottom:6px">🧱 Semantic classes</div>
+      <div style="font-size:12px;color:var(--tx2)">Classes describe what a component <em>is</em>, not how it looks. <code style="font-family:var(--mono);font-size:11px;background:var(--bg3);color:var(--ac)">.g-btn-primary</code> not <code style="font-family:var(--mono);font-size:11px;background:var(--bg3);color:var(--ac)">.bg-blue-500</code>.</div>
+    </div>
+    <div class="gcard gcard-ac">
+      <div style="font-weight:600;font-size:13px;margin-bottom:6px">🎨 Token-driven</div>
+      <div style="font-size:12px;color:var(--tx2)">All visual properties reference CSS custom properties. Override <code style="font-family:var(--mono);font-size:11px;background:var(--bg3);color:var(--ac)">:root</code> to retheme everything instantly.</div>
+    </div>
+    <div class="gcard gcard-ac">
+      <div style="font-weight:600;font-size:13px;margin-bottom:6px">⚡ Zero dependencies</div>
+      <div style="font-size:12px;color:var(--tx2)">Pure CSS. No build tools, no npm, no config. One <code style="font-family:var(--mono);font-size:11px;background:var(--bg3);color:var(--ac)">&lt;link&gt;</code> and every class is available.</div>
+    </div>
+  </div>
+
+  <h3 class="sub">What Griffin CSS Is Not</h3>
+  <p class="body">Griffin CSS is not a utility-first framework like Tailwind. You won't write classes like <code style="font-family:var(--mono);font-size:12px;background:var(--bg3);color:var(--ac)">flex items-center justify-between px-4 py-2</code>. Instead, a single class like <code style="font-family:var(--mono);font-size:12px;background:var(--bg3);color:var(--ac)">.g-navbar</code> encapsulates the full floating navigation component.</p>
+  <div class="callout callout-tip"><span class="callout-icon">💡</span><span>Griffin CSS works perfectly alongside utility frameworks. You can use Griffin for components and Tailwind/UnoCSS for micro-adjustments if you prefer.</span></div>
+
+  <h3 class="sub">Browser Support</h3>
+  <table class="ptable">
+    <thead><tr><th>Browser</th><th>Min Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Chrome / Edge</td><td><code>88+</code></td><td>Full support including all animations and effects</td></tr>
+      <tr><td>Firefox</td><td><code>85+</code></td><td>Full support</td></tr>
+      <tr><td>Safari / iOS</td><td><code>14.1+</code></td><td>Requires <code>-webkit-</code> prefixes for backdrop-filter (included)</td></tr>
+      <tr><td>Samsung Internet</td><td><code>14+</code></td><td>Full support</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CH 2 -->
+<section class="doc-section" id="ch2">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">02</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Getting Started</div>
+  <div class="ch-title">Installation & Setup</div>
+  <div class="ch-sub" style="margin-bottom:24px">Griffin CSS ships as a single minified file (~8kb gzipped). Add it to your project in seconds — no build step required.</div>
+
+  <h3 class="sub">Option 1 — CDN (Recommended)</h3>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="cm">&lt;!-- Add to your &lt;head&gt; --&gt;</span>
+<span class="kw">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span>
+      <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"</span><span class="kw">&gt;</span></pre>
+  </div>
+
+  <h3 class="sub">Option 2 — Self-hosted</h3>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">Shell</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="cm"># Download the file</span>
+curl -o griffin.min.css \
+  https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css
+
+<span class="cm"># Or with npm (optional, for bundler workflows)</span>
+npm install griffin-css</pre>
+  </div>
+
+  <h3 class="sub">Minimal HTML Template</h3>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="kw">&lt;!DOCTYPE html&gt;</span>
+<span class="kw">&lt;html</span> <span class="attr">lang</span>=<span class="str">"en"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;head&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">charset</span>=<span class="str">"UTF-8"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1.0"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"griffin.min.css"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;title&gt;</span>My App<span class="kw">&lt;/title&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+<span class="kw">&lt;body&gt;</span>
+  <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary"</span><span class="kw">&gt;</span>Hello World<span class="kw">&lt;/button&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card g-card-accent"</span><span class="kw">&gt;</span>A styled card<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></pre>
+  </div>
+  <div class="callout callout-info"><span class="callout-icon">ℹ</span><span><strong>Recommended fonts:</strong> Griffin CSS pairs best with <strong>Syne</strong> (display headings) and <strong>Inter</strong> (body). Add them via Google Fonts for best results.</span></div>
+</section>
+
+<!-- CH 3 -->
+<section class="doc-section" id="ch3">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">03</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Design System</div>
+  <div class="ch-title">Design Tokens</div>
+  <div class="ch-sub" style="margin-bottom:24px">All visual decisions — colors, spacing, radius, shadows — are CSS custom properties. Override any in <code style="font-family:var(--mono);font-size:14px;background:var(--bg3);color:var(--ac)">:root</code> to retheme the whole library.</div>
+
+  <h3 class="sub">Color Tokens</h3>
+  <div class="token-grid">
+    <div class="token-card"><div class="token-swatch" style="background:#1E9E8C"></div><div class="token-info"><div class="token-var">--accent</div><div class="token-name">Primary accent</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:#28C4AF"></div><div class="token-info"><div class="token-var">--accent-l</div><div class="token-name">Accent light</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:#167A6C"></div><div class="token-info"><div class="token-var">--accent-d</div><div class="token-name">Accent dark</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:rgba(30,158,140,.12)"></div><div class="token-info"><div class="token-var">--accent-m</div><div class="token-name">Accent muted fill</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:#F7F6F3;border-bottom:1px solid #e0ddd7"></div><div class="token-info"><div class="token-var">--bg</div><div class="token-name">Page background</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:#EDEAE5"></div><div class="token-info"><div class="token-var">--bg2</div><div class="token-name">Subtle surface</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:#fff;border-bottom:1px solid #e2ddd7"></div><div class="token-info"><div class="token-var">--surf</div><div class="token-name">Card surface</div></div></div>
+    <div class="token-card"><div class="token-swatch" style="background:#0F0F0F"></div><div class="token-info"><div class="token-var">--tx</div><div class="token-name">Primary text</div></div></div>
+  </div>
+
+  <h3 class="sub">Full Token Reference</h3>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">CSS</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="cls">:root</span> {
+  <span class="cm">/* Accent colors */</span>
+  <span class="attr">--accent</span>:   <span class="str">#1E9E8C</span>;
+  <span class="attr">--accent-l</span>: <span class="str">#28C4AF</span>;
+  <span class="attr">--accent-d</span>: <span class="str">#167A6C</span>;
+  <span class="attr">--accent-m</span>: <span class="str">rgba(30,158,140,.12)</span>;
+
+  <span class="cm">/* Backgrounds */</span>
+  <span class="attr">--bg</span>:  <span class="str">#F7F6F3</span>;  <span class="attr">--bg2</span>: <span class="str">#EDEAE5</span>;  <span class="attr">--bg3</span>: <span class="str">#E2DDD7</span>;
+  <span class="attr">--surf</span>: <span class="str">#FFF</span>;
+
+  <span class="cm">/* Borders */</span>
+  <span class="attr">--bdr</span>:  <span class="str">rgba(0,0,0,.08)</span>;
+  <span class="attr">--bdr2</span>: <span class="str">rgba(0,0,0,.15)</span>;
+
+  <span class="cm">/* Text */</span>
+  <span class="attr">--tx</span>: <span class="str">#0F0F0F</span>;  <span class="attr">--tx2</span>: <span class="str">#4A4744</span>;  <span class="attr">--tx3</span>: <span class="str">#8A8480</span>;
+
+  <span class="cm">/* Shadows */</span>
+  <span class="attr">--sh</span>:  <span class="str">0 1px 3px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.04)</span>;
+  <span class="attr">--sh2</span>: <span class="str">0 4px 16px rgba(0,0,0,.08), 0 8px 32px rgba(0,0,0,.06)</span>;
+
+  <span class="cm">/* Border radii */</span>
+  <span class="attr">--r</span>: <span class="str">8px</span>; <span class="attr">--rm</span>: <span class="str">12px</span>; <span class="attr">--rl</span>: <span class="str">16px</span>; <span class="attr">--rf</span>: <span class="str">9999px</span>;
+
+  <span class="cm">/* Fonts */</span>
+  <span class="attr">--font-sans</span>:  <span class="str">'Inter', system-ui, sans-serif</span>;
+  <span class="attr">--font-disp</span>:  <span class="str">'Syne', sans-serif</span>;
+  <span class="attr">--font-mono</span>:  <span class="str">'JetBrains Mono', monospace</span>;
+}</pre>
+  </div>
+
+  <h3 class="sub">Custom Theme Example</h3>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">CSS — Purple Theme</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="cls">:root</span> {
+  <span class="attr">--accent</span>:   <span class="str">#7C3AED</span>;  <span class="cm">/* Violet */</span>
+  <span class="attr">--accent-l</span>: <span class="str">#9F67F5</span>;
+  <span class="attr">--accent-d</span>: <span class="str">#5B21B6</span>;
+  <span class="attr">--accent-m</span>: <span class="str">rgba(124,58,237,.1)</span>;
+  <span class="attr">--sha</span>: <span class="str">0 4px 20px rgba(124,58,237,.28)</span>;
+}</pre>
+  </div>
+</section>
+
+<!-- CH 4 -->
+<section class="doc-section" id="ch4">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">04</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Theming</div>
+  <div class="ch-title">Dark Mode</div>
+  <div class="ch-sub" style="margin-bottom:24px">Griffin CSS ships a complete dark theme. Toggle it with a data attribute ... every component adapts automatically with smooth transitions.</div>
+
+  <div class="two-col">
+    <div>
+      <h3 class="sub">Enabling Dark Mode</h3>
+      <div class="code-wrap">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code"><span class="cm">&lt;!-- On html element --&gt;</span>
+<span class="kw">&lt;html</span> <span class="attr">data-theme</span>=<span class="str">"dark"</span><span class="kw">&gt;</span></pre>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">JavaScript</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code"><span class="cm">// Toggle programmatically</span>
+<span class="kw">function</span> <span class="fn">toggleTheme</span>() {
+  <span class="kw">const</span> isDark =
+    document.documentElement
+      .dataset.theme === <span class="str">'dark'</span>;
+  document.documentElement
+    .dataset.theme =
+      isDark ? <span class="str">'light'</span> : <span class="str">'dark'</span>;
+}</pre>
+      </div>
+    </div>
+    <div>
+      <h3 class="sub">System Preference</h3>
+      <div class="code-wrap">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">JavaScript</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code"><span class="cm">// Auto-match OS dark mode</span>
+<span class="kw">const</span> mq = window.matchMedia(
+  <span class="str">'(prefers-color-scheme: dark)'</span>
+);
+<span class="kw">if</span> (mq.matches) {
+  document.documentElement
+    .dataset.theme = <span class="str">'dark'</span>;
+}
+mq.addEventListener(<span class="str">'change'</span>, e => {
+  document.documentElement
+    .dataset.theme =
+      e.matches ? <span class="str">'dark'</span> : <span class="str">'light'</span>;
+});</pre>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub">Dark Mode Token Overrides</h3>
+  <table class="ptable">
+    <thead><tr><th>Token</th><th>Light</th><th>Dark</th></tr></thead>
+    <tbody>
+      <tr><td><code>--bg</code></td><td>#F7F6F3</td><td>#0F0F0F</td></tr>
+      <tr><td><code>--surf</code></td><td>#FFFFFF</td><td>#1A1A1A</td></tr>
+      <tr><td><code>--tx</code></td><td>#0F0F0F</td><td>#F7F6F3</td></tr>
+      <tr><td><code>--tx2</code></td><td>#4A4744</td><td>#A8A49F</td></tr>
+      <tr><td><code>--bdr</code></td><td>rgba(0,0,0,.08)</td><td>rgba(255,255,255,.08)</td></tr>
+    </tbody>
+  </table>
+  <div class="callout callout-tip"><span class="callout-icon">💡</span><span>Save the user's preference with <code style="font-family:var(--mono);font-size:11px">localStorage.setItem('theme', value)</code> and read it on page load to persist across sessions.</span></div>
+</section>
+
+<!-- CH 5-6 -->
+<section class="doc-section" id="ch56">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">05–06</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Foundation</div>
+  <div class="ch-title">Layout, Grid & Typography</div>
+  <div class="ch-sub" style="margin-bottom:24px">Griffin CSS provides a complete layout system with responsive grid utilities and a full typographic scale.</div>
+
+  <h3 class="sub">Grid System</h3>
+  <table class="ptable">
+    <thead><tr><th>Class</th><th>Columns</th><th>Use case</th></tr></thead>
+    <tbody>
+      <tr><td><code>.g-grid.g-grid-2</code></td><td>2 equal columns</td><td>Two-column layouts, split views</td></tr>
+      <tr><td><code>.g-grid.g-grid-3</code></td><td>3 equal columns</td><td>Feature cards, pricing tiers</td></tr>
+      <tr><td><code>.g-grid.g-grid-4</code></td><td>4 equal columns</td><td>KPI dashboards, icon grids</td></tr>
+      <tr><td><code>.g-grid.g-grid-auto</code></td><td>Auto-fill minmax</td><td>Masonry-style responsive grids</td></tr>
+      <tr><td><code>.g-bento</code></td><td>4-col bento grid</td><td>Mixed-size dashboard layouts</td></tr>
+      <tr><td><code>.g-flex-center</code></td><td>flex, centered</td><td>Hero sections, empty states</td></tr>
+      <tr><td><code>.g-flex-between</code></td><td>flex, spaced</td><td>Navbars, list rows</td></tr>
+    </tbody>
+  </table>
+
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML — Grid Example</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-grid g-grid-3"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card"</span><span class="kw">&gt;</span>Column A<span class="kw">&lt;/div&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card"</span><span class="kw">&gt;</span>Column B<span class="kw">&lt;/div&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card"</span><span class="kw">&gt;</span>Column C<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;/div&gt;</span></pre>
+  </div>
+
+  <h3 class="sub">Typography Scale</h3>
+  <table class="ptable">
+    <thead><tr><th>Class</th><th>Size</th><th>Weight</th><th>Font</th></tr></thead>
+    <tbody>
+      <tr><td><code>.g-h1</code></td><td>clamp(2.5–4.5rem)</td><td>800</td><td>Syne (display)</td></tr>
+      <tr><td><code>.g-h2</code></td><td>clamp(1.8–2.8rem)</td><td>800</td><td>Syne</td></tr>
+      <tr><td><code>.g-h3</code></td><td>1.5rem</td><td>700</td><td>Syne</td></tr>
+      <tr><td><code>.g-body-lg</code></td><td>1.15rem</td><td>400</td><td>Inter</td></tr>
+      <tr><td><code>.g-body-sm</code></td><td>0.875rem</td><td>400</td><td>Inter</td></tr>
+      <tr><td><code>.g-label</code></td><td>0.7rem</td><td>700</td><td>Inter, uppercase</td></tr>
+      <tr><td><code>.g-gradient-text</code></td><td>—</td><td>—</td><td>Accent gradient fill</td></tr>
+      <tr><td><code>.g-text-shimmer</code></td><td>—</td><td>—</td><td>Shimmer animation</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CH 7 -->
+<section class="doc-section" id="ch7">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">07</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Components</div>
+  <div class="ch-title">Buttons</div>
+  <div class="ch-sub" style="margin-bottom:24px">Every button variant, size, state, and special effect in one place. The base class is always <code style="font-family:var(--mono);font-size:14px;background:var(--bg3);color:var(--ac)">.g-btn</code> ... add modifier classes to change style.</div>
+
+  <h3 class="sub">Variant Gallery</h3>
+  <div class="comp-grid">
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-p">Primary</button></div><div class="comp-label">.g-btn-primary</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-s">Secondary</button></div><div class="comp-label">.g-btn-secondary</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-o">Outline</button></div><div class="comp-label">.g-btn-outline</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-d">Danger</button></div><div class="comp-label">.g-btn-danger</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-g">Gradient Pill</button></div><div class="comp-label">.g-btn-gradient.g-btn-pill</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-n">Neon Glow</button></div><div class="comp-label">.g-btn-neon</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-3">3D Press</button></div><div class="comp-label">.g-btn-3d</div></div>
+    <div class="comp-card"><div class="comp-preview"><div style="display:flex;gap:4px;align-items:center"><button class="gb gb-sm gb-p">Sm</button><button class="gb gb-p">Md</button><button class="gb gb-lg gb-p">Lg</button></div></div><div class="comp-label">Sizes: sm / default / lg</div></div>
+    <div class="comp-card"><div class="comp-preview"><button class="gb gb-p" style="position:relative;color:transparent;min-width:80px"><span class="spin" style="position:absolute"></span></button></div><div class="comp-label">.g-btn-loading</div></div>
+    <div class="comp-card"><div class="comp-preview"><button style="width:38px;height:38px;border-radius:50%;background:var(--ac);color:#fff;border:none;font-size:16px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(30,158,140,.35);cursor:pointer">+</button></div><div class="comp-label">.g-fab</div></div>
+  </div>
+
+  <h3 class="sub">HTML Reference</h3>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="cm">&lt;!-- Basic variants --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary"</span><span class="kw">&gt;</span>Primary<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-secondary"</span><span class="kw">&gt;</span>Secondary<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-outline"</span><span class="kw">&gt;</span>Outline<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-danger"</span><span class="kw">&gt;</span>Danger<span class="kw">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Special variants --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-gradient g-btn-pill"</span><span class="kw">&gt;</span>Gradient<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-neon"</span><span class="kw">&gt;</span>Neon Glow<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-3d"</span><span class="kw">&gt;</span>3D Press<span class="kw">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- Sizes --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary g-btn-sm"</span><span class="kw">&gt;</span>Small<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary"</span><span class="kw">&gt;</span>Default<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary g-btn-lg"</span><span class="kw">&gt;</span>Large<span class="kw">&lt;/button&gt;</span>
+
+<span class="cm">&lt;!-- FAB --&gt;</span>
+<span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-fab"</span><span class="kw">&gt;</span>+<span class="kw">&lt;/button&gt;</span></pre>
+  </div>
+
+  <h3 class="sub">Modifier Reference</h3>
+  <table class="ptable">
+    <thead><tr><th>Modifier</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>.g-btn-sm</code></td><td>Smaller padding and font-size</td></tr>
+      <tr><td><code>.g-btn-lg</code></td><td>Larger padding, slightly larger font-size, rounded-md</td></tr>
+      <tr><td><code>.g-btn-xl</code></td><td>Extra large, ideal for hero CTAs</td></tr>
+      <tr><td><code>.g-btn-pill</code></td><td>Fully rounded (border-radius: 9999px)</td></tr>
+      <tr><td><code>.g-btn-full</code></td><td>width: 100%</td></tr>
+      <tr><td><code>.g-btn-loading</code></td><td>Shows spinner, hides text, disables pointer</td></tr>
+      <tr><td><code>.g-btn-ripple</code></td><td>CSS ripple effect on click</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CH 8-9 -->
+<section class="doc-section" id="ch89">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">08–09</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Components</div>
+  <div class="ch-title">Cards & Forms</div>
+
+  <div class="two-col">
+    <div>
+      <h3 class="sub">Card Variants</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin:12px 0">
+        <div class="gcard"><strong style="font-size:12px">Basic Card</strong><p style="font-size:11px;color:var(--tx2);margin-top:3px">Shadow, border, radius</p></div>
+        <div class="gcard gcard-ac"><strong style="font-size:12px">Accent Card</strong><p style="font-size:11px;color:var(--tx2);margin-top:3px">Colored top border</p></div>
+        <div style="background:rgba(30,158,140,.08);backdrop-filter:blur(10px);border:1px solid rgba(30,158,140,.2);border-radius:10px;padding:10px 12px;font-size:12px"><strong>Glass Card</strong><p style="font-size:11px;color:var(--tx2);margin-top:3px">Frosted glass effect</p></div>
+        <div style="background:linear-gradient(135deg,var(--ac),var(--ac-d));border-radius:10px;padding:10px 12px;font-size:12px;color:#fff"><strong>Gradient Card</strong><p style="font-size:11px;opacity:.85;margin-top:3px">Accent gradient fill</p></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code" style="font-size:11px"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card"</span><span class="kw">&gt;</span>…<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card g-card-accent"</span><span class="kw">&gt;</span>…<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card-glass"</span><span class="kw">&gt;</span>…<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-card-gradient-border"</span><span class="kw">&gt;</span>…<span class="kw">&lt;/div&gt;</span></pre>
+      </div>
+    </div>
+    <div>
+      <h3 class="sub">Form Components</h3>
+      <div style="display:flex;flex-direction:column;gap:8px;margin:12px 0">
+        <input class="ginp" placeholder="Email address" style="width:100%">
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="gtgl on"><div class="gtgl-track"><div class="gtgl-thumb"></div></div></div>
+          <span style="font-size:12px">Notifications</span>
+        </div>
+        <div class="gprog"><div class="gprog-b" style="width:70%"></div></div>
+        <div style="display:flex;gap:2px"><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star on">★</span><span class="star">★</span></div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code" style="font-size:11px"><span class="kw">&lt;input</span> <span class="attr">class</span>=<span class="str">"g-input"</span> <span class="attr">type</span>=<span class="str">"text"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;label</span> <span class="attr">class</span>=<span class="str">"g-toggle-wrap"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-toggle"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;input</span> <span class="attr">type</span>=<span class="str">"checkbox"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-toggle-track"</span><span class="kw">&gt;</span>
+      <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-toggle-thumb"</span><span class="kw">&gt;&lt;/span&gt;</span>
+    <span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+  Enable alerts
+<span class="kw">&lt;/label&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub">All Form Classes</h3>
+  <table class="rtable">
+    <thead><tr><th>Class</th><th>Component</th></tr></thead>
+    <tbody>
+      <tr><td><code>.g-input</code></td><td>Base input, textarea, select styling</td></tr>
+      <tr><td><code>.g-select</code></td><td>Select with custom chevron arrow</td></tr>
+      <tr><td><code>.g-textarea</code></td><td>Resizable textarea variant</td></tr>
+      <tr><td><code>.g-toggle-wrap / .g-toggle</code></td><td>Toggle switch with checked state</td></tr>
+      <tr><td><code>.g-check / .g-radio</code></td><td>Custom checkbox and radio</td></tr>
+      <tr><td><code>.g-range</code></td><td>Styled range slider</td></tr>
+      <tr><td><code>.g-file-drop</code></td><td>Drag-and-drop file upload zone</td></tr>
+      <tr><td><code>.g-otp-group / .g-otp-input</code></td><td>Six-cell OTP input</td></tr>
+      <tr><td><code>.g-tag-input</code></td><td>Tag chip input</td></tr>
+      <tr><td><code>.g-float-label</code></td><td>Floating label input effect</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- CH 10-11 -->
+<section class="doc-section" id="ch1011">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num">10–11</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Components</div>
+  <div class="ch-title">Navigation & Feedback</div>
+
+  <div class="two-col">
+    <div>
+      <h3 class="sub">Navigation Classes</h3>
+      <table class="ptable">
+        <thead><tr><th>Class</th><th>Component</th></tr></thead>
+        <tbody>
+          <tr><td><code>.g-navbar</code></td><td>Floating glassmorphism navbar</td></tr>
+          <tr><td><code>.g-navbar-brand</code></td><td>Brand logo/name in navbar</td></tr>
+          <tr><td><code>.g-navbar-link</code></td><td>Nav link (add <code>.active</code>)</td></tr>
+          <tr><td><code>.g-breadcrumb</code></td><td>Breadcrumb trail container</td></tr>
+          <tr><td><code>.g-tabs / .g-tab</code></td><td>Underline tab row</td></tr>
+          <tr><td><code>.g-tabs-pill</code></td><td>Pill-style tab switcher</td></tr>
+          <tr><td><code>.g-pagination</code></td><td>Page number controls</td></tr>
+          <tr><td><code>.g-sidenav</code></td><td>Vertical sidebar nav</td></tr>
+          <tr><td><code>.g-dropdown</code></td><td>Dropdown menu wrapper</td></tr>
+          <tr><td><code>.g-command-palette</code></td><td>⌘K command palette</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3 class="sub">Feedback Components</h3>
+      <div style="display:flex;flex-direction:column;gap:7px;margin:12px 0">
+        <div class="galert ga-s"><span>✓</span><span>Profile saved!</span></div>
+        <div class="galert ga-w"><span>⚠</span><span>Storage 90% full.</span></div>
+        <div class="gprog"><div class="gprog-b" style="width:65%"></div></div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:4px">
+          <span class="spin"></span>
+          <div class="pdot"></div>
+          <div style="display:flex;gap:3px;align-items:center"><div class="pdot" style="background:#2D9B6F"></div><span style="font-size:11px">Online</span></div>
+        </div>
+      </div>
+      <div class="code-wrap">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code" style="font-size:11px"><span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-alert g-alert-success"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span&gt;</span>✓<span class="kw">&lt;/span&gt;</span> Saved!
+<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-progress"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-progress-bar"</span> <span class="attr">style</span>=<span class="str">"width:65%"</span><span class="kw">&gt;&lt;/div&gt;</span>
+<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-spinner"</span><span class="kw">&gt;&lt;/span&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-pulse-dot"</span><span class="kw">&gt;&lt;/div&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="sub">UI Elements</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 16px">
+    <span class="gbadge gba">New</span>
+    <span class="gbadge gbs">Active</span>
+    <span class="gbadge gbw">Pending</span>
+    <span class="gbadge gbe">Failed</span>
+    <span class="gbadge gbi">Beta</span>
+    <span class="gbadge gbm">Draft</span>
+    <div class="gav">JD</div>
+    <span style="font-family:var(--mono);font-size:11px;background:var(--bg3);border:1px solid var(--bdr2);border-bottom-width:2px;border-radius:4px;padding:.1rem .35rem;color:var(--tx2)">⌘K</span>
+  </div>
+  <div class="code-wrap">
+    <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+    <pre class="code"><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-badge g-badge-success"</span><span class="kw">&gt;</span>Active<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-badge g-badge-warning"</span><span class="kw">&gt;</span>Pending<span class="kw">&lt;/span&gt;</span>
+<span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-avatar"</span><span class="kw">&gt;</span>JD<span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-kbd"</span><span class="kw">&gt;</span>⌘<span class="kw">&lt;/span&gt;</span><span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-kbd"</span><span class="kw">&gt;</span>K<span class="kw">&lt;/span&gt;</span></pre>
+  </div>
+</section>
+
+<!-- BUILD WALKTHROUGH -->
+<section class="doc-section" id="build">
+  <div class="sec-divider"><div class="sec-divider-line"></div><div class="sec-divider-num" style="color:var(--ac);font-weight:700">BUILD</div><div class="sec-divider-line"></div></div>
+  <div class="ch-label">Illustrated Guide</div>
+  <div class="ch-title">Building a Website from Scratch</div>
+  <div class="ch-sub" style="margin-bottom:24px">A complete step-by-step walkthrough showing how to assemble a real product landing page using Griffin CSS ... from blank file to production-ready site.</div>
+
+  <div class="callout callout-tip"><span class="callout-icon">🎯</span><span>We'll build <strong>"Lumina"</strong> — a SaaS analytics dashboard landing page. It includes a navbar, hero, features, pricing, and footer. Every element uses Griffin CSS classes.</span></div>
+
+  <!-- STEP 1 -->
+  <div class="step-block">
+    <div class="step-header"><div class="step-num">1</div><div><div class="step-title">Create the HTML shell & link Griffin CSS</div><div class="step-desc">Set up the base HTML file with the CDN link, fonts, and dark mode support</div></div></div>
+    <div class="step-body">
+      <div class="code-wrap" style="margin:0">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">index.html</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code"><span class="kw">&lt;!DOCTYPE html&gt;</span>
+<span class="kw">&lt;html</span> <span class="attr">lang</span>=<span class="str">"en"</span> <span class="attr">data-theme</span>=<span class="str">"light"</span><span class="kw">&gt;</span>
+<span class="kw">&lt;head&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">charset</span>=<span class="str">"UTF-8"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;meta</span> <span class="attr">name</span>=<span class="str">"viewport"</span> <span class="attr">content</span>=<span class="str">"width=device-width, initial-scale=1"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;link</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span> <span class="attr">href</span>=<span class="str">"https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;link</span> <span class="attr">href</span>=<span class="str">"https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;500;600&display=swap"</span> <span class="attr">rel</span>=<span class="str">"stylesheet"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;title&gt;</span>Lumina ... Analytics that work for you<span class="kw">&lt;/title&gt;</span>
+<span class="kw">&lt;/head&gt;</span>
+<span class="kw">&lt;body&gt;</span>
+  <span class="cm">&lt;!-- Components go here --&gt;</span>
+<span class="kw">&lt;/body&gt;</span>
+<span class="kw">&lt;/html&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step-block">
+    <div class="step-header"><div class="step-num">2</div><div><div class="step-title">Add the floating Navbar</div><div class="step-desc">A glassmorphism nav that sticks to the top with a theme toggle button</div></div></div>
+    <div class="step-body">
+      <div class="demo-section" style="margin-bottom:14px">
+        <div class="demo-bar">
+          <div class="demo-bar-dot" style="background:#FF5F57"></div>
+          <div class="demo-bar-dot" style="background:#FEBC2E"></div>
+          <div class="demo-bar-dot" style="background:#28C840"></div>
+          <div class="demo-bar-url">lumina.app</div>
+        </div>
+        <div style="padding:8px 12px">
+          <div style="background:rgba(255,255,255,.75);backdrop-filter:blur(20px);border:1px solid var(--bdr);border-radius:var(--rf);padding:.5rem 1rem;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh2)">
+            <span style="font-family:var(--disp);font-weight:800;font-size:14px">Lumina <span style="color:var(--ac)">.</span></span>
+            <div style="display:flex;gap:6px;font-size:11px;color:var(--tx2)">
+              <span style="padding:.25rem .6rem;border-radius:99px;background:var(--ac-m);color:var(--ac);font-weight:500">Home</span>
+              <span style="padding:.25rem .6rem">Features</span>
+              <span style="padding:.25rem .6rem">Pricing</span>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center">
+              <div style="width:26px;height:26px;border-radius:50%;border:1px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:12px;background:var(--surf)">🌙</div>
+              <button class="gb gb-p gb-sm">Get Started</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="code-wrap" style="margin:0">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code" style="font-size:11.5px"><span class="kw">&lt;nav</span> <span class="attr">class</span>=<span class="str">"g-navbar"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;a</span> <span class="attr">class</span>=<span class="str">"g-navbar-brand"</span> <span class="attr">href</span>=<span class="str">"#"</span><span class="kw">&gt;</span>Lumina<span class="kw">&lt;/a&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-navbar-nav"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;a</span> <span class="attr">class</span>=<span class="str">"g-navbar-link active"</span> <span class="attr">href</span>=<span class="str">"#"</span><span class="kw">&gt;</span>Home<span class="kw">&lt;/a&gt;</span>
+    <span class="kw">&lt;a</span> <span class="attr">class</span>=<span class="str">"g-navbar-link"</span> <span class="attr">href</span>=<span class="str">"#features"</span><span class="kw">&gt;</span>Features<span class="kw">&lt;/a&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+  <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-theme-btn"</span> <span class="attr">onclick</span>=<span class="str">"toggleTheme()"</span><span class="kw">&gt;</span>🌙<span class="kw">&lt;/button&gt;</span>
+  <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary g-btn-sm"</span><span class="kw">&gt;</span>Get Started<span class="kw">&lt;/button&gt;</span>
+<span class="kw">&lt;/nav&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step-block">
+    <div class="step-header"><div class="step-num">3</div><div><div class="step-title">Build the Hero Section</div><div class="step-desc">An animated hero with badge, gradient headline, subtext, and CTA buttons</div></div></div>
+    <div class="step-body">
+      <div class="wf" style="margin-bottom:14px">
+        <div class="wf-hero">
+          <div class="wf-hero-badge"><span style="width:6px;height:6px;background:var(--ac);border-radius:50%;display:inline-block"></span> v2.0 — 200+ Components</div>
+          <div class="wf-hero-h1">Build stunning UIs<br>with <span style="color:var(--ac)">Lumina</span></div>
+          <div class="wf-hero-sub">Modern analytics platform. Real-time dashboards, zero setup time.</div>
+          <div style="display:flex;gap:8px;justify-content:center">
+            <button class="gb gb-p">Explore Features →</button>
+            <button class="gb gb-s">View Demo</button>
+          </div>
+        </div>
+      </div>
+      <div class="code-wrap" style="margin:0">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">HTML</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code" style="font-size:11.5px"><span class="kw">&lt;section</span> <span class="attr">class</span>=<span class="str">"g-hero g-reveal"</span><span class="kw">&gt;</span>
+  <span class="kw">&lt;span</span> <span class="attr">class</span>=<span class="str">"g-hero-badge"</span><span class="kw">&gt;</span>v2.0 · 200+ Components<span class="kw">&lt;/span&gt;</span>
+  <span class="kw">&lt;h1</span> <span class="attr">class</span>=<span class="str">"g-h1 g-gradient-text"</span><span class="kw">&gt;</span>
+    Build stunning UIs with Lumina
+  <span class="kw">&lt;/h1&gt;</span>
+  <span class="kw">&lt;p</span> <span class="attr">class</span>=<span class="str">"g-hero-sub"</span><span class="kw">&gt;</span>Modern analytics platform.<span class="kw">&lt;/p&gt;</span>
+  <span class="kw">&lt;div</span> <span class="attr">class</span>=<span class="str">"g-flex-center g-gap-sm"</span><span class="kw">&gt;</span>
+    <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-primary g-btn-lg"</span><span class="kw">&gt;</span>
+      Explore →
+    <span class="kw">&lt;/button&gt;</span>
+    <span class="kw">&lt;button</span> <span class="attr">class</span>=<span class="str">"g-btn g-btn-secondary g-btn-lg"</span><span class="kw">&gt;</span>
+      View Demo
+    <span class="kw">&lt;/button&gt;</span>
+  <span class="kw">&lt;/div&gt;</span>
+<span class="kw">&lt;/section&gt;</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 8 - Scroll Reveal -->
+  <div class="step-block">
+    <div class="step-header"><div class="step-num">8</div><div><div class="step-title">Add Scroll Reveal Animations</div><div class="step-desc">Wire up the IntersectionObserver so elements fade in as you scroll</div></div></div>
+    <div class="step-body">
+      <div class="code-wrap" style="margin:0">
+        <div class="code-head"><div class="code-dots"><div class="code-dot cd-r"></div><div class="code-dot cd-y"></div><div class="code-dot cd-g"></div></div><span class="code-lang">JavaScript — Add before &lt;/body&gt;</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre class="code"><span class="cm">// Scroll reveal observer</span>
+<span class="kw">const</span> obs = <span class="kw">new</span> <span class="fn">IntersectionObserver</span>(entries => {
+  entries.<span class="fn">forEach</span>(e => {
+    <span class="kw">if</span> (e.isIntersecting) {
+      e.target.classList.<span class="fn">add</span>(<span class="str">'visible'</span>);
+      obs.<span class="fn">unobserve</span>(e.target);
+    }
+  });
+}, { threshold: <span class="str">0.1</span> });
+
+document.<span class="fn">querySelectorAll</span>(<span class="str">'.g-reveal'</span>)
+  .<span class="fn">forEach</span>(el => obs.<span class="fn">observe</span>(el));
+
+<span class="cm">// Dark mode toggle</span>
+<span class="kw">function</span> <span class="fn">toggleTheme</span>() {
+  <span class="kw">const</span> html = document.documentElement;
+  html.dataset.theme =
+    html.dataset.theme === <span class="str">'dark'</span>
+      ? <span class="str">'light'</span> : <span class="str">'dark'</span>;
+}</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL RESULT -->
+  <h3 class="sub" style="margin-top:32px">🎉 Final Result</h3>
+  <div class="wf">
+    <div class="wf-nav">
+      <span class="wf-nav-logo">Lumina ·</span>
+      <div class="wf-nav-links">
+        <span class="wf-nav-link" style="color:rgba(255,255,255,.8)">Home</span>
+        <span class="wf-nav-link">Features</span>
+        <span class="wf-nav-link">Pricing</span>
+      </div>
+      <span class="wf-nav-cta">Start Free</span>
+    </div>
+    <div class="wf-hero">
+      <div class="wf-hero-badge"><span style="width:5px;height:5px;background:var(--ac);border-radius:50%;display:inline-block"></span> AI-powered analytics</div>
+      <div class="wf-hero-h1">Analytics that work<br>for <span style="color:var(--ac)">you</span></div>
+      <div class="wf-hero-sub">Real-time dashboards. Beautiful charts. Zero setup time.</div>
+      <div style="display:flex;gap:8px;justify-content:center;margin-bottom:12px">
+        <button class="gb gb-p">Start Free Trial →</button>
+        <button class="gb gb-s">View Demo</button>
+      </div>
+    </div>
+    <div style="background:var(--surf);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);padding:10px;display:grid;grid-template-columns:repeat(4,1fr);text-align:center;gap:.5rem">
+      <div><div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--ac)">12K+</div><div style="font-size:9px;color:var(--tx3)">Teams</div></div>
+      <div><div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--ac)">$2.4B</div><div style="font-size:9px;color:var(--tx3)">Tracked</div></div>
+      <div><div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--ac)">99.9%</div><div style="font-size:9px;color:var(--tx3)">Uptime</div></div>
+      <div><div style="font-family:var(--disp);font-size:16px;font-weight:800;color:var(--ac)">4.9★</div><div style="font-size:9px;color:var(--tx3)">Rating</div></div>
+    </div>
+    <div class="wf-section">
+      <div class="wf-section-label">Features</div>
+      <div class="wf-section-h">Everything you need</div>
+      <div class="wf-grid">
+        <div class="wf-card"><div class="wf-card-icon">📊</div><div class="wf-card-t">Live Dashboards</div><div class="wf-card-d">Real-time data, sub-second updates</div></div>
+        <div class="wf-card"><div class="wf-card-icon">🤖</div><div class="wf-card-t">AI Insights</div><div class="wf-card-d">Automated anomaly detection</div></div>
+        <div class="wf-card"><div class="wf-card-icon">🌙</div><div class="wf-card-t">Dark Mode</div><div class="wf-card-d">Full theme built-in</div></div>
+        <div class="wf-card"><div class="wf-card-icon">⚡</div><div class="wf-card-t">Zero Setup</div><div class="wf-card-d">Deploy in minutes</div></div>
+        <div class="wf-card"><div class="wf-card-icon">📱</div><div class="wf-card-t">Responsive</div><div class="wf-card-d">All device sizes</div></div>
+        <div class="wf-card"><div class="wf-card-icon">🔒</div><div class="wf-card-t">Secure</div><div class="wf-card-d">SOC 2 certified</div></div>
+      </div>
+    </div>
+    <div style="padding:14px 20px;background:linear-gradient(135deg,var(--ac),var(--ac-d));text-align:center;color:#fff">
+      <div style="font-family:var(--disp);font-size:16px;font-weight:800;margin-bottom:6px">Start building today</div>
+      <button style="background:#fff;color:var(--ac);border:none;padding:.35rem 1rem;border-radius:99px;font-weight:700;font-size:11px;cursor:pointer">Get Started Free →</button>
+    </div>
+    <div class="wf-footer">
+      <div style="font-family:var(--disp);font-weight:800;font-size:12px;color:var(--tx)">Lumina<span style="color:var(--ac)">.</span></div>
+      <div>© 2025 Lumina · Built with Griffin CSS</div>
+    </div>
+  </div>
+
+  <div class="callout callout-tip" style="margin-top:24px">
+    <span class="callout-icon">🚀</span>
+    <span>You've built a complete landing page using Griffin CSS. The entire site is responsive, dark-mode-ready, and animated ... no custom CSS or JavaScript needed beyond the scroll reveal snippet.</span>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="doc-footer">
+  <div class="doc-footer-brand"><span>G</span>riffin CSS</div>
+  <div style="font-size:12px">Complete Developer Reference · 2026</div>
+  <div style="font-size:12px">Developed by <a href="https://ali-ahmad-khan.netlify.app">Ali Ahmad Khan</a></div>
+</footer>
+
+</main>
+</div>
+
+<script>
+// ── DARK MODE ──
+const saved = localStorage.getItem('griffin-theme');
+if(saved) document.documentElement.dataset.theme = saved;
+function toggleTheme(){
+  const h = document.documentElement;
+  const next = h.dataset.theme === 'dark' ? 'light' : 'dark';
+  h.dataset.theme = next;
+  localStorage.setItem('griffin-theme', next);
+  document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
+}
+if(saved === 'dark') document.getElementById('themeBtn').textContent = '☀️';
+
+// ── SCROLL REVEAL ──
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach((e,i) => {
+    if(e.isIntersecting){
+      setTimeout(() => e.target.classList.add('visible'), i * 60);
+      revealObs.unobserve(e.target);
+    }
+  });
+}, {threshold: 0.08});
+document.querySelectorAll('.doc-section').forEach(el => revealObs.observe(el));
+
+// ── READING PROGRESS ──
+const bar = document.getElementById('read-progress');
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  bar.style.width = pct + '%';
+}, {passive: true});
+
+// ── SIDEBAR SCROLL SPY ──
+const sections = document.querySelectorAll('.doc-section[id]');
+const sideLinks = document.querySelectorAll('.side-link');
+const spyObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      sideLinks.forEach(l => l.classList.remove('active'));
+      const match = document.querySelector(`.side-link[onclick*="'${e.target.id}'"]`);
+      if(match) match.classList.add('active');
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+sections.forEach(s => spyObs.observe(s));
+
+// ── SCROLL TO ──
+function scrollTo(id, el){
+  document.getElementById(id)?.scrollIntoView({behavior:'smooth'});
+  if(el){
+    sideLinks.forEach(l => l.classList.remove('active'));
+    el.classList.add('active');
+  }
+  // close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+}
+
+// ── COPY CODE ──
+function copyCode(btn){
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800);
+  });
+}
+
+// ── TOPBAR ACTIVE ──
+function setActive(el){
+  document.querySelectorAll('.topbar-nav a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── MOBILE SIDEBAR ──
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  const sb = document.getElementById('sidebar');
+  const tog = document.getElementById('sidebar-toggle');
+  if(sb.classList.contains('open') && !sb.contains(e.target) && !tog.contains(e.target)){
+    sb.classList.remove('open');
+  }
+});
+
+// ── SEARCH ──
+function handleSearch(q){
+  if(!q.trim()){
+    document.querySelectorAll('.search-highlight').forEach(el => {
+      el.outerHTML = el.textContent;
+    });
+    return;
+  }
+  // simple scroll to first match in sidebar
+  const links = Array.from(sideLinks);
+  const match = links.find(l => l.textContent.toLowerCase().includes(q.toLowerCase()));
+  if(match) match.scrollIntoView({block:'center'});
+}
+
+// ── TOC INTERACTIVE TOGGLES ──
+document.querySelectorAll('.gtgl').forEach(toggle => {
+  toggle.addEventListener('click', () => toggle.classList.toggle('on'));
+});
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

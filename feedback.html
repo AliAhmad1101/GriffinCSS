@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feedback ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* FEEDBACK GRID */
+.feedback-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.feedback-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.feedback-grid{grid-template-columns:1fr}}
+
+/* FEEDBACK TILE */
+.fb-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.fb-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.fb-preview{padding:1.5rem;min-height:210px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.fb-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s}
+.fb-tile:hover .fb-preview::after{transform:translateX(100%)}
+.fb-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.fb-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.fb-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3);display:flex;align-items:center;gap:.25rem}
+
+@keyframes gfn-fb-up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fb-tile{animation:gfn-fb-up .4s ease both}
+.fb-tile:nth-child(1){animation-delay:.05s}.fb-tile:nth-child(2){animation-delay:.1s}.fb-tile:nth-child(3){animation-delay:.15s}
+.fb-tile:nth-child(4){animation-delay:.2s}.fb-tile:nth-child(5){animation-delay:.25s}.fb-tile:nth-child(6){animation-delay:.3s}
+.fb-tile:nth-child(7){animation-delay:.35s}.fb-tile:nth-child(8){animation-delay:.4s}.fb-tile:nth-child(9){animation-delay:.45s}
+.fb-tile:nth-child(10){animation-delay:.5s}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:740px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2}
+.modal-note{margin-top:1rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* =====================================================
+   GRIFFIN CSS — 10 FEEDBACK COMPONENTS
+   ===================================================== */
+
+/* ── SHARED ── */
+.gfnfb-comp{font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.gfnfb-comp *{box-sizing:border-box}
+
+/* 1. Star Rating Widget */
+.gfnfb-stars{display:flex;flex-direction:column;align-items:center;gap:.85rem;background:#fff;padding:1.5rem 1.75rem;border-radius:20px;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;width:260px}
+.gfnfb-stars-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:#0f172a}
+.gfnfb-stars-sub{font-size:.75rem;color:#94a3b8;margin-top:-.5rem}
+.gfnfb-stars-row{display:flex;gap:.3rem}
+.gfnfb-star{font-size:1.8rem;cursor:pointer;transition:transform .2s cubic-bezier(.34,1.56,.64,1),filter .2s;filter:grayscale(1) opacity(.3);line-height:1}
+.gfnfb-star.gfnfb-lit{filter:none}
+.gfnfb-star:hover{transform:scale(1.25) rotate(-5deg)}
+.gfnfb-stars-label{font-size:.78rem;font-weight:600;color:#64748b;min-height:1.2em;transition:all .2s}
+.gfnfb-stars-btn{width:100%;padding:.6rem;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:10px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnfb-stars-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(245,158,11,.4)}
+
+/* 2. Emoji Reaction Bar */
+.gfnfb-emoji-bar{background:#fff;border-radius:20px;padding:1.25rem 1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;text-align:center;width:280px}
+.gfnfb-emoji-bar-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a;margin-bottom:.3rem}
+.gfnfb-emoji-bar-sub{font-size:.73rem;color:#94a3b8;margin-bottom:1rem}
+.gfnfb-emoji-row{display:flex;gap:.2rem;justify-content:center}
+.gfnfb-emoji-btn{display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.5rem .55rem;border-radius:12px;border:1.5px solid transparent;background:none;cursor:pointer;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
+.gfnfb-emoji-btn:hover,.gfnfb-emoji-btn.gfnfb-chosen{background:#f8fafc;border-color:#e2e8f0;transform:translateY(-3px) scale(1.12)}
+.gfnfb-emoji-btn.gfnfb-chosen{border-color:#1E9E8C;background:rgba(30,158,140,.06)}
+.gfnfb-emoji-glyph{font-size:1.6rem;line-height:1}
+.gfnfb-emoji-lbl{font-size:.58rem;font-weight:600;color:#94a3b8}
+.gfnfb-emoji-btn.gfnfb-chosen .gfnfb-emoji-lbl{color:#1E9E8C}
+.gfnfb-emoji-thanks{font-size:.78rem;font-weight:600;color:#1E9E8C;min-height:1.2em;margin-top:.65rem;transition:all .3s}
+
+/* 3. NPS Score Slider */
+.gfnfb-nps{background:#fff;border-radius:20px;padding:1.4rem 1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;width:300px}
+.gfnfb-nps-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a;margin-bottom:.25rem}
+.gfnfb-nps-sub{font-size:.73rem;color:#94a3b8;margin-bottom:1rem}
+.gfnfb-nps-nums{display:grid;grid-template-columns:repeat(11,1fr);gap:3px;margin-bottom:.5rem}
+.gfnfb-nps-num{aspect-ratio:1;border-radius:8px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:.7rem;font-weight:700;color:#94a3b8;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s cubic-bezier(.34,1.56,.64,1)}
+.gfnfb-nps-num:hover{border-color:#1E9E8C;color:#1E9E8C;background:rgba(30,158,140,.08);transform:scale(1.12)}
+.gfnfb-nps-num.gfnfb-sel{background:#1E9E8C;border-color:#1E9E8C;color:#fff;transform:scale(1.15)}
+.gfnfb-nps-labels{display:flex;justify-content:space-between;font-size:.62rem;color:#94a3b8;margin-bottom:.9rem}
+.gfnfb-nps-msg{font-size:.75rem;font-weight:600;text-align:center;min-height:1.1em;color:#64748b;transition:all .25s}
+
+/* 4. Inline Banner Alert */
+.gfnfb-banner{border-radius:14px;padding:.9rem 1.1rem;display:flex;align-items:flex-start;gap:.8rem;font-family:'Inter',system-ui,sans-serif;font-size:.82rem;width:320px;position:relative;overflow:hidden;animation:gfnfb-bannerIn .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes gfnfb-bannerIn{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:translateX(0)}}
+.gfnfb-banner-success{background:#f0fdf4;border:1px solid #86efac}
+.gfnfb-banner-warn{background:#fffbeb;border:1px solid #fde68a}
+.gfnfb-banner-error{background:#fff1f2;border:1px solid #fecdd3}
+.gfnfb-banner-info{background:#eff6ff;border:1px solid #bfdbfe}
+.gfnfb-banner-icon{font-size:1.1rem;flex-shrink:0;margin-top:.05rem}
+.gfnfb-banner-body{flex:1}
+.gfnfb-banner-title{font-weight:700;color:#0f172a;margin-bottom:.15rem}
+.gfnfb-banner-msg{font-size:.76rem;line-height:1.55;color:#475569}
+.gfnfb-banner-close{background:none;border:none;color:#94a3b8;cursor:pointer;font-size:.9rem;line-height:1;padding:.1rem;transition:color .2s;flex-shrink:0;margin-top:.05rem}
+.gfnfb-banner-close:hover{color:#1e293b}
+.gfnfb-banner-accent{position:absolute;left:0;top:0;bottom:0;width:3.5px;border-radius:14px 0 0 14px}
+.gfnfb-banner-success .gfnfb-banner-accent{background:#22c55e}
+.gfnfb-banner-warn .gfnfb-banner-accent{background:#f59e0b}
+.gfnfb-banner-error .gfnfb-banner-accent{background:#f43f5e}
+.gfnfb-banner-info .gfnfb-banner-accent{background:#3b82f6}
+
+/* 5. Progress Upload Feedback */
+.gfnfb-upload{background:#fff;border-radius:20px;padding:1.4rem 1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;width:300px}
+.gfnfb-upload-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a;margin-bottom:1rem}
+.gfnfb-upload-item{margin-bottom:.9rem}
+.gfnfb-upload-item:last-child{margin-bottom:0}
+.gfnfb-upload-row{display:flex;align-items:center;gap:.65rem;margin-bottom:.4rem}
+.gfnfb-upload-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.gfnfb-upload-name{font-size:.78rem;font-weight:600;color:#0f172a;flex:1}
+.gfnfb-upload-size{font-size:.68rem;color:#94a3b8}
+.gfnfb-upload-pct{font-size:.72rem;font-weight:700;color:#1E9E8C}
+.gfnfb-upload-track{height:5px;background:#f1f5f9;border-radius:99px;overflow:hidden}
+.gfnfb-upload-fill{height:100%;border-radius:99px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.gfnfb-upload-fill-active{background:linear-gradient(90deg,#1E9E8C,#28C4AF);animation:gfnfb-shimmer-fill 1.8s infinite}
+@keyframes gfnfb-shimmer-fill{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.gfnfb-upload-fill-done{background:#22c55e}
+.gfnfb-upload-fill-err{background:#f43f5e}
+
+/* 6. Floating Reaction Pill */
+.gfnfb-pill{display:inline-flex;align-items:center;gap:.5rem;background:#fff;border:1.5px solid #e2e8f0;border-radius:99px;padding:.4rem .55rem .4rem .65rem;box-shadow:0 4px 16px rgba(0,0,0,.08);font-family:'Inter',system-ui,sans-serif;font-size:.82rem;color:#0f172a;font-weight:500}
+.gfnfb-pill-reactions{display:flex;gap:.1rem}
+.gfnfb-pill-react{background:none;border:none;font-size:1.1rem;cursor:pointer;padding:.15rem .2rem;border-radius:6px;transition:transform .2s cubic-bezier(.34,1.56,.64,1),background .15s;line-height:1}
+.gfnfb-pill-react:hover{transform:scale(1.35);background:#f1f5f9}
+.gfnfb-pill-react.gfnfb-reacted{transform:scale(1.2)}
+.gfnfb-pill-divider{width:1px;height:18px;background:#e2e8f0;flex-shrink:0}
+.gfnfb-pill-count{font-size:.78rem;font-weight:700;color:#64748b;padding:0 .25rem}
+.gfnfb-pill-share{background:none;border:none;font-size:.78rem;font-weight:600;color:#1E9E8C;cursor:pointer;padding:.15rem .35rem;border-radius:6px;transition:background .15s}
+.gfnfb-pill-share:hover{background:rgba(30,158,140,.08)}
+
+/* 7. Survey Card */
+.gfnfb-survey{background:#fff;border-radius:20px;padding:1.4rem 1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;width:290px}
+.gfnfb-survey-header{display:flex;align-items:center;gap:.65rem;margin-bottom:1rem}
+.gfnfb-survey-icon{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0}
+.gfnfb-survey-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a}
+.gfnfb-survey-sub{font-size:.7rem;color:#94a3b8}
+.gfnfb-survey-q{font-size:.82rem;font-weight:600;color:#0f172a;margin-bottom:.65rem;line-height:1.45}
+.gfnfb-survey-opts{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.gfnfb-survey-opt{display:flex;align-items:center;gap:.6rem;padding:.55rem .75rem;border-radius:10px;border:1.5px solid #e2e8f0;background:#f8fafc;font-size:.8rem;color:#475569;cursor:pointer;transition:all .18s;font-weight:500}
+.gfnfb-survey-opt:hover{border-color:#8b5cf6;background:rgba(139,92,246,.05);color:#0f172a}
+.gfnfb-survey-opt.gfnfb-picked{border-color:#8b5cf6;background:rgba(139,92,246,.08);color:#7c3aed;font-weight:600}
+.gfnfb-survey-opt-dot{width:14px;height:14px;border-radius:50%;border:2px solid #cbd5e1;flex-shrink:0;transition:all .18s;position:relative}
+.gfnfb-survey-opt.gfnfb-picked .gfnfb-survey-opt-dot{border-color:#8b5cf6;background:#8b5cf6}
+.gfnfb-survey-opt.gfnfb-picked .gfnfb-survey-opt-dot::after{content:'';position:absolute;inset:2px;border-radius:50%;background:#fff}
+.gfnfb-survey-btn{width:100%;padding:.6rem;background:linear-gradient(135deg,#8b5cf6,#a78bfa);color:#fff;border:none;border-radius:10px;font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnfb-survey-btn:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(139,92,246,.4)}
+
+/* 8. Status / Health Monitor */
+.gfnfb-status{background:#fff;border-radius:20px;padding:1.25rem 1.4rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;width:290px}
+.gfnfb-status-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.gfnfb-status-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a}
+.gfnfb-status-badge{display:flex;align-items:center;gap:.35rem;font-size:.68rem;font-weight:700;padding:.2rem .6rem;border-radius:99px}
+.gfnfb-status-badge-op{background:#f0fdf4;color:#16a34a}
+.gfnfb-status-badge-deg{background:#fffbeb;color:#b45309}
+.gfnfb-status-badge-down{background:#fff1f2;color:#dc2626}
+.gfnfb-status-badge-dot{width:6px;height:6px;border-radius:50%;animation:gfnfb-pulse-dot 1.8s infinite}
+.gfnfb-status-badge-op .gfnfb-status-badge-dot{background:#22c55e}
+.gfnfb-status-badge-deg .gfnfb-status-badge-dot{background:#f59e0b}
+.gfnfb-status-badge-down .gfnfb-status-badge-dot{background:#ef4444}
+@keyframes gfnfb-pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.gfnfb-status-item{display:flex;align-items:center;gap:.7rem;padding:.5rem 0;border-bottom:1px solid #f8fafc}
+.gfnfb-status-item:last-child{border-bottom:none}
+.gfnfb-status-name{font-size:.8rem;font-weight:500;color:#334155;flex:1}
+.gfnfb-status-bar-wrap{width:80px;height:5px;background:#f1f5f9;border-radius:99px;overflow:hidden}
+.gfnfb-status-bar{height:100%;border-radius:99px}
+.gfnfb-status-bar-g{background:#22c55e}
+.gfnfb-status-bar-y{background:#f59e0b}
+.gfnfb-status-bar-r{background:#f43f5e}
+.gfnfb-status-pct{font-size:.7rem;font-weight:700;color:#64748b;width:3rem;text-align:right}
+.gfnfb-status-uptime{font-size:.68rem;color:#94a3b8;margin-top:.75rem;text-align:center;padding-top:.65rem;border-top:1px solid #f1f5f9}
+
+/* 9. Thumbs Quick Vote */
+.gfnfb-thumbs{background:#fff;border-radius:20px;padding:1.4rem 1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0;width:280px;text-align:center}
+.gfnfb-thumbs-title{font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a;margin-bottom:.3rem}
+.gfnfb-thumbs-sub{font-size:.73rem;color:#94a3b8;margin-bottom:1.1rem}
+.gfnfb-thumbs-row{display:flex;gap:.75rem;justify-content:center;margin-bottom:1rem}
+.gfnfb-thumb-btn{display:flex;flex-direction:column;align-items:center;gap:.35rem;padding:.85rem 1.35rem;border-radius:16px;border:2px solid #e2e8f0;background:#f8fafc;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1)}
+.gfnfb-thumb-btn:hover{transform:translateY(-4px) scale(1.06)}
+.gfnfb-thumb-btn.gfnfb-up:hover,.gfnfb-thumb-btn.gfnfb-up.gfnfb-voted{border-color:#22c55e;background:#f0fdf4}
+.gfnfb-thumb-btn.gfnfb-dn:hover,.gfnfb-thumb-btn.gfnfb-dn.gfnfb-voted{border-color:#f43f5e;background:#fff1f2}
+.gfnfb-thumb-icon{font-size:1.8rem;line-height:1;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gfnfb-thumb-btn:hover .gfnfb-thumb-icon{transform:scale(1.2)}
+.gfnfb-thumb-btn.gfnfb-voted .gfnfb-thumb-icon{transform:scale(1.3) rotate(-5deg)}
+.gfnfb-thumb-count{font-size:.75rem;font-weight:700;color:#64748b}
+.gfnfb-thumb-btn.gfnfb-up.gfnfb-voted .gfnfb-thumb-count{color:#16a34a}
+.gfnfb-thumb-btn.gfnfb-dn.gfnfb-voted .gfnfb-thumb-count{color:#dc2626}
+.gfnfb-thumbs-result{font-size:.78rem;color:#64748b;min-height:1.2em;transition:all .3s}
+.gfnfb-thumbs-result strong{color:#1E9E8C}
+
+/* 10. Feedback Bubble Widget */
+.gfnfb-bubble{background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.12);border:1px solid #e2e8f0;width:280px;overflow:hidden;font-family:'Inter',system-ui,sans-serif}
+.gfnfb-bubble-header{background:linear-gradient(135deg,#1E9E8C,#28C4AF);padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between}
+.gfnfb-bubble-header-left{display:flex;align-items:center;gap:.6rem}
+.gfnfb-bubble-avatar{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1rem;border:2px solid rgba(255,255,255,.4)}
+.gfnfb-bubble-name{font-weight:700;font-size:.83rem;color:#fff}
+.gfnfb-bubble-status{font-size:.65rem;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:.3rem}
+.gfnfb-bubble-status-dot{width:5px;height:5px;border-radius:50%;background:#86efac}
+.gfnfb-bubble-min{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:1rem;line-height:1;transition:color .2s}
+.gfnfb-bubble-min:hover{color:#fff}
+.gfnfb-bubble-body{padding:.9rem 1.1rem}
+.gfnfb-bubble-msg{background:#f8fafc;border-radius:12px 12px 12px 4px;padding:.7rem .9rem;font-size:.8rem;color:#334155;line-height:1.6;margin-bottom:.75rem}
+.gfnfb-bubble-options{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.75rem}
+.gfnfb-bubble-opt{padding:.5rem .8rem;border-radius:99px;border:1.5px solid #e2e8f0;background:#fff;font-size:.76rem;font-weight:600;color:#475569;cursor:pointer;text-align:left;transition:all .18s}
+.gfnfb-bubble-opt:hover{border-color:#1E9E8C;color:#1E9E8C;background:rgba(30,158,140,.05)}
+.gfnfb-bubble-input-row{display:flex;gap:.5rem}
+.gfnfb-bubble-input{flex:1;padding:.5rem .8rem;border-radius:10px;border:1.5px solid #e2e8f0;font-size:.78rem;font-family:'Inter',sans-serif;outline:none;color:#0f172a;transition:border-color .2s}
+.gfnfb-bubble-input:focus{border-color:#1E9E8C}
+.gfnfb-bubble-send{width:34px;height:34px;border-radius:10px;background:#1E9E8C;border:none;color:#fff;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s}
+.gfnfb-bubble-send:hover{background:#167A6C;transform:scale(1.08)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Patterns / Feedback</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link active" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Feedback</div>
+    <p class="page-sub">
+      <span>10 animated feedback components</span> ... click any tile to view &amp; copy its HTML. 
+    </p>
+  </div>
+  <div class="feedback-grid" id="feedback-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Feedback HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your &lt;head&gt;. All feedback classes are prefixed <code>gfnfb-</code> to guarantee zero collisions.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ITEMS = [
+{
+  name:'Star Rating',tag:'Rating',bg:'linear-gradient(135deg,#fffbeb,#fef3c7)',
+  preview:`<div class="gfnfb-stars gfnfb-comp" id="pr-stars">
+  <div class="gfnfb-stars-title">Rate your experience</div>
+  <div class="gfnfb-stars-sub">How did we do today?</div>
+  <div class="gfnfb-stars-row">
+    <span class="gfnfb-star" data-v="1">⭐</span>
+    <span class="gfnfb-star gfnfb-lit" data-v="2">⭐</span>
+    <span class="gfnfb-star gfnfb-lit" data-v="3">⭐</span>
+    <span class="gfnfb-star gfnfb-lit" data-v="4">⭐</span>
+    <span class="gfnfb-star" data-v="5">⭐</span>
+  </div>
+  <div class="gfnfb-stars-label">Pretty good!</div>
+  <button class="gfnfb-stars-btn">Submit Rating</button>
+</div>`,
+  html:`<div class="gfnfb-stars gfnfb-comp" id="myStars">
+  <div class="gfnfb-stars-title">Rate your experience</div>
+  <div class="gfnfb-stars-sub">How did we do today?</div>
+  <div class="gfnfb-stars-row">
+    <span class="gfnfb-star" data-v="1">⭐</span>
+    <span class="gfnfb-star" data-v="2">⭐</span>
+    <span class="gfnfb-star" data-v="3">⭐</span>
+    <span class="gfnfb-star" data-v="4">⭐</span>
+    <span class="gfnfb-star" data-v="5">⭐</span>
+  </div>
+  <div class="gfnfb-stars-label" id="myStarsLabel">Tap a star</div>
+  <button class="gfnfb-stars-btn">Submit Rating</button>
+</div>
+
+<script>
+  const labels = ['','Terrible 😞','Poor 😕','Okay 😐','Good 😊','Amazing! 🤩'];
+  let chosen = 0;
+  document.querySelectorAll('#myStars .gfnfb-star').forEach(s => {
+    s.addEventListener('click', () => {
+      chosen = +s.dataset.v;
+      document.querySelectorAll('#myStars .gfnfb-star')
+        .forEach(x => x.classList.toggle('gfnfb-lit', +x.dataset.v <= chosen));
+      document.getElementById('myStarsLabel').textContent = labels[chosen];
+    });
+  });
+<\/script>`
+},
+{
+  name:'Emoji Reactions',tag:'Reaction',bg:'linear-gradient(135deg,#fdf4ff,#fae8ff)',
+  preview:`<div class="gfnfb-emoji-bar gfnfb-comp">
+  <div class="gfnfb-emoji-bar-title">How useful was this?</div>
+  <div class="gfnfb-emoji-bar-sub">Pick your reaction below</div>
+  <div class="gfnfb-emoji-row">
+    <button class="gfnfb-emoji-btn"><span class="gfnfb-emoji-glyph">😡</span><span class="gfnfb-emoji-lbl">Awful</span></button>
+    <button class="gfnfb-emoji-btn"><span class="gfnfb-emoji-glyph">😕</span><span class="gfnfb-emoji-lbl">Meh</span></button>
+    <button class="gfnfb-emoji-btn gfnfb-chosen"><span class="gfnfb-emoji-glyph">😐</span><span class="gfnfb-emoji-lbl">Okay</span></button>
+    <button class="gfnfb-emoji-btn"><span class="gfnfb-emoji-glyph">😊</span><span class="gfnfb-emoji-lbl">Good</span></button>
+    <button class="gfnfb-emoji-btn"><span class="gfnfb-emoji-glyph">🤩</span><span class="gfnfb-emoji-lbl">Love it</span></button>
+  </div>
+  <div class="gfnfb-emoji-thanks">You chose: Okay</div>
+</div>`,
+  html:`<div class="gfnfb-emoji-bar gfnfb-comp" id="myEmoji">
+  <div class="gfnfb-emoji-bar-title">How useful was this?</div>
+  <div class="gfnfb-emoji-bar-sub">Pick your reaction below</div>
+  <div class="gfnfb-emoji-row">
+    <button class="gfnfb-emoji-btn" data-label="Awful"><span class="gfnfb-emoji-glyph">😡</span><span class="gfnfb-emoji-lbl">Awful</span></button>
+    <button class="gfnfb-emoji-btn" data-label="Meh"><span class="gfnfb-emoji-glyph">😕</span><span class="gfnfb-emoji-lbl">Meh</span></button>
+    <button class="gfnfb-emoji-btn" data-label="Okay"><span class="gfnfb-emoji-glyph">😐</span><span class="gfnfb-emoji-lbl">Okay</span></button>
+    <button class="gfnfb-emoji-btn" data-label="Good"><span class="gfnfb-emoji-glyph">😊</span><span class="gfnfb-emoji-lbl">Good</span></button>
+    <button class="gfnfb-emoji-btn" data-label="Love it"><span class="gfnfb-emoji-glyph">🤩</span><span class="gfnfb-emoji-lbl">Love it</span></button>
+  </div>
+  <div class="gfnfb-emoji-thanks" id="myEmojiThanks"></div>
+</div>
+
+<script>
+  document.querySelectorAll('#myEmoji .gfnfb-emoji-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#myEmoji .gfnfb-emoji-btn')
+        .forEach(x => x.classList.remove('gfnfb-chosen'));
+      b.classList.add('gfnfb-chosen');
+      document.getElementById('myEmojiThanks').textContent =
+        'Thanks! You chose: ' + b.dataset.label;
+    });
+  });
+<\/script>`
+},
+{
+  name:'NPS Score',tag:'Survey',bg:'linear-gradient(135deg,#eff6ff,#dbeafe)',
+  preview:`<div class="gfnfb-nps gfnfb-comp">
+  <div class="gfnfb-nps-title">Would you recommend us?</div>
+  <div class="gfnfb-nps-sub">On a scale of 0–10</div>
+  <div class="gfnfb-nps-nums">
+    ${[0,1,2,3,4,5,6,7,8,9,10].map(n=>`<div class="gfnfb-nps-num${n===8?' gfnfb-sel':''}">${n}</div>`).join('')}
+  </div>
+  <div class="gfnfb-nps-labels"><span>Not likely</span><span>Extremely likely</span></div>
+  <div class="gfnfb-nps-msg">You selected 8 — Promoter 🎉</div>
+</div>`,
+  html:`<div class="gfnfb-nps gfnfb-comp" id="myNPS">
+  <div class="gfnfb-nps-title">Would you recommend us?</div>
+  <div class="gfnfb-nps-sub">On a scale of 0–10</div>
+  <div class="gfnfb-nps-nums">
+    <div class="gfnfb-nps-num" data-n="0">0</div>
+    <div class="gfnfb-nps-num" data-n="1">1</div>
+    <div class="gfnfb-nps-num" data-n="2">2</div>
+    <div class="gfnfb-nps-num" data-n="3">3</div>
+    <div class="gfnfb-nps-num" data-n="4">4</div>
+    <div class="gfnfb-nps-num" data-n="5">5</div>
+    <div class="gfnfb-nps-num" data-n="6">6</div>
+    <div class="gfnfb-nps-num" data-n="7">7</div>
+    <div class="gfnfb-nps-num" data-n="8">8</div>
+    <div class="gfnfb-nps-num" data-n="9">9</div>
+    <div class="gfnfb-nps-num" data-n="10">10</div>
+  </div>
+  <div class="gfnfb-nps-labels"><span>Not likely</span><span>Extremely likely</span></div>
+  <div class="gfnfb-nps-msg" id="myNPSMsg">Select a score</div>
+</div>
+
+<script>
+  const npsLabels = {0:'Detractor 😞',1:'Detractor 😞',2:'Detractor 😞',3:'Detractor 😞',
+    4:'Detractor 😞',5:'Detractor 😞',6:'Detractor 😞',7:'Passive 😐',8:'Promoter 🎉',
+    9:'Promoter 🎉',10:'Promoter 🎉'};
+  document.querySelectorAll('#myNPS .gfnfb-nps-num').forEach(el => {
+    el.addEventListener('click', () => {
+      document.querySelectorAll('#myNPS .gfnfb-nps-num')
+        .forEach(x => x.classList.remove('gfnfb-sel'));
+      el.classList.add('gfnfb-sel');
+      document.getElementById('myNPSMsg').textContent =
+        'You selected ' + el.dataset.n + ' — ' + npsLabels[el.dataset.n];
+    });
+  });
+<\/script>`
+},
+{
+  name:'Inline Banner Alert',tag:'Alert',bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  preview:`<div style="display:flex;flex-direction:column;gap:.6rem">
+  <div class="gfnfb-banner gfnfb-banner-success gfnfb-comp">
+    <div class="gfnfb-banner-accent"></div>
+    <span class="gfnfb-banner-icon">✅</span>
+    <div class="gfnfb-banner-body"><div class="gfnfb-banner-title">Deployed!</div><div class="gfnfb-banner-msg">v2.4.1 is live on production.</div></div>
+    <button class="gfnfb-banner-close">✕</button>
+  </div>
+  <div class="gfnfb-banner gfnfb-banner-warn gfnfb-comp" style="animation-delay:.08s">
+    <div class="gfnfb-banner-accent"></div>
+    <span class="gfnfb-banner-icon">⚠️</span>
+    <div class="gfnfb-banner-body"><div class="gfnfb-banner-title">Usage Warning</div><div class="gfnfb-banner-msg">You're at 87% of your plan limit.</div></div>
+    <button class="gfnfb-banner-close">✕</button>
+  </div>
+  <div class="gfnfb-banner gfnfb-banner-error gfnfb-comp" style="animation-delay:.16s">
+    <div class="gfnfb-banner-accent"></div>
+    <span class="gfnfb-banner-icon">🔴</span>
+    <div class="gfnfb-banner-body"><div class="gfnfb-banner-title">Build Failed</div><div class="gfnfb-banner-msg">Check logs for more details.</div></div>
+    <button class="gfnfb-banner-close">✕</button>
+  </div>
+</div>`,
+  html:`<!-- Success Banner -->
+<div class="gfnfb-banner gfnfb-banner-success gfnfb-comp">
+  <div class="gfnfb-banner-accent"></div>
+  <span class="gfnfb-banner-icon">✅</span>
+  <div class="gfnfb-banner-body">
+    <div class="gfnfb-banner-title">Deployed successfully!</div>
+    <div class="gfnfb-banner-msg">v2.4.1 is now live on production.</div>
+  </div>
+  <button class="gfnfb-banner-close" onclick="this.closest('.gfnfb-banner').remove()">✕</button>
+</div>
+
+<!-- Warning Banner -->
+<div class="gfnfb-banner gfnfb-banner-warn gfnfb-comp">
+  <div class="gfnfb-banner-accent"></div>
+  <span class="gfnfb-banner-icon">⚠️</span>
+  <div class="gfnfb-banner-body">
+    <div class="gfnfb-banner-title">Usage Warning</div>
+    <div class="gfnfb-banner-msg">You're at 87% of your monthly plan limit.</div>
+  </div>
+  <button class="gfnfb-banner-close" onclick="this.closest('.gfnfb-banner').remove()">✕</button>
+</div>
+
+<!-- Error Banner -->
+<div class="gfnfb-banner gfnfb-banner-error gfnfb-comp">
+  <div class="gfnfb-banner-accent"></div>
+  <span class="gfnfb-banner-icon">🔴</span>
+  <div class="gfnfb-banner-body">
+    <div class="gfnfb-banner-title">Build Failed</div>
+    <div class="gfnfb-banner-msg">Check your build logs for more details.</div>
+  </div>
+  <button class="gfnfb-banner-close" onclick="this.closest('.gfnfb-banner').remove()">✕</button>
+</div>
+
+<!-- Info Banner -->
+<div class="gfnfb-banner gfnfb-banner-info gfnfb-comp">
+  <div class="gfnfb-banner-accent"></div>
+  <span class="gfnfb-banner-icon">ℹ️</span>
+  <div class="gfnfb-banner-body">
+    <div class="gfnfb-banner-title">Scheduled Maintenance</div>
+    <div class="gfnfb-banner-msg">Downtime expected Sunday 2–4 AM UTC.</div>
+  </div>
+  <button class="gfnfb-banner-close" onclick="this.closest('.gfnfb-banner').remove()">✕</button>
+</div>`
+},
+{
+  name:'Upload Progress',tag:'Progress',bg:'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  preview:`<div class="gfnfb-upload gfnfb-comp">
+  <div class="gfnfb-upload-title">Uploading files…</div>
+  <div class="gfnfb-upload-item">
+    <div class="gfnfb-upload-row">
+      <div class="gfnfb-upload-icon" style="background:#ede9fe">📄</div>
+      <span class="gfnfb-upload-name">design-system.fig</span>
+      <span class="gfnfb-upload-size">4.2 MB</span>
+      <span class="gfnfb-upload-pct">72%</span>
+    </div>
+    <div class="gfnfb-upload-track"><div class="gfnfb-upload-fill gfnfb-upload-fill-active" style="width:72%"></div></div>
+  </div>
+  <div class="gfnfb-upload-item">
+    <div class="gfnfb-upload-row">
+      <div class="gfnfb-upload-icon" style="background:#dcfce7">🖼</div>
+      <span class="gfnfb-upload-name">hero-banner.png</span>
+      <span class="gfnfb-upload-size">1.1 MB</span>
+      <span class="gfnfb-upload-pct" style="color:#22c55e">Done</span>
+    </div>
+    <div class="gfnfb-upload-track"><div class="gfnfb-upload-fill gfnfb-upload-fill-done" style="width:100%"></div></div>
+  </div>
+  <div class="gfnfb-upload-item">
+    <div class="gfnfb-upload-row">
+      <div class="gfnfb-upload-icon" style="background:#fff1f2">📦</div>
+      <span class="gfnfb-upload-name">archive.zip</span>
+      <span class="gfnfb-upload-size">18 MB</span>
+      <span class="gfnfb-upload-pct" style="color:#f43f5e">Error</span>
+    </div>
+    <div class="gfnfb-upload-track"><div class="gfnfb-upload-fill gfnfb-upload-fill-err" style="width:35%"></div></div>
+  </div>
+</div>`,
+  html:`<div class="gfnfb-upload gfnfb-comp">
+  <div class="gfnfb-upload-title">Uploading files…</div>
+
+  <!-- In progress -->
+  <div class="gfnfb-upload-item">
+    <div class="gfnfb-upload-row">
+      <div class="gfnfb-upload-icon" style="background:#ede9fe">📄</div>
+      <span class="gfnfb-upload-name">design-system.fig</span>
+      <span class="gfnfb-upload-size">4.2 MB</span>
+      <span class="gfnfb-upload-pct">72%</span>
+    </div>
+    <div class="gfnfb-upload-track">
+      <div class="gfnfb-upload-fill gfnfb-upload-fill-active" style="width:72%"></div>
+    </div>
+  </div>
+
+  <!-- Complete -->
+  <div class="gfnfb-upload-item">
+    <div class="gfnfb-upload-row">
+      <div class="gfnfb-upload-icon" style="background:#dcfce7">🖼</div>
+      <span class="gfnfb-upload-name">hero-banner.png</span>
+      <span class="gfnfb-upload-size">1.1 MB</span>
+      <span class="gfnfb-upload-pct" style="color:#22c55e">Done ✓</span>
+    </div>
+    <div class="gfnfb-upload-track">
+      <div class="gfnfb-upload-fill gfnfb-upload-fill-done" style="width:100%"></div>
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="gfnfb-upload-item">
+    <div class="gfnfb-upload-row">
+      <div class="gfnfb-upload-icon" style="background:#fff1f2">📦</div>
+      <span class="gfnfb-upload-name">archive.zip</span>
+      <span class="gfnfb-upload-size">18 MB</span>
+      <span class="gfnfb-upload-pct" style="color:#f43f5e">Error</span>
+    </div>
+    <div class="gfnfb-upload-track">
+      <div class="gfnfb-upload-fill gfnfb-upload-fill-err" style="width:35%"></div>
+    </div>
+  </div>
+</div>`
+},
+{
+  name:'Reaction Pill',tag:'Micro',bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  preview:`<div style="display:flex;flex-direction:column;gap:.8rem;align-items:center">
+  <div class="gfnfb-pill gfnfb-comp">
+    <span style="font-size:.8rem;color:#64748b;font-weight:500">Was this helpful?</span>
+    <div class="gfnfb-pill-divider"></div>
+    <div class="gfnfb-pill-reactions">
+      <button class="gfnfb-pill-react gfnfb-reacted">👍</button>
+      <button class="gfnfb-pill-react">👎</button>
+    </div>
+    <div class="gfnfb-pill-divider"></div>
+    <span class="gfnfb-pill-count">142</span>
+    <div class="gfnfb-pill-divider"></div>
+    <button class="gfnfb-pill-share">Share</button>
+  </div>
+  <div class="gfnfb-pill gfnfb-comp">
+    <span style="font-size:.8rem;color:#64748b;font-weight:500">React</span>
+    <div class="gfnfb-pill-divider"></div>
+    <div class="gfnfb-pill-reactions">
+      <button class="gfnfb-pill-react">❤️</button>
+      <button class="gfnfb-pill-react">🔥</button>
+      <button class="gfnfb-pill-react gfnfb-reacted">🎉</button>
+      <button class="gfnfb-pill-react">😮</button>
+    </div>
+    <div class="gfnfb-pill-divider"></div>
+    <span class="gfnfb-pill-count">38</span>
+  </div>
+</div>`,
+  html:`<!-- Simple helpful pill -->
+<div class="gfnfb-pill gfnfb-comp">
+  <span style="font-size:.8rem;color:#64748b;font-weight:500">Was this helpful?</span>
+  <div class="gfnfb-pill-divider"></div>
+  <div class="gfnfb-pill-reactions">
+    <button class="gfnfb-pill-react"
+      onclick="this.classList.toggle('gfnfb-reacted')">👍</button>
+    <button class="gfnfb-pill-react"
+      onclick="this.classList.toggle('gfnfb-reacted')">👎</button>
+  </div>
+  <div class="gfnfb-pill-divider"></div>
+  <span class="gfnfb-pill-count">142</span>
+  <div class="gfnfb-pill-divider"></div>
+  <button class="gfnfb-pill-share">Share</button>
+</div>
+
+<!-- Multi-react pill -->
+<div class="gfnfb-pill gfnfb-comp">
+  <span style="font-size:.8rem;color:#64748b;font-weight:500">React</span>
+  <div class="gfnfb-pill-divider"></div>
+  <div class="gfnfb-pill-reactions">
+    <button class="gfnfb-pill-react"
+      onclick="this.classList.toggle('gfnfb-reacted')">❤️</button>
+    <button class="gfnfb-pill-react"
+      onclick="this.classList.toggle('gfnfb-reacted')">🔥</button>
+    <button class="gfnfb-pill-react"
+      onclick="this.classList.toggle('gfnfb-reacted')">🎉</button>
+    <button class="gfnfb-pill-react"
+      onclick="this.classList.toggle('gfnfb-reacted')">😮</button>
+  </div>
+  <div class="gfnfb-pill-divider"></div>
+  <span class="gfnfb-pill-count">38</span>
+</div>`
+},
+{
+  name:'Survey Card',tag:'Survey',bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  preview:`<div class="gfnfb-survey gfnfb-comp">
+  <div class="gfnfb-survey-header">
+    <div class="gfnfb-survey-icon">📋</div>
+    <div><div class="gfnfb-survey-title">Quick Survey</div><div class="gfnfb-survey-sub">30 seconds · anonymous</div></div>
+  </div>
+  <div class="gfnfb-survey-q">What best describes your role?</div>
+  <div class="gfnfb-survey-opts">
+    <div class="gfnfb-survey-opt gfnfb-picked"><span class="gfnfb-survey-opt-dot"></span>Frontend Developer</div>
+    <div class="gfnfb-survey-opt"><span class="gfnfb-survey-opt-dot"></span>UI/UX Designer</div>
+    <div class="gfnfb-survey-opt"><span class="gfnfb-survey-opt-dot"></span>Product Manager</div>
+    <div class="gfnfb-survey-opt"><span class="gfnfb-survey-opt-dot"></span>Other</div>
+  </div>
+  <button class="gfnfb-survey-btn">Submit Answer →</button>
+</div>`,
+  html:`<div class="gfnfb-survey gfnfb-comp">
+  <div class="gfnfb-survey-header">
+    <div class="gfnfb-survey-icon">📋</div>
+    <div>
+      <div class="gfnfb-survey-title">Quick Survey</div>
+      <div class="gfnfb-survey-sub">30 seconds · anonymous</div>
+    </div>
+  </div>
+  <div class="gfnfb-survey-q">What best describes your role?</div>
+  <div class="gfnfb-survey-opts">
+    <div class="gfnfb-survey-opt" onclick="gfnfbPick(this)">
+      <span class="gfnfb-survey-opt-dot"></span>Frontend Developer
+    </div>
+    <div class="gfnfb-survey-opt" onclick="gfnfbPick(this)">
+      <span class="gfnfb-survey-opt-dot"></span>UI/UX Designer
+    </div>
+    <div class="gfnfb-survey-opt" onclick="gfnfbPick(this)">
+      <span class="gfnfb-survey-opt-dot"></span>Product Manager
+    </div>
+    <div class="gfnfb-survey-opt" onclick="gfnfbPick(this)">
+      <span class="gfnfb-survey-opt-dot"></span>Other
+    </div>
+  </div>
+  <button class="gfnfb-survey-btn">Submit Answer →</button>
+</div>
+
+<script>
+  function gfnfbPick(el) {
+    el.closest('.gfnfb-survey-opts')
+      .querySelectorAll('.gfnfb-survey-opt')
+      .forEach(o => o.classList.remove('gfnfb-picked'));
+    el.classList.add('gfnfb-picked');
+  }
+<\/script>`
+},
+{
+  name:'Status Monitor',tag:'Status',bg:'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  preview:`<div class="gfnfb-status gfnfb-comp">
+  <div class="gfnfb-status-header">
+    <div class="gfnfb-status-title">System Status</div>
+    <div class="gfnfb-status-badge gfnfb-status-badge-op"><div class="gfnfb-status-badge-dot"></div>Operational</div>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">API Gateway</span>
+    <div class="gfnfb-status-bar-wrap"><div class="gfnfb-status-bar gfnfb-status-bar-g" style="width:99%"></div></div>
+    <span class="gfnfb-status-pct">99.9%</span>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">CDN</span>
+    <div class="gfnfb-status-bar-wrap"><div class="gfnfb-status-bar gfnfb-status-bar-g" style="width:100%"></div></div>
+    <span class="gfnfb-status-pct">100%</span>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">Database</span>
+    <div class="gfnfb-status-bar-wrap"><div class="gfnfb-status-bar gfnfb-status-bar-y" style="width:91%"></div></div>
+    <span class="gfnfb-status-pct">91%</span>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">Webhooks</span>
+    <div class="gfnfb-status-bar-wrap"><div class="gfnfb-status-bar gfnfb-status-bar-g" style="width:98%"></div></div>
+    <span class="gfnfb-status-pct">98.4%</span>
+  </div>
+  <div class="gfnfb-status-uptime">Last 90 days · Updated 2 min ago</div>
+</div>`,
+  html:`<div class="gfnfb-status gfnfb-comp">
+  <div class="gfnfb-status-header">
+    <div class="gfnfb-status-title">System Status</div>
+    <div class="gfnfb-status-badge gfnfb-status-badge-op">
+      <div class="gfnfb-status-badge-dot"></div>Operational
+    </div>
+    <!-- Swap badge class for degraded: gfnfb-status-badge-deg -->
+    <!-- Swap badge class for outage:   gfnfb-status-badge-down -->
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">API Gateway</span>
+    <div class="gfnfb-status-bar-wrap">
+      <div class="gfnfb-status-bar gfnfb-status-bar-g" style="width:99%"></div>
+    </div>
+    <span class="gfnfb-status-pct">99.9%</span>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">CDN</span>
+    <div class="gfnfb-status-bar-wrap">
+      <div class="gfnfb-status-bar gfnfb-status-bar-g" style="width:100%"></div>
+    </div>
+    <span class="gfnfb-status-pct">100%</span>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">Database</span>
+    <div class="gfnfb-status-bar-wrap">
+      <div class="gfnfb-status-bar gfnfb-status-bar-y" style="width:91%"></div>
+      <!-- Green bar: gfnfb-status-bar-g / Yellow: gfnfb-status-bar-y / Red: gfnfb-status-bar-r -->
+    </div>
+    <span class="gfnfb-status-pct">91%</span>
+  </div>
+  <div class="gfnfb-status-item">
+    <span class="gfnfb-status-name">Webhooks</span>
+    <div class="gfnfb-status-bar-wrap">
+      <div class="gfnfb-status-bar gfnfb-status-bar-g" style="width:98%"></div>
+    </div>
+    <span class="gfnfb-status-pct">98.4%</span>
+  </div>
+  <div class="gfnfb-status-uptime">Last 90 days · Updated 2 min ago</div>
+</div>`
+},
+{
+  name:'Thumbs Vote',tag:'Vote',bg:'linear-gradient(135deg,#fff7ed,#ffedd5)',
+  preview:`<div class="gfnfb-thumbs gfnfb-comp">
+  <div class="gfnfb-thumbs-title">Was this article helpful?</div>
+  <div class="gfnfb-thumbs-sub">Your vote helps us improve the docs</div>
+  <div class="gfnfb-thumbs-row">
+    <button class="gfnfb-thumb-btn gfnfb-up gfnfb-voted">
+      <span class="gfnfb-thumb-icon">👍</span>
+      <span class="gfnfb-thumb-count">248</span>
+    </button>
+    <button class="gfnfb-thumb-btn gfnfb-dn">
+      <span class="gfnfb-thumb-icon">👎</span>
+      <span class="gfnfb-thumb-count">12</span>
+    </button>
+  </div>
+  <div class="gfnfb-thumbs-result">Thanks! <strong>96%</strong> of readers found this helpful.</div>
+</div>`,
+  html:`<div class="gfnfb-thumbs gfnfb-comp" id="myThumbs">
+  <div class="gfnfb-thumbs-title">Was this article helpful?</div>
+  <div class="gfnfb-thumbs-sub">Your vote helps us improve the docs</div>
+  <div class="gfnfb-thumbs-row">
+    <button class="gfnfb-thumb-btn gfnfb-up" id="thumbUp" onclick="gfnfbVote('up')">
+      <span class="gfnfb-thumb-icon">👍</span>
+      <span class="gfnfb-thumb-count" id="upCount">248</span>
+    </button>
+    <button class="gfnfb-thumb-btn gfnfb-dn" id="thumbDn" onclick="gfnfbVote('dn')">
+      <span class="gfnfb-thumb-icon">👎</span>
+      <span class="gfnfb-thumb-count" id="dnCount">12</span>
+    </button>
+  </div>
+  <div class="gfnfb-thumbs-result" id="thumbsResult"></div>
+</div>
+
+<script>
+  let voted = null;
+  let up = 248, dn = 12;
+  function gfnfbVote(dir) {
+    if (voted === dir) return;
+    if (voted) { if (voted==='up') up--; else dn--; }
+    voted = dir;
+    if (dir === 'up') up++; else dn++;
+    document.getElementById('upCount').textContent = up;
+    document.getElementById('dnCount').textContent = dn;
+    document.getElementById('thumbUp').classList.toggle('gfnfb-voted', dir==='up');
+    document.getElementById('thumbDn').classList.toggle('gfnfb-voted', dir==='dn');
+    const pct = Math.round(up/(up+dn)*100);
+    document.getElementById('thumbsResult').innerHTML =
+      'Thanks! <strong>' + pct + '%</strong> of readers found this helpful.';
+  }
+<\/script>`
+},
+{
+  name:'Feedback Bubble',tag:'Chat',bg:'linear-gradient(135deg,#e0fdf4,#ccfbf1)',
+  preview:`<div class="gfnfb-bubble gfnfb-comp">
+  <div class="gfnfb-bubble-header">
+    <div class="gfnfb-bubble-header-left">
+      <div class="gfnfb-bubble-avatar">🤖</div>
+      <div>
+        <div class="gfnfb-bubble-name">Griffin Support</div>
+        <div class="gfnfb-bubble-status"><div class="gfnfb-bubble-status-dot"></div>Online now</div>
+      </div>
+    </div>
+    <button class="gfnfb-bubble-min">−</button>
+  </div>
+  <div class="gfnfb-bubble-body">
+    <div class="gfnfb-bubble-msg">👋 Hi! How can we help you today? Pick an option or type below.</div>
+    <div class="gfnfb-bubble-options">
+      <button class="gfnfb-bubble-opt">💬 Start a live chat</button>
+      <button class="gfnfb-bubble-opt">📖 Browse the docs</button>
+      <button class="gfnfb-bubble-opt">🐛 Report a bug</button>
+    </div>
+    <div class="gfnfb-bubble-input-row">
+      <input class="gfnfb-bubble-input" type="text" placeholder="Type a message…">
+      <button class="gfnfb-bubble-send">→</button>
+    </div>
+  </div>
+</div>`,
+  html:`<div class="gfnfb-bubble gfnfb-comp">
+  <div class="gfnfb-bubble-header">
+    <div class="gfnfb-bubble-header-left">
+      <div class="gfnfb-bubble-avatar">🤖</div>
+      <div>
+        <div class="gfnfb-bubble-name">Griffin Support</div>
+        <div class="gfnfb-bubble-status">
+          <div class="gfnfb-bubble-status-dot"></div>Online now
+        </div>
+      </div>
+    </div>
+    <button class="gfnfb-bubble-min">−</button>
+  </div>
+  <div class="gfnfb-bubble-body">
+    <div class="gfnfb-bubble-msg">
+      👋 Hi! How can we help you today?
+      Pick an option or type your question below.
+    </div>
+    <div class="gfnfb-bubble-options">
+      <button class="gfnfb-bubble-opt">💬 Start a live chat</button>
+      <button class="gfnfb-bubble-opt">📖 Browse the docs</button>
+      <button class="gfnfb-bubble-opt">🐛 Report a bug</button>
+    </div>
+    <div class="gfnfb-bubble-input-row">
+      <input class="gfnfb-bubble-input" type="text" placeholder="Type a message…">
+      <button class="gfnfb-bubble-send">→</button>
+    </div>
+  </div>
+</div>`
+}
+];
+
+const grid = document.getElementById('feedback-grid');
+ITEMS.forEach(item => {
+  const tile = document.createElement('div');
+  tile.className = 'fb-tile';
+  tile.innerHTML = `
+    <div class="fb-preview" style="background:${item.bg}">${item.preview}</div>
+    <div class="fb-meta">
+      <span class="fb-name">${item.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="fb-tag">${item.tag}</span>
+        <span class="click-hint">🖱 Click</span>
+      </div>
+    </div>`;
+  tile.addEventListener('click', () => openModal(item));
+  grid.appendChild(tile);
+});
+
+let currentCode = '';
+function openModal(item) {
+  currentCode = item.html;
+  document.getElementById('modal-title').textContent = item.name;
+  document.getElementById('modal-subtitle').textContent = `${item.tag} component — copy & customize`;
+  document.getElementById('modal-code').textContent = item.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('copy-btn').textContent = 'Copy Code';
+  document.getElementById('copy-btn').classList.remove('copied');
+}
+function copyCode() {
+  navigator.clipboard.writeText(currentCode).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if(s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

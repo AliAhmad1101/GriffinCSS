@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactions ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* INTERACTIONS GRID */
+.ix-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.ix-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.ix-grid{grid-template-columns:1fr}}
+
+/* TILE */
+.ix-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.ix-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.ix-preview{padding:2rem 1.5rem;min-height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;cursor:default}
+.ix-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s;pointer-events:none}
+.ix-tile:hover .ix-preview::after{transform:translateX(100%)}
+.ix-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2);cursor:pointer}
+.ix-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.ix-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3)}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ix-tile{animation:gfn-fadeInUp .4s ease both}
+.ix-tile:nth-child(1){animation-delay:.05s}.ix-tile:nth-child(2){animation-delay:.1s}.ix-tile:nth-child(3){animation-delay:.15s}
+.ix-tile:nth-child(4){animation-delay:.2s}.ix-tile:nth-child(5){animation-delay:.25s}.ix-tile:nth-child(6){animation-delay:.3s}
+.ix-tile:nth-child(7){animation-delay:.35s}.ix-tile:nth-child(8){animation-delay:.4s}.ix-tile:nth-child(9){animation-delay:.45s}
+.ix-tile:nth-child(10){animation-delay:.5s}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2;margin:0}
+.modal-note{background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* ═══════════════════════════════════════════════════════════════
+   GRIFFIN CSS — 10 INTERACTION STYLES
+═══════════════════════════════════════════════════════════════ */
+
+/* ── 1. MAGNETIC CURSOR CARD ── */
+.gfni-magnetic{width:240px;height:150px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:20px;display:flex;align-items:center;justify-content:center;cursor:none;position:relative;overflow:hidden;transition:transform .1s ease-out,box-shadow .3s;box-shadow:0 10px 40px rgba(99,102,241,.35);user-select:none}
+.gfni-magnetic::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.15),transparent 60%);transition:opacity .3s;opacity:0}
+.gfni-magnetic:hover::before{opacity:1}
+.gfni-magnetic-inner{text-align:center;color:#fff;pointer-events:none;position:relative;z-index:1}
+.gfni-magnetic-label{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;display:block;margin-bottom:.25rem}
+.gfni-magnetic-sub{font-size:.72rem;opacity:.7}
+.gfni-magnetic-cursor{position:absolute;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);pointer-events:none;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s;mix-blend-mode:difference;opacity:0;z-index:10}
+.gfni-magnetic:hover .gfni-magnetic-cursor{opacity:1}
+
+/* ── 2. STAGGERED LIST REVEAL ── */
+.gfni-stagger{width:240px;font-family:'Inter',system-ui,sans-serif}
+.gfni-stagger-btn{padding:.55rem 1.25rem;background:#0f172a;color:#fff;border:none;border-radius:9999px;font-weight:700;font-size:.8rem;cursor:pointer;margin-bottom:1rem;transition:all .2s;font-family:inherit;display:block;width:100%;text-align:center}
+.gfni-stagger-btn:hover{background:#1e293b;transform:translateY(-1px)}
+.gfni-stagger-list{display:flex;flex-direction:column;gap:.5rem}
+.gfni-stagger-item{display:flex;align-items:center;gap:.7rem;padding:.6rem .85rem;background:#fff;border-radius:12px;border:1px solid #e2e8f0;font-size:.8rem;font-weight:500;color:#1e293b;opacity:0;transform:translateX(-16px);transition:opacity .4s ease,transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
+.gfni-stagger-item.gfni-visible{opacity:1;transform:translateX(0)}
+.gfni-stagger-item:hover{box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateX(3px)}
+.gfni-stagger-item-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.gfni-stagger-item-check{margin-left:auto;font-size:.72rem;opacity:.5}
+
+/* ── 3. TILT / 3D HOVER CARD ── */
+.gfni-tilt-scene{perspective:800px;width:220px;height:145px;cursor:pointer}
+.gfni-tilt{width:100%;height:100%;border-radius:18px;background:linear-gradient(135deg,#f97316,#ea580c);position:relative;overflow:hidden;transform-style:preserve-3d;transition:transform .1s ease-out,box-shadow .3s;box-shadow:0 12px 40px rgba(234,88,12,.35);display:flex;align-items:center;justify-content:center}
+.gfni-tilt::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25) 0%,transparent 60%);pointer-events:none;z-index:1}
+.gfni-tilt-content{color:#fff;text-align:center;position:relative;z-index:2;transform:translateZ(20px);pointer-events:none}
+.gfni-tilt-emoji{font-size:2.2rem;display:block;margin-bottom:.3rem;filter:drop-shadow(0 4px 8px rgba(0,0,0,.2))}
+.gfni-tilt-label{font-family:'Syne',sans-serif;font-weight:800;font-size:.92rem}
+.gfni-tilt-sub{font-size:.68rem;opacity:.75;margin-top:.1rem}
+.gfni-tilt-glare{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.3),transparent 60%);opacity:0;transition:opacity .3s;pointer-events:none;z-index:3}
+
+/* ── 4. ANIMATED TOGGLE SWITCH PACK ── */
+.gfni-toggles{display:flex;flex-direction:column;gap:1rem;width:220px;font-family:'Inter',system-ui,sans-serif}
+.gfni-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem .85rem;background:#fff;border-radius:12px;border:1px solid #e2e8f0}
+.gfni-toggle-label{font-size:.8rem;font-weight:600;color:#1e293b}
+.gfni-toggle-wrap{position:relative;width:42px;height:24px;cursor:pointer;flex-shrink:0}
+.gfni-toggle-inp{opacity:0;width:0;height:0;position:absolute}
+.gfni-toggle-track{position:absolute;inset:0;border-radius:99px;background:#e2e8f0;transition:background .3s cubic-bezier(.4,0,.2,1)}
+.gfni-toggle-inp:checked+.gfni-toggle-track{background:var(--gfni-toggle-c,#1E9E8C)}
+.gfni-toggle-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gfni-toggle-inp:checked~.gfni-toggle-thumb{transform:translateX(18px)}
+
+/* ── 5. DRAG-TO-REVEAL SLIDER ── */
+.gfni-slider-wrap{width:240px;font-family:'Inter',system-ui,sans-serif}
+.gfni-slider-label-row{display:flex;justify-content:space-between;margin-bottom:.5rem}
+.gfni-slider-title{font-size:.78rem;font-weight:600;color:#1e293b}
+.gfni-slider-val{font-size:.78rem;font-weight:700;color:#1E9E8C}
+.gfni-slider-track{position:relative;height:6px;background:#e2e8f0;border-radius:99px;margin-bottom:1rem}
+.gfni-slider-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,#1E9E8C,#28C4AF);border-radius:99px;transition:width .05s;pointer-events:none}
+.gfni-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:transparent;outline:none;border-radius:99px;cursor:pointer;position:absolute;top:0;left:0;margin:0}
+.gfni-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #1E9E8C;box-shadow:0 2px 8px rgba(30,158,140,.3);cursor:grab;transition:transform .2s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;margin-top:-8px}
+.gfni-slider::-webkit-slider-thumb:active{cursor:grabbing;transform:scale(1.25);box-shadow:0 4px 16px rgba(30,158,140,.45)}
+.gfni-slider::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #1E9E8C;box-shadow:0 2px 8px rgba(30,158,140,.3);cursor:grab}
+.gfni-slider-tags{display:flex;gap:.4rem;flex-wrap:wrap}
+.gfni-slider-tag{padding:.25rem .6rem;border-radius:99px;font-size:.68rem;font-weight:600;background:#f1f5f9;color:#64748b;transition:all .2s}
+.gfni-slider-tag.gfni-active{background:rgba(30,158,140,.12);color:#1E9E8C}
+
+/* ── 6. SCROLL COUNTER ── */
+.gfni-counters{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;width:230px;font-family:'Inter',system-ui,sans-serif}
+.gfni-counter-card{background:#fff;border-radius:14px;padding:.9rem .85rem;border:1px solid #e2e8f0;text-align:center}
+.gfni-counter-val{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;line-height:1;display:block}
+.gfni-counter-lbl{font-size:.65rem;color:#94a3b8;margin-top:.2rem;text-transform:uppercase;letter-spacing:.08em}
+.gfni-counter-bar{height:3px;border-radius:99px;margin-top:.5rem;width:0;transition:width 2s cubic-bezier(.4,0,.2,1)}
+.gfni-counter-running .gfni-counter-bar{width:100%}
+
+/* ── 7. LIKE / REACTION BUTTON ── */
+.gfni-react-wrap{display:flex;flex-direction:column;align-items:center;gap:1.1rem;font-family:'Inter',system-ui,sans-serif}
+.gfni-react-btn{display:flex;align-items:center;gap:.6rem;padding:.65rem 1.4rem;border-radius:9999px;border:2px solid #e2e8f0;background:#fff;font-size:.85rem;font-weight:700;color:#64748b;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.gfni-react-btn:hover{border-color:#f43f5e;color:#f43f5e;transform:scale(1.04)}
+.gfni-react-btn.gfni-liked{border-color:#f43f5e;color:#fff;background:linear-gradient(135deg,#f43f5e,#e11d48);box-shadow:0 6px 20px rgba(244,63,94,.35)}
+.gfni-react-btn.gfni-liked:hover{transform:scale(1.04)}
+.gfni-react-heart{display:inline-block;font-size:1rem;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.gfni-react-btn.gfni-liked .gfni-react-heart{transform:scale(1.3) rotate(-10deg)}
+.gfni-react-count{transition:all .25s}
+.gfni-react-burst{position:absolute;inset:0;pointer-events:none}
+.gfni-react-burst span{position:absolute;font-size:.8rem;opacity:0;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.gfni-react-btn.gfni-pop .gfni-react-burst span{animation:gfni-burst .6s ease-out forwards}
+@keyframes gfni-burst{0%{opacity:1;transform:translate(var(--bx),var(--by)) scale(0)}60%{opacity:1}100%{opacity:0;transform:translate(calc(var(--bx)*3),calc(var(--by)*3)) scale(1.5)}}
+
+.gfni-react-row{display:flex;align-items:center;gap:.5rem}
+.gfni-emoji-btn{width:38px;height:38px;border-radius:50%;border:2px solid #e2e8f0;background:#fff;font-size:1.1rem;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;justify-content:center}
+.gfni-emoji-btn:hover{transform:scale(1.25) translateY(-4px);border-color:transparent;box-shadow:0 6px 16px rgba(0,0,0,.12)}
+.gfni-emoji-btn.gfni-chosen{transform:scale(1.2);border-color:#f59e0b;box-shadow:0 4px 12px rgba(245,158,11,.3);background:#fffbeb}
+
+/* ── 8. PROGRESS STEPS ── */
+.gfni-steps{width:240px;font-family:'Inter',system-ui,sans-serif}
+.gfni-steps-track{display:flex;align-items:center;margin-bottom:1.1rem;position:relative}
+.gfni-step-node{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);position:relative;z-index:1;cursor:pointer}
+.gfni-step-node.gfni-done{background:#1E9E8C;color:#fff;box-shadow:0 4px 12px rgba(30,158,140,.35)}
+.gfni-step-node.gfni-current{background:#fff;color:#1E9E8C;border:2px solid #1E9E8C;box-shadow:0 0 0 4px rgba(30,158,140,.15)}
+.gfni-step-node.gfni-todo{background:#f1f5f9;color:#94a3b8;border:2px solid #e2e8f0}
+.gfni-step-line{flex:1;height:2px;background:#e2e8f0;transition:background .4s}
+.gfni-step-line.gfni-done{background:#1E9E8C}
+.gfni-steps-info{margin-bottom:.85rem}
+.gfni-steps-label{font-weight:700;font-size:.85rem;color:#0f172a;margin-bottom:.1rem}
+.gfni-steps-sub{font-size:.75rem;color:#64748b}
+.gfni-steps-btns{display:flex;gap:.5rem}
+.gfni-steps-prev{padding:.5rem 1rem;border-radius:9px;background:none;border:1.5px solid #e2e8f0;color:#64748b;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfni-steps-prev:hover{border-color:#94a3b8;color:#1e293b}
+.gfni-steps-prev:disabled{opacity:.35;cursor:not-allowed}
+.gfni-steps-next{flex:1;padding:.5rem 1rem;border-radius:9px;background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfni-steps-next:hover{box-shadow:0 4px 14px rgba(30,158,140,.4);transform:translateY(-1px)}
+
+/* ── 9. ACCORDION ── */
+.gfni-accordion{width:240px;display:flex;flex-direction:column;gap:.4rem;font-family:'Inter',system-ui,sans-serif}
+.gfni-acc-item{background:#fff;border:1.5px solid #e2e8f0;border-radius:14px;overflow:hidden;transition:border-color .25s,box-shadow .25s}
+.gfni-acc-item.gfni-open{border-color:#1E9E8C;box-shadow:0 4px 16px rgba(30,158,140,.12)}
+.gfni-acc-head{display:flex;align-items:center;justify-content:space-between;padding:.7rem .9rem;cursor:pointer;user-select:none;gap:.5rem}
+.gfni-acc-title{font-size:.8rem;font-weight:700;color:#1e293b;flex:1}
+.gfni-acc-icon{width:20px;height:20px;border-radius:50%;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#64748b;flex-shrink:0;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
+.gfni-acc-item.gfni-open .gfni-acc-icon{background:rgba(30,158,140,.12);color:#1E9E8C;transform:rotate(180deg)}
+.gfni-acc-body{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1),padding .3s}
+.gfni-acc-item.gfni-open .gfni-acc-body{max-height:200px}
+.gfni-acc-content{padding:0 .9rem .85rem;font-size:.78rem;color:#64748b;line-height:1.65}
+
+/* ── 10. COPY-TO-CLIPBOARD INPUT ── */
+.gfni-clip-stack{display:flex;flex-direction:column;gap:.75rem;width:260px;font-family:'Inter',system-ui,sans-serif}
+.gfni-clip-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:-.25rem}
+.gfni-clip-row{display:flex;align-items:center;background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;transition:border-color .2s,box-shadow .2s}
+.gfni-clip-row:focus-within,.gfni-clip-row:hover{border-color:#1E9E8C;box-shadow:0 0 0 3px rgba(30,158,140,.1)}
+.gfni-clip-row.gfni-copied{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.1)}
+.gfni-clip-input{flex:1;padding:.6rem .85rem;border:none;outline:none;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#1e293b;background:transparent;min-width:0}
+.gfni-clip-sep{width:1px;height:20px;background:#e2e8f0;flex-shrink:0}
+.gfni-clip-btn{padding:.6rem .8rem;background:none;border:none;font-size:.75rem;cursor:pointer;color:#94a3b8;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:.3rem;font-weight:600;flex-shrink:0;font-family:'Inter',sans-serif}
+.gfni-clip-btn:hover{color:#1E9E8C}
+.gfni-clip-row.gfni-copied .gfni-clip-btn{color:#22c55e}
+.gfni-clip-feedback{height:1.2rem;font-size:.68rem;font-weight:600;color:#22c55e;display:flex;align-items:center;gap:.25rem;opacity:0;transform:translateY(4px);transition:all .25s}
+.gfni-clip-feedback.gfni-show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Interaction</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link active" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Interaction</div>
+    <p class="page-sub">
+      <span>10 animated interaction components</span> ... click the meta bar on any tile to grab the HTML.
+    </p>
+  </div>
+  <div class="ix-grid" id="ix-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Interaction HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your &lt;head&gt;. All interaction classes are prefixed <code>gfni-</code> to guarantee zero collisions. Some interactions need the small inline JS shown in the snippet.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── INTERACTION DATA ── */
+const ITEMS = [
+{
+  name: 'Magnetic Cursor Card',
+  tag: 'Hover',
+  bg: 'linear-gradient(135deg,#eef2ff,#e0e7ff)',
+  preview() {
+    return `<div class="gfni-magnetic" id="mag-card">
+  <div class="gfni-magnetic-cursor" id="mag-cursor"></div>
+  <div class="gfni-magnetic-inner">
+    <span class="gfni-magnetic-label">✦ Hover Me</span>
+    <span class="gfni-magnetic-sub">Custom cursor inside</span>
+  </div>
+</div>`;
+  },
+  init(el) {
+    const card = el.querySelector('.gfni-magnetic');
+    const cursor = el.querySelector('.gfni-magnetic-cursor');
+    if (!card || !cursor) return;
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      cursor.style.left = x + 'px'; cursor.style.top = y + 'px';
+      const dx = (x - r.width/2) / r.width * 18;
+      const dy = (y - r.height/2) / r.height * 12;
+      card.style.transform = `rotateY(${dx}deg) rotateX(${-dy}deg) scale(1.04)`;
+      card.style.boxShadow = `${-dx}px ${dy}px 40px rgba(99,102,241,.45)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = ''; card.style.boxShadow = '';
+    });
+  },
+  html: `<div class="gfni-magnetic" id="myMagCard">
+  <div class="gfni-magnetic-cursor" id="myMagCursor"></div>
+  <div class="gfni-magnetic-inner">
+    <span class="gfni-magnetic-label">✦ Hover Me</span>
+    <span class="gfni-magnetic-sub">Custom cursor inside</span>
+  </div>
+</div>
+
+<script>
+(function() {
+  const card = document.getElementById('myMagCard');
+  const cursor = document.getElementById('myMagCursor');
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = e.clientX - r.left, y = e.clientY - r.top;
+    cursor.style.left = x + 'px';
+    cursor.style.top = y + 'px';
+    const dx = (x - r.width/2) / r.width * 18;
+    const dy = (y - r.height/2) / r.height * 12;
+    card.style.transform = \`rotateY(\${dx}deg) rotateX(\${-dy}deg) scale(1.04)\`;
+    card.style.boxShadow = \`\${-dx}px \${dy}px 40px rgba(99,102,241,.45)\`;
+  });
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+  });
+})();
+<\/script>`
+},
+{
+  name: 'Staggered List Reveal',
+  tag: 'Animation',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  preview() {
+    return `<div class="gfni-stagger" id="stagger-demo">
+  <button class="gfni-stagger-btn" onclick="runStagger(this)">▶ Animate List</button>
+  <div class="gfni-stagger-list">
+    <div class="gfni-stagger-item"><span class="gfni-stagger-item-dot" style="background:#1E9E8C"></span>Design System<span class="gfni-stagger-item-check">✓</span></div>
+    <div class="gfni-stagger-item"><span class="gfni-stagger-item-dot" style="background:#6366f1"></span>Component Library<span class="gfni-stagger-item-check">✓</span></div>
+    <div class="gfni-stagger-item"><span class="gfni-stagger-item-dot" style="background:#f59e0b"></span>Dark Mode<span class="gfni-stagger-item-check">✓</span></div>
+    <div class="gfni-stagger-item"><span class="gfni-stagger-item-dot" style="background:#f43f5e"></span>Responsive Grid<span class="gfni-stagger-item-check">✓</span></div>
+  </div>
+</div>`;
+  },
+  init() {},
+  html: `<div class="gfni-stagger" id="myStagger">
+  <button class="gfni-stagger-btn" onclick="runMyStagger()">▶ Animate List</button>
+  <div class="gfni-stagger-list" id="myStaggerList">
+    <div class="gfni-stagger-item">
+      <span class="gfni-stagger-item-dot" style="background:#1E9E8C"></span>
+      Design System
+      <span class="gfni-stagger-item-check">✓</span>
+    </div>
+    <div class="gfni-stagger-item">
+      <span class="gfni-stagger-item-dot" style="background:#6366f1"></span>
+      Component Library
+      <span class="gfni-stagger-item-check">✓</span>
+    </div>
+    <div class="gfni-stagger-item">
+      <span class="gfni-stagger-item-dot" style="background:#f59e0b"></span>
+      Dark Mode
+      <span class="gfni-stagger-item-check">✓</span>
+    </div>
+    <div class="gfni-stagger-item">
+      <span class="gfni-stagger-item-dot" style="background:#f43f5e"></span>
+      Responsive Grid
+      <span class="gfni-stagger-item-check">✓</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function runMyStagger() {
+  const items = document.querySelectorAll('#myStaggerList .gfni-stagger-item');
+  items.forEach(i => i.classList.remove('gfni-visible'));
+  items.forEach((item, i) => {
+    setTimeout(() => item.classList.add('gfni-visible'), 80 + i * 100);
+  });
+}
+<\/script>`
+},
+{
+  name: 'Tilt 3D Hover Card',
+  tag: '3D',
+  bg: 'linear-gradient(135deg,#fff7ed,#ffedd5)',
+  preview() {
+    return `<div class="gfni-tilt-scene" id="tilt-scene">
+  <div class="gfni-tilt" id="tilt-card">
+    <div class="gfni-tilt-glare" id="tilt-glare"></div>
+    <div class="gfni-tilt-content">
+      <span class="gfni-tilt-emoji">🔥</span>
+      <div class="gfni-tilt-label">3D Tilt Card</div>
+      <div class="gfni-tilt-sub">Move your mouse</div>
+    </div>
+  </div>
+</div>`;
+  },
+  init(el) {
+    const scene = el.querySelector('.gfni-tilt-scene');
+    const card = el.querySelector('.gfni-tilt');
+    const glare = el.querySelector('.gfni-tilt-glare');
+    if (!card) return;
+    scene.addEventListener('mousemove', e => {
+      const r = scene.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top) / r.height;
+      const rx = (y - .5) * -24, ry = (x - .5) * 24;
+      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.05)`;
+      card.style.boxShadow = `${-ry/2}px ${rx/2}px 40px rgba(234,88,12,.45)`;
+      glare.style.opacity = '1';
+      glare.style.background = `radial-gradient(circle at ${x*100}% ${y*100}%, rgba(255,255,255,.3), transparent 60%)`;
+    });
+    scene.addEventListener('mouseleave', () => {
+      card.style.transform = ''; card.style.boxShadow = ''; glare.style.opacity = '0';
+    });
+  },
+  html: `<div class="gfni-tilt-scene" id="myTiltScene">
+  <div class="gfni-tilt" id="myTiltCard">
+    <div class="gfni-tilt-glare" id="myTiltGlare"></div>
+    <div class="gfni-tilt-content">
+      <span class="gfni-tilt-emoji">🔥</span>
+      <div class="gfni-tilt-label">3D Tilt Card</div>
+      <div class="gfni-tilt-sub">Move your mouse over me</div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const scene = document.getElementById('myTiltScene');
+  const card = document.getElementById('myTiltCard');
+  const glare = document.getElementById('myTiltGlare');
+  scene.addEventListener('mousemove', e => {
+    const r = scene.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width;
+    const y = (e.clientY - r.top) / r.height;
+    const rx = (y - .5) * -24, ry = (x - .5) * 24;
+    card.style.transform = \`perspective(800px) rotateX(\${rx}deg) rotateY(\${ry}deg) scale(1.05)\`;
+    card.style.boxShadow = \`\${-ry/2}px \${rx/2}px 40px rgba(234,88,12,.45)\`;
+    glare.style.opacity = '1';
+    glare.style.background = \`radial-gradient(circle at \${x*100}% \${y*100}%, rgba(255,255,255,.3), transparent 60%)\`;
+  });
+  scene.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.boxShadow = '';
+    glare.style.opacity = '0';
+  });
+})();
+<\/script>`
+},
+{
+  name: 'Toggle Switch Pack',
+  tag: 'Form',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  preview() {
+    return `<div class="gfni-toggles">
+  ${[
+    {l:'Dark Mode',c:'#6366f1',on:true},
+    {l:'Notifications',c:'#1E9E8C',on:false},
+    {l:'Analytics',c:'#f59e0b',on:true},
+    {l:'Beta Features',c:'#f43f5e',on:false},
+  ].map(t=>`<div class="gfni-toggle-row">
+    <span class="gfni-toggle-label">${t.l}</span>
+    <label class="gfni-toggle-wrap" style="--gfni-toggle-c:${t.c}">
+      <input type="checkbox" class="gfni-toggle-inp"${t.on?' checked':''}>
+      <div class="gfni-toggle-track"></div>
+      <div class="gfni-toggle-thumb"></div>
+    </label>
+  </div>`).join('')}
+</div>`;
+  },
+  init() {},
+  html: `<div class="gfni-toggles">
+  <!-- Toggle 1 — change --gfni-toggle-c to any color -->
+  <div class="gfni-toggle-row">
+    <span class="gfni-toggle-label">Dark Mode</span>
+    <label class="gfni-toggle-wrap" style="--gfni-toggle-c:#6366f1">
+      <input type="checkbox" class="gfni-toggle-inp" checked>
+      <div class="gfni-toggle-track"></div>
+      <div class="gfni-toggle-thumb"></div>
+    </label>
+  </div>
+  <!-- Toggle 2 -->
+  <div class="gfni-toggle-row">
+    <span class="gfni-toggle-label">Notifications</span>
+    <label class="gfni-toggle-wrap" style="--gfni-toggle-c:#1E9E8C">
+      <input type="checkbox" class="gfni-toggle-inp">
+      <div class="gfni-toggle-track"></div>
+      <div class="gfni-toggle-thumb"></div>
+    </label>
+  </div>
+  <!-- Toggle 3 -->
+  <div class="gfni-toggle-row">
+    <span class="gfni-toggle-label">Analytics</span>
+    <label class="gfni-toggle-wrap" style="--gfni-toggle-c:#f59e0b">
+      <input type="checkbox" class="gfni-toggle-inp" checked>
+      <div class="gfni-toggle-track"></div>
+      <div class="gfni-toggle-thumb"></div>
+    </label>
+  </div>
+  <!-- Toggle 4 -->
+  <div class="gfni-toggle-row">
+    <span class="gfni-toggle-label">Beta Features</span>
+    <label class="gfni-toggle-wrap" style="--gfni-toggle-c:#f43f5e">
+      <input type="checkbox" class="gfni-toggle-inp">
+      <div class="gfni-toggle-track"></div>
+      <div class="gfni-toggle-thumb"></div>
+    </label>
+  </div>
+</div>`
+},
+{
+  name: 'Live Range Slider',
+  tag: 'Form',
+  bg: 'linear-gradient(135deg,#ecfdf5,#d1fae5)',
+  preview() {
+    return `<div class="gfni-slider-wrap" id="slider-demo">
+  <div class="gfni-slider-label-row">
+    <span class="gfni-slider-title">Volume</span>
+    <span class="gfni-slider-val" id="sl-val">60%</span>
+  </div>
+  <div class="gfni-slider-track">
+    <div class="gfni-slider-fill" id="sl-fill" style="width:60%"></div>
+    <input class="gfni-slider" type="range" min="0" max="100" value="60" id="sl-range"
+      oninput="document.getElementById('sl-val').textContent=this.value+'%';document.getElementById('sl-fill').style.width=this.value+'%'">
+  </div>
+  <div class="gfni-slider-tags" id="sl-tags">
+    <span class="gfni-slider-tag">Mute</span>
+    <span class="gfni-slider-tag gfni-active">Normal</span>
+    <span class="gfni-slider-tag">Boost</span>
+  </div>
+</div>`;
+  },
+  init() {},
+  html: `<div class="gfni-slider-wrap">
+  <div class="gfni-slider-label-row">
+    <span class="gfni-slider-title">Volume</span>
+    <span class="gfni-slider-val" id="mySlVal">60%</span>
+  </div>
+  <div class="gfni-slider-track">
+    <div class="gfni-slider-fill" id="mySlFill" style="width:60%"></div>
+    <input class="gfni-slider" type="range" min="0" max="100" value="60" id="mySlRange">
+  </div>
+  <div class="gfni-slider-tags">
+    <span class="gfni-slider-tag" data-min="0" data-max="10">Mute</span>
+    <span class="gfni-slider-tag gfni-active" data-min="11" data-max="79">Normal</span>
+    <span class="gfni-slider-tag" data-min="80" data-max="100">Boost</span>
+  </div>
+</div>
+
+<script>
+(function() {
+  const sl = document.getElementById('mySlRange');
+  const val = document.getElementById('mySlVal');
+  const fill = document.getElementById('mySlFill');
+  const tags = document.querySelectorAll('.gfni-slider-tag');
+  sl.addEventListener('input', () => {
+    val.textContent = sl.value + '%';
+    fill.style.width = sl.value + '%';
+    tags.forEach(t => {
+      const active = +sl.value >= +t.dataset.min && +sl.value <= +t.dataset.max;
+      t.classList.toggle('gfni-active', active);
+    });
+  });
+})();
+<\/script>`
+},
+{
+  name: 'Animated Stat Counters',
+  tag: 'Data',
+  bg: 'linear-gradient(135deg,#eff6ff,#dbeafe)',
+  preview() {
+    return `<div class="gfni-counters" id="counters-demo">
+  ${[
+    {v:12480,l:'Users',c:'#6366f1',bar:'#6366f1'},
+    {v:98.6,l:'Uptime %',c:'#1E9E8C',bar:'#1E9E8C'},
+    {v:4.9,l:'Rating',c:'#f59e0b',bar:'#f59e0b'},
+    {v:3200,l:'Deploys',c:'#f43f5e',bar:'#f43f5e'},
+  ].map(s=>`<div class="gfni-counter-card">
+    <span class="gfni-counter-val" style="color:${s.c}" data-target="${s.v}">0</span>
+    <div class="gfni-counter-lbl">${s.l}</div>
+    <div class="gfni-counter-bar" style="background:${s.bar}"></div>
+  </div>`).join('')}
+</div>`;
+  },
+  init(el) {
+    const cards = el.querySelectorAll('.gfni-counter-card');
+    const run = () => {
+      el.querySelector('.gfni-counters').classList.add('gfni-counter-running');
+      cards.forEach(card => {
+        const val = card.querySelector('.gfni-counter-val');
+        const target = parseFloat(val.dataset.target);
+        const isFloat = String(target).includes('.');
+        let start = null, dur = 1800;
+        const step = ts => {
+          if (!start) start = ts;
+          const p = Math.min((ts - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          const cur = target * eased;
+          val.textContent = isFloat ? cur.toFixed(1) : Math.round(cur).toLocaleString();
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+    const obs = new IntersectionObserver(ents => { if (ents[0].isIntersecting) { run(); obs.disconnect(); } }, { threshold: .4 });
+    obs.observe(el);
+  },
+  html: `<div class="gfni-counters" id="myCounters">
+  <div class="gfni-counter-card">
+    <span class="gfni-counter-val" style="color:#6366f1" data-target="12480">0</span>
+    <div class="gfni-counter-lbl">Users</div>
+    <div class="gfni-counter-bar" style="background:#6366f1"></div>
+  </div>
+  <div class="gfni-counter-card">
+    <span class="gfni-counter-val" style="color:#1E9E8C" data-target="98.6">0</span>
+    <div class="gfni-counter-lbl">Uptime %</div>
+    <div class="gfni-counter-bar" style="background:#1E9E8C"></div>
+  </div>
+  <div class="gfni-counter-card">
+    <span class="gfni-counter-val" style="color:#f59e0b" data-target="4.9">0</span>
+    <div class="gfni-counter-lbl">Rating</div>
+    <div class="gfni-counter-bar" style="background:#f59e0b"></div>
+  </div>
+  <div class="gfni-counter-card">
+    <span class="gfni-counter-val" style="color:#f43f5e" data-target="3200">0</span>
+    <div class="gfni-counter-lbl">Deploys</div>
+    <div class="gfni-counter-bar" style="background:#f43f5e"></div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const el = document.getElementById('myCounters');
+  function runCounters() {
+    el.classList.add('gfni-counter-running');
+    el.querySelectorAll('.gfni-counter-val').forEach(val => {
+      const target = parseFloat(val.dataset.target);
+      const isFloat = String(target).includes('.');
+      let start = null;
+      (function step(ts) {
+        if (!start) start = ts;
+        const p = Math.min((ts - start) / 1800, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const cur = target * eased;
+        val.textContent = isFloat ? cur.toFixed(1) : Math.round(cur).toLocaleString();
+        if (p < 1) requestAnimationFrame(step);
+      })(performance.now());
+    });
+  }
+  const obs = new IntersectionObserver(e => {
+    if (e[0].isIntersecting) { runCounters(); obs.disconnect(); }
+  }, { threshold: .4 });
+  obs.observe(el);
+})();
+<\/script>`
+},
+{
+  name: 'Like & Reaction Buttons',
+  tag: 'Social',
+  bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+  preview() {
+    return `<div class="gfni-react-wrap" id="react-demo">
+  <button class="gfni-react-btn" id="like-btn" onclick="toggleLike(this)">
+    <span class="gfni-react-heart">♥</span>
+    <span class="gfni-react-count" id="like-count">2,841</span>
+    <div class="gfni-react-burst"></div>
+  </button>
+  <div class="gfni-react-row">
+    ${['😍','🔥','👏','😂','😮'].map(e=>`<button class="gfni-emoji-btn" onclick="pickEmoji(this,'${e}')">${e}</button>`).join('')}
+  </div>
+</div>`;
+  },
+  init() {},
+  html: `<div class="gfni-react-wrap">
+  <!-- Like Button -->
+  <button class="gfni-react-btn" id="myLikeBtn" onclick="toggleMyLike(this)">
+    <span class="gfni-react-heart">♥</span>
+    <span class="gfni-react-count" id="myLikeCount">2,841</span>
+    <div class="gfni-react-burst"></div>
+  </button>
+
+  <!-- Emoji Reaction Row -->
+  <div class="gfni-react-row">
+    <button class="gfni-emoji-btn" onclick="pickMyEmoji(this,'😍')">😍</button>
+    <button class="gfni-emoji-btn" onclick="pickMyEmoji(this,'🔥')">🔥</button>
+    <button class="gfni-emoji-btn" onclick="pickMyEmoji(this,'👏')">👏</button>
+    <button class="gfni-emoji-btn" onclick="pickMyEmoji(this,'😂')">😂</button>
+    <button class="gfni-emoji-btn" onclick="pickMyEmoji(this,'😮')">😮</button>
+  </div>
+</div>
+
+<script>
+let myLiked = false, myLikeVal = 2841;
+
+function toggleMyLike(btn) {
+  myLiked = !myLiked;
+  myLikeVal += myLiked ? 1 : -1;
+  btn.classList.toggle('gfni-liked', myLiked);
+  document.getElementById('myLikeCount').textContent = myLikeVal.toLocaleString();
+  if (myLiked) {
+    btn.classList.add('gfni-pop');
+    setTimeout(() => btn.classList.remove('gfni-pop'), 650);
+  }
+}
+
+function pickMyEmoji(btn, emoji) {
+  document.querySelectorAll('.gfni-emoji-btn').forEach(b => b.classList.remove('gfni-chosen'));
+  btn.classList.add('gfni-chosen');
+}
+<\/script>`
+},
+{
+  name: 'Step Progress Tracker',
+  tag: 'UX',
+  bg: 'linear-gradient(135deg,#ecfdf5,#d1fae5)',
+  preview() {
+    return `<div class="gfni-steps" id="steps-demo">
+  <div class="gfni-steps-track">
+    <div class="gfni-step-node gfni-done" data-step="0">✓</div>
+    <div class="gfni-step-line gfni-done" data-step="0"></div>
+    <div class="gfni-step-node gfni-current" data-step="1">2</div>
+    <div class="gfni-step-line" data-step="1"></div>
+    <div class="gfni-step-node gfni-todo" data-step="2">3</div>
+    <div class="gfni-step-line" data-step="2"></div>
+    <div class="gfni-step-node gfni-todo" data-step="3">4</div>
+  </div>
+  <div class="gfni-steps-info">
+    <div class="gfni-steps-label" id="step-label">Payment Details</div>
+    <div class="gfni-steps-sub" id="step-sub">Enter your card or PayPal info</div>
+  </div>
+  <div class="gfni-steps-btns">
+    <button class="gfni-steps-prev" id="step-prev-btn" onclick="moveStep(-1)">← Back</button>
+    <button class="gfni-steps-next" id="step-next-btn" onclick="moveStep(1)">Continue →</button>
+  </div>
+</div>`;
+  },
+  init() {},
+  html: `<div class="gfni-steps" id="mySteps">
+  <div class="gfni-steps-track">
+    <div class="gfni-step-node gfni-done">✓</div>
+    <div class="gfni-step-line gfni-done"></div>
+    <div class="gfni-step-node gfni-current">2</div>
+    <div class="gfni-step-line"></div>
+    <div class="gfni-step-node gfni-todo">3</div>
+    <div class="gfni-step-line"></div>
+    <div class="gfni-step-node gfni-todo">4</div>
+  </div>
+  <div class="gfni-steps-info">
+    <div class="gfni-steps-label" id="myStepLabel">Payment Details</div>
+    <div class="gfni-steps-sub" id="myStepSub">Enter your card or PayPal info</div>
+  </div>
+  <div class="gfni-steps-btns">
+    <button class="gfni-steps-prev" id="myStepPrev" onclick="myMoveStep(-1)">← Back</button>
+    <button class="gfni-steps-next" id="myStepNext" onclick="myMoveStep(1)">Continue →</button>
+  </div>
+</div>
+
+<script>
+const myStepData = [
+  { label: 'Account Info', sub: 'Your name and email address' },
+  { label: 'Payment Details', sub: 'Enter your card or PayPal info' },
+  { label: 'Shipping Address', sub: 'Where should we send it?' },
+  { label: 'Review & Confirm', sub: 'Double-check everything before placing order' }
+];
+let myStepCur = 1;
+
+function myRenderSteps() {
+  const nodes = document.querySelectorAll('#mySteps .gfni-step-node');
+  const lines = document.querySelectorAll('#mySteps .gfni-step-line');
+  nodes.forEach((n, i) => {
+    n.className = 'gfni-step-node ' + (i < myStepCur ? 'gfni-done' : i === myStepCur ? 'gfni-current' : 'gfni-todo');
+    n.textContent = i < myStepCur ? '✓' : i + 1;
+  });
+  lines.forEach((l, i) => l.classList.toggle('gfni-done', i < myStepCur));
+  document.getElementById('myStepLabel').textContent = myStepData[myStepCur].label;
+  document.getElementById('myStepSub').textContent = myStepData[myStepCur].sub;
+  document.getElementById('myStepPrev').disabled = myStepCur === 0;
+  document.getElementById('myStepNext').textContent = myStepCur === myStepData.length-1 ? 'Finish ✓' : 'Continue →';
+}
+
+function myMoveStep(dir) {
+  myStepCur = Math.max(0, Math.min(myStepData.length-1, myStepCur + dir));
+  myRenderSteps();
+}
+myRenderSteps();
+<\/script>`
+},
+{
+  name: 'Smooth Accordion',
+  tag: 'Content',
+  bg: 'linear-gradient(135deg,#fdf4ff,#fae8ff)',
+  preview() {
+    const items = [
+      {t:'What is Griffin CSS?',b:'Griffin CSS is a modern utility-first CSS framework with 100+ components, dark mode, and beautiful design tokens. Zero dependencies.'},
+      {t:'How do I install it?',b:'Just paste one CDN link tag into your HTML head. No npm, no build tools, no config needed whatsoever.'},
+      {t:'Is it free to use?',b:'Yes, Griffin CSS is completely free and open source under the MIT license. Use it in any project.'},
+    ];
+    return `<div class="gfni-accordion" id="acc-demo">
+      ${items.map((item,i)=>`<div class="gfni-acc-item${i===0?' gfni-open':''}">
+        <div class="gfni-acc-head" onclick="toggleAcc(this)">
+          <span class="gfni-acc-title">${item.t}</span>
+          <span class="gfni-acc-icon">▼</span>
+        </div>
+        <div class="gfni-acc-body"><div class="gfni-acc-content">${item.b}</div></div>
+      </div>`).join('')}
+    </div>`;
+  },
+  init() {},
+  html: `<div class="gfni-accordion" id="myAccordion">
+  <div class="gfni-acc-item gfni-open">
+    <div class="gfni-acc-head" onclick="myToggleAcc(this)">
+      <span class="gfni-acc-title">What is Griffin CSS?</span>
+      <span class="gfni-acc-icon">▼</span>
+    </div>
+    <div class="gfni-acc-body">
+      <div class="gfni-acc-content">
+        Griffin CSS is a modern utility-first CSS framework with 100+ components,
+        dark mode, and beautiful design tokens. Zero dependencies.
+      </div>
+    </div>
+  </div>
+  <div class="gfni-acc-item">
+    <div class="gfni-acc-head" onclick="myToggleAcc(this)">
+      <span class="gfni-acc-title">How do I install it?</span>
+      <span class="gfni-acc-icon">▼</span>
+    </div>
+    <div class="gfni-acc-body">
+      <div class="gfni-acc-content">
+        Just paste one CDN link tag into your HTML head. No npm,
+        no build tools, no config needed whatsoever.
+      </div>
+    </div>
+  </div>
+  <div class="gfni-acc-item">
+    <div class="gfni-acc-head" onclick="myToggleAcc(this)">
+      <span class="gfni-acc-title">Is it free to use?</span>
+      <span class="gfni-acc-icon">▼</span>
+    </div>
+    <div class="gfni-acc-body">
+      <div class="gfni-acc-content">
+        Yes, Griffin CSS is completely free and open source under the MIT license.
+        Use it in any project, personal or commercial.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function myToggleAcc(head) {
+  const item = head.closest('.gfni-acc-item');
+  const isOpen = item.classList.contains('gfni-open');
+  // Close all
+  document.querySelectorAll('#myAccordion .gfni-acc-item').forEach(i => i.classList.remove('gfni-open'));
+  // Open clicked if it was closed
+  if (!isOpen) item.classList.add('gfni-open');
+}
+<\/script>`
+},
+{
+  name: 'Copy-to-Clipboard Inputs',
+  tag: 'Utility',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  preview() {
+    return `<div class="gfni-clip-stack" id="clip-demo">
+  <span class="gfni-clip-label">API Key</span>
+  <div class="gfni-clip-row" id="clip1">
+    <input class="gfni-clip-input" value="gfn_live_xK9mP2qR4nJ7" readonly>
+    <div class="gfni-clip-sep"></div>
+    <button class="gfni-clip-btn" onclick="doCopy('clip1','clip-fb1','gfn_live_xK9mP2qR4nJ7')">📋 Copy</button>
+  </div>
+  <div class="gfni-clip-feedback" id="clip-fb1">✓ Copied to clipboard!</div>
+
+  <span class="gfni-clip-label">CDN Link</span>
+  <div class="gfni-clip-row" id="clip2">
+    <input class="gfni-clip-input" value="cdn.griffin-css.dev/v1" readonly>
+    <div class="gfni-clip-sep"></div>
+    <button class="gfni-clip-btn" onclick="doCopy('clip2','clip-fb2','cdn.griffin-css.dev/v1')">📋 Copy</button>
+  </div>
+  <div class="gfni-clip-feedback" id="clip-fb2">✓ Copied to clipboard!</div>
+
+  <span class="gfni-clip-label">Install Command</span>
+  <div class="gfni-clip-row" id="clip3">
+    <input class="gfni-clip-input" value="npx griffin-css init" readonly>
+    <div class="gfni-clip-sep"></div>
+    <button class="gfni-clip-btn" onclick="doCopy('clip3','clip-fb3','npx griffin-css init')">📋 Copy</button>
+  </div>
+  <div class="gfni-clip-feedback" id="clip-fb3">✓ Copied to clipboard!</div>
+</div>`;
+  },
+  init() {},
+  html: `<div class="gfni-clip-stack">
+
+  <span class="gfni-clip-label">API Key</span>
+  <div class="gfni-clip-row" id="myClip1">
+    <input class="gfni-clip-input" value="gfn_live_xK9mP2qR4nJ7" readonly>
+    <div class="gfni-clip-sep"></div>
+    <button class="gfni-clip-btn"
+      onclick="myDoCopy('myClip1','myCFb1','gfn_live_xK9mP2qR4nJ7')">
+      📋 Copy
+    </button>
+  </div>
+  <div class="gfni-clip-feedback" id="myCFb1">✓ Copied to clipboard!</div>
+
+  <span class="gfni-clip-label">CDN Link</span>
+  <div class="gfni-clip-row" id="myClip2">
+    <input class="gfni-clip-input" value="cdn.griffin-css.dev/v1/griffin.min.css" readonly>
+    <div class="gfni-clip-sep"></div>
+    <button class="gfni-clip-btn"
+      onclick="myDoCopy('myClip2','myCFb2','cdn.griffin-css.dev/v1/griffin.min.css')">
+      📋 Copy
+    </button>
+  </div>
+  <div class="gfni-clip-feedback" id="myCFb2">✓ Copied to clipboard!</div>
+
+</div>
+
+<script>
+function myDoCopy(rowId, fbId, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const row = document.getElementById(rowId);
+    const fb = document.getElementById(fbId);
+    row.classList.add('gfni-copied');
+    fb.classList.add('gfni-show');
+    setTimeout(() => {
+      row.classList.remove('gfni-copied');
+      fb.classList.remove('gfni-show');
+    }, 2200);
+  });
+}
+<\/script>`
+}
+];
+
+/* ── GLOBAL INTERACTION STATE ── */
+let liked = false, likeVal = 2841;
+let stepCur = 1;
+const stepData = [
+  {label:'Account Info',sub:'Your name and email address'},
+  {label:'Payment Details',sub:'Enter your card or PayPal info'},
+  {label:'Shipping Address',sub:'Where should we send it?'},
+  {label:'Review & Confirm',sub:'Double-check everything before placing order'},
+];
+
+function runStagger(btn) {
+  const wrap = btn.closest('.gfni-stagger');
+  const items = wrap.querySelectorAll('.gfni-stagger-item');
+  items.forEach(i => i.classList.remove('gfni-visible'));
+  items.forEach((item, i) => {
+    setTimeout(() => item.classList.add('gfni-visible'), 80 + i * 100);
+  });
+}
+
+function toggleLike(btn) {
+  liked = !liked; likeVal += liked ? 1 : -1;
+  btn.classList.toggle('gfni-liked', liked);
+  const countEl = btn.querySelector('.gfni-react-count');
+  if (countEl) countEl.textContent = likeVal.toLocaleString();
+  if (liked) {
+    btn.classList.add('gfni-pop');
+    setTimeout(() => btn.classList.remove('gfni-pop'), 650);
+  }
+}
+
+function pickEmoji(btn) {
+  document.querySelectorAll('#react-demo .gfni-emoji-btn').forEach(b => b.classList.remove('gfni-chosen'));
+  btn.classList.add('gfni-chosen');
+}
+
+function renderSteps() {
+  const demo = document.getElementById('steps-demo');
+  if (!demo) return;
+  const nodes = demo.querySelectorAll('.gfni-step-node');
+  const lines = demo.querySelectorAll('.gfni-step-line');
+  nodes.forEach((n, i) => {
+    n.className = 'gfni-step-node ' + (i < stepCur ? 'gfni-done' : i === stepCur ? 'gfni-current' : 'gfni-todo');
+    n.textContent = i < stepCur ? '✓' : i + 1;
+  });
+  lines.forEach((l, i) => l.classList.toggle('gfni-done', i < stepCur));
+  const lbl = demo.querySelector('#step-label'), sub = demo.querySelector('#step-sub');
+  if (lbl) lbl.textContent = stepData[stepCur].label;
+  if (sub) sub.textContent = stepData[stepCur].sub;
+  const prev = demo.querySelector('#step-prev-btn'), next = demo.querySelector('#step-next-btn');
+  if (prev) prev.disabled = stepCur === 0;
+  if (next) next.textContent = stepCur === stepData.length - 1 ? 'Finish ✓' : 'Continue →';
+}
+
+function moveStep(dir) {
+  stepCur = Math.max(0, Math.min(stepData.length - 1, stepCur + dir));
+  renderSteps();
+}
+
+function toggleAcc(head) {
+  const item = head.closest('.gfni-acc-item');
+  const acc = item.closest('.gfni-accordion');
+  const isOpen = item.classList.contains('gfni-open');
+  acc.querySelectorAll('.gfni-acc-item').forEach(i => i.classList.remove('gfni-open'));
+  if (!isOpen) item.classList.add('gfni-open');
+}
+
+function doCopy(rowId, fbId, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    const row = document.getElementById(rowId), fb = document.getElementById(fbId);
+    if (row) row.classList.add('gfni-copied');
+    if (fb) fb.classList.add('gfni-show');
+    setTimeout(() => { if(row) row.classList.remove('gfni-copied'); if(fb) fb.classList.remove('gfni-show'); }, 2200);
+  });
+}
+
+/* ── RENDER GRID ── */
+const grid = document.getElementById('ix-grid');
+ITEMS.forEach(item => {
+  const tile = document.createElement('div');
+  tile.className = 'ix-tile';
+  tile.innerHTML = `
+    <div class="ix-preview" style="background:${item.bg}">${item.preview()}</div>
+    <div class="ix-meta">
+      <span class="ix-name">${item.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="ix-tag">${item.tag}</span>
+        <span class="click-hint">🖱 Copy HTML</span>
+      </div>
+    </div>`;
+  const previewEl = tile.querySelector('.ix-preview');
+  if (item.init) item.init(previewEl);
+  tile.querySelector('.ix-meta').addEventListener('click', () => openModal(item));
+  grid.appendChild(tile);
+});
+
+/* Init counters after DOM */
+setTimeout(() => {
+  document.querySelectorAll('.gfni-counters').forEach(el => {
+    const obs = new IntersectionObserver(ents => {
+      if (ents[0].isIntersecting) {
+        el.classList.add('gfni-counter-running');
+        el.querySelectorAll('.gfni-counter-val').forEach(val => {
+          const target = parseFloat(val.dataset.target);
+          const isFloat = String(target).includes('.');
+          let start = null;
+          (function step(ts) {
+            if (!start) start = ts;
+            const p = Math.min((ts - start) / 1800, 1);
+            const cur = target * (1 - Math.pow(1-p,3));
+            val.textContent = isFloat ? cur.toFixed(1) : Math.round(cur).toLocaleString();
+            if (p < 1) requestAnimationFrame(step);
+          })(performance.now());
+        });
+        obs.disconnect();
+      }
+    }, { threshold: .3 });
+    obs.observe(el);
+  });
+  renderSteps();
+}, 200);
+
+/* ── CODE MODAL ── */
+let currentItem = null;
+function openModal(item) {
+  currentItem = item;
+  document.getElementById('modal-title').textContent = item.name;
+  document.getElementById('modal-subtitle').textContent = `${item.tag} interaction — copy & customize`;
+  document.getElementById('modal-code').textContent = item.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function copyCode() {
+  navigator.clipboard.writeText(currentItem.html).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── THEME ── */
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

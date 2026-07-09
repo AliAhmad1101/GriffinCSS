@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UI ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* UI GRID */
+.ui-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.ui-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.ui-grid{grid-template-columns:1fr}}
+
+/* TILE */
+.ui-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.ui-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.ui-preview{padding:1.75rem 1.5rem;min-height:220px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.ui-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s;pointer-events:none}
+.ui-tile:hover .ui-preview::after{transform:translateX(100%)}
+.ui-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2);cursor:pointer}
+.ui-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.ui-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3)}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ui-tile{animation:gfn-fadeInUp .4s ease both}
+.ui-tile:nth-child(1){animation-delay:.05s}.ui-tile:nth-child(2){animation-delay:.1s}.ui-tile:nth-child(3){animation-delay:.15s}
+.ui-tile:nth-child(4){animation-delay:.2s}.ui-tile:nth-child(5){animation-delay:.25s}.ui-tile:nth-child(6){animation-delay:.3s}
+.ui-tile:nth-child(7){animation-delay:.35s}.ui-tile:nth-child(8){animation-delay:.4s}.ui-tile:nth-child(9){animation-delay:.45s}
+.ui-tile:nth-child(10){animation-delay:.5s}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2;margin:0}
+.modal-note{background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GRIFFIN CSS — 10 UI COMPONENTS
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. SEGMENTED CONTROL ── */
+.gfnu-seg{display:inline-flex;background:#f1f5f9;border-radius:12px;padding:3px;gap:2px;font-family:'Inter',system-ui,sans-serif}
+.gfnu-seg-btn{padding:.42rem 1rem;border-radius:9px;border:none;background:transparent;font-size:.78rem;font-weight:600;color:#64748b;cursor:pointer;transition:all .25s cubic-bezier(.4,0,.2,1);white-space:nowrap;position:relative;z-index:1}
+.gfnu-seg-btn:hover:not(.gfnu-seg-active){color:#1e293b;background:rgba(255,255,255,.6)}
+.gfnu-seg-btn.gfnu-seg-active{background:#fff;color:#1e293b;box-shadow:0 1px 4px rgba(0,0,0,.1),0 2px 8px rgba(0,0,0,.06)}
+/* Dark variant */
+.gfnu-seg.gfnu-seg-dark{background:#1e293b}
+.gfnu-seg.gfnu-seg-dark .gfnu-seg-btn{color:rgba(255,255,255,.45)}
+.gfnu-seg.gfnu-seg-dark .gfnu-seg-btn:hover:not(.gfnu-seg-active){color:rgba(255,255,255,.75);background:rgba(255,255,255,.06)}
+.gfnu-seg.gfnu-seg-dark .gfnu-seg-btn.gfnu-seg-active{background:#334155;color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+/* Accent variant */
+.gfnu-seg.gfnu-seg-accent{background:rgba(30,158,140,.1)}
+.gfnu-seg.gfnu-seg-accent .gfnu-seg-btn.gfnu-seg-active{background:#1E9E8C;color:#fff}
+
+/* ── 2. AVATAR GROUP + STATUS ── */
+.gfnu-avatars{display:flex;align-items:center;gap:.75rem;font-family:'Inter',system-ui,sans-serif}
+.gfnu-avatar-stack{display:flex}
+.gfnu-av{width:36px;height:36px;border-radius:50%;border:2.5px solid #fff;margin-left:-10px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;color:#fff;position:relative;flex-shrink:0;transition:transform .2s cubic-bezier(.34,1.56,.64,1),z-index .2s}
+.gfnu-av:first-child{margin-left:0}
+.gfnu-av:hover{transform:translateY(-4px) scale(1.1);z-index:10}
+.gfnu-av-overflow{background:#e2e8f0;color:#64748b;font-size:.65rem}
+.gfnu-av-info{display:flex;flex-direction:column}
+.gfnu-av-label{font-size:.78rem;font-weight:700;color:#1e293b}
+.gfnu-av-sub{font-size:.68rem;color:#94a3b8}
+/* Status dots */
+.gfnu-av-status{position:absolute;bottom:1px;right:1px;width:9px;height:9px;border-radius:50%;border:2px solid #fff}
+.gfnu-status-online{background:#22c55e}
+.gfnu-status-away{background:#f59e0b}
+.gfnu-status-busy{background:#f43f5e}
+.gfnu-status-offline{background:#94a3b8}
+
+/* ── 3. BADGE COLLECTION ── */
+.gfnu-badges{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;font-family:'Inter',system-ui,sans-serif}
+.gfnu-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .65rem;border-radius:999px;font-size:.68rem;font-weight:700;letter-spacing:.03em;transition:all .2s cubic-bezier(.34,1.56,.64,1);cursor:default}
+.gfnu-badge:hover{transform:scale(1.06)}
+.gfnu-badge-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+/* Semantic variants */
+.gfnu-badge-green{background:#dcfce7;color:#166534}
+.gfnu-badge-green .gfnu-badge-dot{background:#22c55e}
+.gfnu-badge-red{background:#fee2e2;color:#991b1b}
+.gfnu-badge-red .gfnu-badge-dot{background:#ef4444}
+.gfnu-badge-yellow{background:#fef9c3;color:#854d0e}
+.gfnu-badge-yellow .gfnu-badge-dot{background:#eab308}
+.gfnu-badge-blue{background:#dbeafe;color:#1e40af}
+.gfnu-badge-blue .gfnu-badge-dot{background:#3b82f6}
+.gfnu-badge-purple{background:#ede9fe;color:#5b21b6}
+.gfnu-badge-purple .gfnu-badge-dot{background:#8b5cf6}
+.gfnu-badge-pink{background:#fce7f3;color:#9d174d}
+.gfnu-badge-pink .gfnu-badge-dot{background:#ec4899}
+.gfnu-badge-dark{background:#1e293b;color:#f8fafc}
+.gfnu-badge-dark .gfnu-badge-dot{background:#94a3b8}
+.gfnu-badge-outline{background:transparent;color:#64748b;border:1.5px solid #e2e8f0}
+/* Glow variant */
+.gfnu-badge-glow{background:#1E9E8C;color:#fff;box-shadow:0 0 0 0 rgba(30,158,140,.5);animation:gfnu-badge-pulse 2.5s ease-in-out infinite}
+@keyframes gfnu-badge-pulse{0%{box-shadow:0 0 0 0 rgba(30,158,140,.5)}70%{box-shadow:0 0 0 8px rgba(30,158,140,0)}100%{box-shadow:0 0 0 0 rgba(30,158,140,0)}}
+
+/* ── 4. CODE SNIPPET BLOCK ── */
+.gfnu-code{border-radius:16px;overflow:hidden;font-family:'JetBrains Mono',monospace;width:300px;box-shadow:0 8px 32px rgba(0,0,0,.18)}
+.gfnu-code-bar{background:#1a1f2e;padding:.55rem 1rem;display:flex;align-items:center;gap:.5rem;border-bottom:1px solid rgba(255,255,255,.06)}
+.gfnu-code-dots{display:flex;gap:.35rem}
+.gfnu-code-dot{width:10px;height:10px;border-radius:50%}
+.gfnu-code-dot-r{background:#ff5f57}
+.gfnu-code-dot-y{background:#febc2e}
+.gfnu-code-dot-g{background:#28c840}
+.gfnu-code-filename{font-size:.68rem;color:rgba(255,255,255,.35);margin-left:.35rem;letter-spacing:.02em}
+.gfnu-code-copy-btn{margin-left:auto;padding:.2rem .55rem;border-radius:6px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.4);font-size:.6rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnu-code-copy-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.gfnu-code-body{background:#0d1117;padding:1rem 1.1rem;overflow-x:auto}
+.gfnu-code-line{display:flex;align-items:baseline;gap:.75rem;line-height:1.9;font-size:.72rem}
+.gfnu-code-ln{color:rgba(255,255,255,.15);min-width:1rem;text-align:right;user-select:none;flex-shrink:0}
+.gfnu-code-text{white-space:pre}
+/* Syntax highlight tokens */
+.gfnu-t-kw{color:#ff79c6}
+.gfnu-t-fn{color:#50fa7b}
+.gfnu-t-str{color:#f1fa8c}
+.gfnu-t-num{color:#bd93f9}
+.gfnu-t-cm{color:#6272a4;font-style:italic}
+.gfnu-t-prop{color:#8be9fd}
+.gfnu-t-op{color:#ff79c6}
+.gfnu-t-plain{color:#f8f8f2}
+
+/* ── 5. PRICING TOGGLE ── */
+.gfnu-pricing{font-family:'Inter',system-ui,sans-serif;width:260px}
+.gfnu-pricing-toggle{display:flex;align-items:center;justify-content:center;gap:.65rem;margin-bottom:1.1rem}
+.gfnu-pricing-label{font-size:.78rem;font-weight:600;color:#94a3b8;transition:color .2s}
+.gfnu-pricing-label.active{color:#1e293b}
+.gfnu-pricing-switch{position:relative;width:44px;height:24px;cursor:pointer;flex-shrink:0}
+.gfnu-pricing-inp{opacity:0;width:0;height:0;position:absolute}
+.gfnu-pricing-track{position:absolute;inset:0;border-radius:99px;background:#e2e8f0;transition:background .3s}
+.gfnu-pricing-inp:checked+.gfnu-pricing-track{background:#1E9E8C}
+.gfnu-pricing-thumb{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.18);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gfnu-pricing-inp:checked~.gfnu-pricing-thumb{transform:translateX(20px)}
+.gfnu-pricing-save{font-size:.6rem;font-weight:700;background:#dcfce7;color:#166534;padding:.15rem .45rem;border-radius:99px;margin-left:.25rem}
+.gfnu-pricing-card{background:#fff;border-radius:18px;padding:1.25rem;border:1.5px solid #e2e8f0;transition:border-color .25s,box-shadow .25s}
+.gfnu-pricing-card:hover{border-color:#1E9E8C;box-shadow:0 6px 20px rgba(30,158,140,.12)}
+.gfnu-pricing-plan{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;margin-bottom:.4rem}
+.gfnu-pricing-amount{font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;color:#0f172a;line-height:1}
+.gfnu-pricing-amount sup{font-size:.9rem;font-weight:700;vertical-align:super}
+.gfnu-pricing-amount span{font-size:.78rem;font-weight:500;color:#94a3b8;font-family:'Inter',sans-serif}
+.gfnu-pricing-per{font-size:.72rem;color:#94a3b8;margin-bottom:.9rem}
+.gfnu-pricing-features{display:flex;flex-direction:column;gap:.35rem;margin-bottom:.9rem}
+.gfnu-pricing-feat{display:flex;align-items:center;gap:.5rem;font-size:.76rem;color:#475569}
+.gfnu-pricing-feat-check{width:16px;height:16px;border-radius:50%;background:#dcfce7;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:#16a34a;flex-shrink:0}
+.gfnu-pricing-cta{width:100%;padding:.6rem;border-radius:10px;background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfnu-pricing-cta:hover{box-shadow:0 6px 18px rgba(30,158,140,.35);transform:translateY(-1px)}
+
+/* ── 6. TIMELINE FEED ── */
+.gfnu-timeline{width:260px;font-family:'Inter',system-ui,sans-serif;position:relative}
+.gfnu-timeline-item{display:flex;gap:.85rem;position:relative;padding-bottom:1.1rem}
+.gfnu-timeline-item:last-child{padding-bottom:0}
+.gfnu-timeline-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:28px}
+.gfnu-timeline-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;position:relative;z-index:1;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.gfnu-timeline-line{flex:1;width:2px;background:#e2e8f0;margin-top:4px}
+.gfnu-timeline-item:last-child .gfnu-timeline-line{display:none}
+.gfnu-timeline-body{}
+.gfnu-timeline-title{font-size:.8rem;font-weight:700;color:#1e293b;margin-bottom:.1rem;line-height:1.3}
+.gfnu-timeline-desc{font-size:.72rem;color:#64748b;line-height:1.55}
+.gfnu-timeline-time{font-size:.62rem;color:#94a3b8;margin-top:.25rem;display:flex;align-items:center;gap:.3rem}
+
+/* ── 7. BREADCRUMB NAV ── */
+.gfnu-breadcrumbs-wrap{display:flex;flex-direction:column;gap:.85rem;font-family:'Inter',system-ui,sans-serif;width:280px}
+.gfnu-breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:.1rem}
+.gfnu-bc-item{display:flex;align-items:center;gap:.1rem;font-size:.78rem}
+.gfnu-bc-link{color:#64748b;text-decoration:none;padding:.2rem .4rem;border-radius:6px;transition:all .2s;cursor:pointer}
+.gfnu-bc-link:hover{color:#1e293b;background:#f1f5f9}
+.gfnu-bc-sep{color:#cbd5e1;font-size:.7rem;padding:0 .1rem;user-select:none}
+.gfnu-bc-current{color:#1e293b;font-weight:600;padding:.2rem .4rem}
+/* Pill style */
+.gfnu-breadcrumb.gfnu-bc-pill .gfnu-bc-link{background:#f1f5f9;border-radius:99px;padding:.22rem .65rem}
+.gfnu-breadcrumb.gfnu-bc-pill .gfnu-bc-link:hover{background:#e2e8f0}
+.gfnu-breadcrumb.gfnu-bc-pill .gfnu-bc-current{background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border-radius:99px;padding:.22rem .65rem}
+/* Dark style */
+.gfnu-breadcrumb.gfnu-bc-dark{background:#0f172a;padding:.55rem .85rem;border-radius:12px}
+.gfnu-breadcrumb.gfnu-bc-dark .gfnu-bc-link{color:rgba(255,255,255,.4)}
+.gfnu-breadcrumb.gfnu-bc-dark .gfnu-bc-link:hover{color:#fff;background:rgba(255,255,255,.08)}
+.gfnu-breadcrumb.gfnu-bc-dark .gfnu-bc-sep{color:rgba(255,255,255,.2)}
+.gfnu-breadcrumb.gfnu-bc-dark .gfnu-bc-current{color:#fff}
+
+/* ── 8. KEYBOARD SHORTCUT DISPLAY ── */
+.gfnu-kbd-wrap{display:flex;flex-direction:column;gap:.6rem;width:260px;font-family:'Inter',system-ui,sans-serif}
+.gfnu-kbd-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem .9rem;background:#fff;border-radius:12px;border:1px solid #e2e8f0;transition:border-color .2s,box-shadow .2s}
+.gfnu-kbd-row:hover{border-color:#1E9E8C;box-shadow:0 2px 8px rgba(30,158,140,.1)}
+.gfnu-kbd-action{font-size:.78rem;font-weight:600;color:#1e293b}
+.gfnu-kbd-keys{display:flex;align-items:center;gap:.25rem}
+.gfnu-kbd{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,#f8fafc 0%,#f1f5f9 100%);border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:6px;padding:.25rem .55rem;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:700;color:#475569;min-width:24px;line-height:1;box-shadow:0 1px 0 #94a3b8;transition:all .15s}
+.gfnu-kbd-row:hover .gfnu-kbd{border-color:#1E9E8C;color:#1E9E8C}
+.gfnu-kbd-plus{font-size:.6rem;color:#cbd5e1;font-weight:700}
+
+/* ── 9. PROGRESS RING ── */
+.gfnu-rings{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:center;font-family:'Inter',system-ui,sans-serif}
+.gfnu-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.gfnu-ring{position:relative;width:72px;height:72px;display:flex;align-items:center;justify-content:center}
+.gfnu-ring svg{position:absolute;top:0;left:0;transform:rotate(-90deg)}
+.gfnu-ring-bg{fill:none;stroke:#f1f5f9;stroke-width:6}
+.gfnu-ring-fill{fill:none;stroke-width:6;stroke-linecap:round;stroke-dasharray:175;stroke-dashoffset:175;transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)}
+.gfnu-ring.gfnu-animated .gfnu-ring-fill{stroke-dashoffset:var(--gfnu-ring-offset,175)}
+.gfnu-ring-val{font-size:.82rem;font-weight:800;font-family:'Syne',sans-serif;position:relative;z-index:1}
+.gfnu-ring-lbl{font-size:.62rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;text-align:center}
+
+/* ── 10. SPLIT COMPARISON CARD ── */
+.gfnu-compare{width:290px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.1);font-family:'Inter',system-ui,sans-serif}
+.gfnu-compare-header{padding:.85rem 1.1rem;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:.5rem}
+.gfnu-compare-title{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:800;color:#0f172a;flex:1}
+.gfnu-compare-badge{font-size:.6rem;font-weight:700;padding:.15rem .5rem;border-radius:99px}
+.gfnu-compare-cols{display:grid;grid-template-columns:1fr 1fr}
+.gfnu-compare-col{padding:.85rem .9rem}
+.gfnu-compare-col:first-child{border-right:1px solid #f1f5f9}
+.gfnu-compare-col-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.65rem;display:flex;align-items:center;gap:.3rem}
+.gfnu-compare-row{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:#64748b;padding:.3rem 0;border-bottom:1px solid #f8fafc}
+.gfnu-compare-row:last-child{border-bottom:none}
+.gfnu-compare-check{font-size:.65rem;width:14px;height:14px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gfnu-compare-check-yes{background:#dcfce7;color:#16a34a}
+.gfnu-compare-check-no{background:#fee2e2;color:#dc2626}
+.gfnu-compare-footer{padding:.85rem 1.1rem;border-top:1px solid #f1f5f9;display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.gfnu-compare-btn{padding:.5rem;border-radius:9px;font-size:.74rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
+.gfnu-compare-btn-ghost{background:none;border:1.5px solid #e2e8f0;color:#64748b}
+.gfnu-compare-btn-ghost:hover{border-color:#94a3b8;color:#1e293b}
+.gfnu-compare-btn-solid{background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none}
+.gfnu-compare-btn-solid:hover{box-shadow:0 4px 14px rgba(30,158,140,.35);transform:translateY(-1px)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / UI</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link active" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">UI</div>
+    <p class="page-sub">
+      <span>10 polished UI components</span> ... click any tile to view &amp; copy its HTML. 
+    </p>
+  </div>
+  <div class="ui-grid" id="ui-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">UI HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your &lt;head&gt;. All UI classes are prefixed <code>gfnu-</code> to guarantee zero collisions.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const UI = [
+
+/* ── 1. SEGMENTED CONTROL ── */
+{
+  name:'Segmented Control',tag:'Navigation',
+  bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html:`<!-- Segmented Control — Light -->
+<div class="gfnu-seg">
+  <button class="gfnu-seg-btn gfnu-seg-active" onclick="gfnuSeg(this)">Daily</button>
+  <button class="gfnu-seg-btn" onclick="gfnuSeg(this)">Weekly</button>
+  <button class="gfnu-seg-btn" onclick="gfnuSeg(this)">Monthly</button>
+</div>
+
+<!-- Dark variant -->
+<div class="gfnu-seg gfnu-seg-dark" style="margin-top:.75rem">
+  <button class="gfnu-seg-btn gfnu-seg-active" onclick="gfnuSeg(this)">Grid</button>
+  <button class="gfnu-seg-btn" onclick="gfnuSeg(this)">List</button>
+  <button class="gfnu-seg-btn" onclick="gfnuSeg(this)">Map</button>
+</div>
+
+<!-- Accent variant -->
+<div class="gfnu-seg gfnu-seg-accent" style="margin-top:.75rem">
+  <button class="gfnu-seg-btn gfnu-seg-active" onclick="gfnuSeg(this)">Design</button>
+  <button class="gfnu-seg-btn" onclick="gfnuSeg(this)">Preview</button>
+  <button class="gfnu-seg-btn" onclick="gfnuSeg(this)">Code</button>
+</div>
+
+<script>
+function gfnuSeg(btn) {
+  const seg = btn.closest('.gfnu-seg');
+  seg.querySelectorAll('.gfnu-seg-btn').forEach(b => b.classList.remove('gfnu-seg-active'));
+  btn.classList.add('gfnu-seg-active');
+}
+<\/script>`,
+  preview:`<div style="display:flex;flex-direction:column;gap:.75rem;align-items:center">
+  <div class="gfnu-seg">
+    <button class="gfnu-seg-btn gfnu-seg-active" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Daily</button>
+    <button class="gfnu-seg-btn" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Weekly</button>
+    <button class="gfnu-seg-btn" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Monthly</button>
+  </div>
+  <div class="gfnu-seg gfnu-seg-dark">
+    <button class="gfnu-seg-btn gfnu-seg-active" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Grid</button>
+    <button class="gfnu-seg-btn" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">List</button>
+    <button class="gfnu-seg-btn" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Map</button>
+  </div>
+  <div class="gfnu-seg gfnu-seg-accent">
+    <button class="gfnu-seg-btn gfnu-seg-active" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Design</button>
+    <button class="gfnu-seg-btn" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Preview</button>
+    <button class="gfnu-seg-btn" onclick="this.closest('.gfnu-seg').querySelectorAll('.gfnu-seg-btn').forEach(b=>b.classList.remove('gfnu-seg-active'));this.classList.add('gfnu-seg-active')">Code</button>
+  </div>
+</div>`
+},
+
+/* ── 2. AVATAR GROUP ── */
+{
+  name:'Avatar Group + Status',tag:'Social',
+  bg:'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  html:`<!-- Avatar Group with Status Indicators -->
+<div class="gfnu-avatars">
+  <div class="gfnu-avatar-stack">
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">
+      JD
+      <span class="gfnu-av-status gfnu-status-online"></span>
+    </div>
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#f43f5e,#fb923c)">
+      SR
+      <span class="gfnu-av-status gfnu-status-busy"></span>
+    </div>
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#1E9E8C,#28C4AF)">
+      MK
+      <span class="gfnu-av-status gfnu-status-away"></span>
+    </div>
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">
+      AL
+      <span class="gfnu-av-status gfnu-status-online"></span>
+    </div>
+    <div class="gfnu-av gfnu-av-overflow">+8</div>
+  </div>
+  <div class="gfnu-av-info">
+    <div class="gfnu-av-label">12 members</div>
+    <div class="gfnu-av-sub">4 online now</div>
+  </div>
+</div>`,
+  preview:`<div class="gfnu-avatars">
+  <div class="gfnu-avatar-stack">
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">JD<span class="gfnu-av-status gfnu-status-online"></span></div>
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#f43f5e,#fb923c)">SR<span class="gfnu-av-status gfnu-status-busy"></span></div>
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#1E9E8C,#28C4AF)">MK<span class="gfnu-av-status gfnu-status-away"></span></div>
+    <div class="gfnu-av" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">AL<span class="gfnu-av-status gfnu-status-online"></span></div>
+    <div class="gfnu-av gfnu-av-overflow">+8</div>
+  </div>
+  <div class="gfnu-av-info"><div class="gfnu-av-label">12 members</div><div class="gfnu-av-sub">4 online now</div></div>
+</div>`
+},
+
+/* ── 3. BADGE COLLECTION ── */
+{
+  name:'Badge Collection',tag:'Labels',
+  bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html:`<!-- Badge Collection — all variants -->
+<div class="gfnu-badges">
+  <span class="gfnu-badge gfnu-badge-green">
+    <span class="gfnu-badge-dot"></span>Live
+  </span>
+  <span class="gfnu-badge gfnu-badge-red">
+    <span class="gfnu-badge-dot"></span>Critical
+  </span>
+  <span class="gfnu-badge gfnu-badge-yellow">
+    <span class="gfnu-badge-dot"></span>Warning
+  </span>
+  <span class="gfnu-badge gfnu-badge-blue">
+    <span class="gfnu-badge-dot"></span>Info
+  </span>
+  <span class="gfnu-badge gfnu-badge-purple">
+    <span class="gfnu-badge-dot"></span>Beta
+  </span>
+  <span class="gfnu-badge gfnu-badge-pink">
+    <span class="gfnu-badge-dot"></span>New
+  </span>
+  <span class="gfnu-badge gfnu-badge-dark">v2.0.1</span>
+  <span class="gfnu-badge gfnu-badge-outline">Draft</span>
+  <!-- Glowing animated badge -->
+  <span class="gfnu-badge gfnu-badge-glow">
+    <span class="gfnu-badge-dot" style="background:#fff"></span>
+    Active
+  </span>
+</div>`,
+  preview:`<div class="gfnu-badges" style="max-width:260px">
+  <span class="gfnu-badge gfnu-badge-green"><span class="gfnu-badge-dot"></span>Live</span>
+  <span class="gfnu-badge gfnu-badge-red"><span class="gfnu-badge-dot"></span>Critical</span>
+  <span class="gfnu-badge gfnu-badge-yellow"><span class="gfnu-badge-dot"></span>Warning</span>
+  <span class="gfnu-badge gfnu-badge-blue"><span class="gfnu-badge-dot"></span>Info</span>
+  <span class="gfnu-badge gfnu-badge-purple"><span class="gfnu-badge-dot"></span>Beta</span>
+  <span class="gfnu-badge gfnu-badge-pink"><span class="gfnu-badge-dot"></span>New</span>
+  <span class="gfnu-badge gfnu-badge-dark">v2.0.1</span>
+  <span class="gfnu-badge gfnu-badge-outline">Draft</span>
+  <span class="gfnu-badge gfnu-badge-glow"><span class="gfnu-badge-dot" style="background:#fff"></span>Active</span>
+</div>`
+},
+
+/* ── 4. CODE SNIPPET BLOCK ── */
+{
+  name:'Code Snippet Block',tag:'Developer',
+  bg:'#0d1117',
+  html:`<!-- Syntax-highlighted code block -->
+<div class="gfnu-code">
+  <div class="gfnu-code-bar">
+    <div class="gfnu-code-dots">
+      <span class="gfnu-code-dot gfnu-code-dot-r"></span>
+      <span class="gfnu-code-dot gfnu-code-dot-y"></span>
+      <span class="gfnu-code-dot gfnu-code-dot-g"></span>
+    </div>
+    <span class="gfnu-code-filename">griffin.config.js</span>
+    <button class="gfnu-code-copy-btn" onclick="navigator.clipboard.writeText('// your code here').then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy',1500)})">Copy</button>
+  </div>
+  <div class="gfnu-code-body">
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">1</span>
+      <span class="gfnu-code-text"><span class="gfnu-t-kw">import</span> <span class="gfnu-t-plain">Griffin</span> <span class="gfnu-t-kw">from</span> <span class="gfnu-t-str">'griffin-css'</span></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">2</span>
+      <span class="gfnu-code-text"></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">3</span>
+      <span class="gfnu-code-text"><span class="gfnu-t-kw">export default</span> <span class="gfnu-t-fn">defineConfig</span><span class="gfnu-t-plain">({</span></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">4</span>
+      <span class="gfnu-code-text">  <span class="gfnu-t-prop">theme</span><span class="gfnu-t-op">:</span> <span class="gfnu-t-plain">{</span></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">5</span>
+      <span class="gfnu-code-text">    <span class="gfnu-t-prop">accent</span><span class="gfnu-t-op">:</span> <span class="gfnu-t-str">'#1E9E8C'</span><span class="gfnu-t-plain">,</span></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">6</span>
+      <span class="gfnu-code-text">    <span class="gfnu-t-prop">dark</span><span class="gfnu-t-op">:</span> <span class="gfnu-t-num">true</span></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">7</span>
+      <span class="gfnu-code-text">  <span class="gfnu-t-plain">}</span></span>
+    </div>
+    <div class="gfnu-code-line">
+      <span class="gfnu-code-ln">8</span>
+      <span class="gfnu-code-text"><span class="gfnu-t-plain">})</span></span>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="gfnu-code">
+  <div class="gfnu-code-bar">
+    <div class="gfnu-code-dots"><span class="gfnu-code-dot gfnu-code-dot-r"></span><span class="gfnu-code-dot gfnu-code-dot-y"></span><span class="gfnu-code-dot gfnu-code-dot-g"></span></div>
+    <span class="gfnu-code-filename">griffin.config.js</span>
+    <button class="gfnu-code-copy-btn">Copy</button>
+  </div>
+  <div class="gfnu-code-body">
+    <div class="gfnu-code-line"><span class="gfnu-code-ln">1</span><span class="gfnu-code-text"><span class="gfnu-t-kw">import</span> <span class="gfnu-t-plain">Griffin</span> <span class="gfnu-t-kw">from</span> <span class="gfnu-t-str">'griffin-css'</span></span></div>
+    <div class="gfnu-code-line"><span class="gfnu-code-ln">2</span><span class="gfnu-code-text"></span></div>
+    <div class="gfnu-code-line"><span class="gfnu-code-ln">3</span><span class="gfnu-code-text"><span class="gfnu-t-kw">export default</span> <span class="gfnu-t-fn">defineConfig</span><span class="gfnu-t-plain">({</span></span></div>
+    <div class="gfnu-code-line"><span class="gfnu-code-ln">4</span><span class="gfnu-code-text">  <span class="gfnu-t-prop">accent</span><span class="gfnu-t-op">:</span> <span class="gfnu-t-str">'#1E9E8C'</span><span class="gfnu-t-plain">,</span></span></div>
+    <div class="gfnu-code-line"><span class="gfnu-code-ln">5</span><span class="gfnu-code-text">  <span class="gfnu-t-prop">dark</span><span class="gfnu-t-op">:</span> <span class="gfnu-t-num">true</span></span></div>
+    <div class="gfnu-code-line"><span class="gfnu-code-ln">6</span><span class="gfnu-code-text"><span class="gfnu-t-plain">})</span></span></div>
+  </div>
+</div>`
+},
+
+/* ── 5. PRICING TOGGLE ── */
+{
+  name:'Pricing Toggle Card',tag:'E-commerce',
+  bg:'linear-gradient(135deg,#ecfdf5,#d1fae5)',
+  html:`<!-- Pricing Toggle — Monthly / Annual -->
+<div class="gfnu-pricing">
+  <div class="gfnu-pricing-toggle">
+    <span class="gfnu-pricing-label active" id="pt-monthly">Monthly</span>
+    <label class="gfnu-pricing-switch">
+      <input type="checkbox" class="gfnu-pricing-inp" id="pt-switch"
+        onchange="gfnuPricingToggle(this)">
+      <div class="gfnu-pricing-track"></div>
+      <div class="gfnu-pricing-thumb"></div>
+    </label>
+    <span class="gfnu-pricing-label" id="pt-annual">Annual <span class="gfnu-pricing-save">−20%</span></span>
+  </div>
+  <div class="gfnu-pricing-card">
+    <div class="gfnu-pricing-plan">Pro Plan</div>
+    <div class="gfnu-pricing-amount" id="pt-price"><sup>$</sup>29<span>/mo</span></div>
+    <div class="gfnu-pricing-per" id="pt-desc">Billed monthly</div>
+    <div class="gfnu-pricing-features">
+      <div class="gfnu-pricing-feat"><span class="gfnu-pricing-feat-check">✓</span>Unlimited projects</div>
+      <div class="gfnu-pricing-feat"><span class="gfnu-pricing-feat-check">✓</span>Custom domains</div>
+      <div class="gfnu-pricing-feat"><span class="gfnu-pricing-feat-check">✓</span>Priority support</div>
+    </div>
+    <button class="gfnu-pricing-cta">Get started →</button>
+  </div>
+</div>
+
+<script>
+function gfnuPricingToggle(inp) {
+  const price = document.getElementById('pt-price');
+  const desc = document.getElementById('pt-desc');
+  const monthly = document.getElementById('pt-monthly');
+  const annual = document.getElementById('pt-annual');
+  if (inp.checked) {
+    price.innerHTML = '<sup>$</sup>23<span>/mo</span>';
+    desc.textContent = 'Billed annually ($276/yr)';
+    monthly.classList.remove('active');
+    annual.classList.add('active');
+  } else {
+    price.innerHTML = '<sup>$</sup>29<span>/mo</span>';
+    desc.textContent = 'Billed monthly';
+    annual.classList.remove('active');
+    monthly.classList.add('active');
+  }
+}
+<\/script>`,
+  preview:`<div class="gfnu-pricing">
+  <div class="gfnu-pricing-toggle">
+    <span class="gfnu-pricing-label active">Monthly</span>
+    <label class="gfnu-pricing-switch">
+      <input type="checkbox" class="gfnu-pricing-inp" onchange="
+        var p=this.closest('.gfnu-pricing').querySelector('.gfnu-pricing-amount');
+        var d=this.closest('.gfnu-pricing').querySelector('.gfnu-pricing-per');
+        var ls=this.closest('.gfnu-pricing').querySelectorAll('.gfnu-pricing-label');
+        if(this.checked){p.innerHTML='<sup>$</sup>23<span>/mo</span>';d.textContent='Billed annually';ls[0].classList.remove('active');ls[1].classList.add('active')}
+        else{p.innerHTML='<sup>$</sup>29<span>/mo</span>';d.textContent='Billed monthly';ls[1].classList.remove('active');ls[0].classList.add('active')}">
+      <div class="gfnu-pricing-track"></div>
+      <div class="gfnu-pricing-thumb"></div>
+    </label>
+    <span class="gfnu-pricing-label">Annual <span class="gfnu-pricing-save">−20%</span></span>
+  </div>
+  <div class="gfnu-pricing-card">
+    <div class="gfnu-pricing-plan">Pro Plan</div>
+    <div class="gfnu-pricing-amount"><sup>$</sup>29<span>/mo</span></div>
+    <div class="gfnu-pricing-per">Billed monthly</div>
+    <div class="gfnu-pricing-features">
+      <div class="gfnu-pricing-feat"><span class="gfnu-pricing-feat-check">✓</span>Unlimited projects</div>
+      <div class="gfnu-pricing-feat"><span class="gfnu-pricing-feat-check">✓</span>Custom domains</div>
+    </div>
+    <button class="gfnu-pricing-cta">Get started →</button>
+  </div>
+</div>`
+},
+
+/* ── 6. TIMELINE FEED ── */
+{
+  name:'Timeline Feed',tag:'Activity',
+  bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html:`<!-- Vertical Timeline Feed -->
+<div class="gfnu-timeline">
+  <div class="gfnu-timeline-item">
+    <div class="gfnu-timeline-left">
+      <div class="gfnu-timeline-icon" style="background:linear-gradient(135deg,#1E9E8C,#28C4AF)">🚀</div>
+      <div class="gfnu-timeline-line"></div>
+    </div>
+    <div class="gfnu-timeline-body">
+      <div class="gfnu-timeline-title">v2.0 deployed to production</div>
+      <div class="gfnu-timeline-desc">50 new components, redesigned token system, and dark mode improvements shipped.</div>
+      <div class="gfnu-timeline-time">🕐 2 min ago</div>
+    </div>
+  </div>
+  <div class="gfnu-timeline-item">
+    <div class="gfnu-timeline-left">
+      <div class="gfnu-timeline-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">💬</div>
+      <div class="gfnu-timeline-line"></div>
+    </div>
+    <div class="gfnu-timeline-body">
+      <div class="gfnu-timeline-title">Alex left a review</div>
+      <div class="gfnu-timeline-desc">"This is the cleanest CSS framework I've used."</div>
+      <div class="gfnu-timeline-time">🕐 1 hr ago</div>
+    </div>
+  </div>
+  <div class="gfnu-timeline-item">
+    <div class="gfnu-timeline-left">
+      <div class="gfnu-timeline-icon" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">⭐</div>
+      <div class="gfnu-timeline-line"></div>
+    </div>
+    <div class="gfnu-timeline-body">
+      <div class="gfnu-timeline-title">Reached 5,000 stars</div>
+      <div class="gfnu-timeline-desc">Griffin CSS hit a major milestone on GitHub.</div>
+      <div class="gfnu-timeline-time">🕐 Yesterday</div>
+    </div>
+  </div>
+  <div class="gfnu-timeline-item">
+    <div class="gfnu-timeline-left">
+      <div class="gfnu-timeline-icon" style="background:linear-gradient(135deg,#f43f5e,#fb7185)">🎉</div>
+    </div>
+    <div class="gfnu-timeline-body">
+      <div class="gfnu-timeline-title">First public release</div>
+      <div class="gfnu-timeline-desc">v1.0 launched with 100+ components and zero dependencies.</div>
+      <div class="gfnu-timeline-time">🕐 3 days ago</div>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="gfnu-timeline" style="width:250px">
+  ${[
+    {g:'#1E9E8C,#28C4AF',ic:'🚀',t:'v2.0 deployed',d:'50 new components shipped.',tm:'2 min ago'},
+    {g:'#6366f1,#8b5cf6',ic:'💬',t:'Alex left a review',d:'"Cleanest framework I\'ve used."',tm:'1 hr ago'},
+    {g:'#f59e0b,#fbbf24',ic:'⭐',t:'5,000 GitHub stars',d:'Griffin CSS hit a milestone.',tm:'Yesterday'},
+  ].map((i,idx)=>`<div class="gfnu-timeline-item">
+    <div class="gfnu-timeline-left">
+      <div class="gfnu-timeline-icon" style="background:linear-gradient(135deg,${i.g})">${i.ic}</div>
+      ${idx<2?'<div class="gfnu-timeline-line"></div>':''}
+    </div>
+    <div class="gfnu-timeline-body">
+      <div class="gfnu-timeline-title">${i.t}</div>
+      <div class="gfnu-timeline-desc">${i.d}</div>
+      <div class="gfnu-timeline-time">🕐 ${i.tm}</div>
+    </div>
+  </div>`).join('')}
+</div>`
+},
+
+/* ── 7. BREADCRUMB NAV ── */
+{
+  name:'Breadcrumb Nav',tag:'Navigation',
+  bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html:`<!-- Three breadcrumb styles -->
+
+<!-- Default -->
+<nav class="gfnu-breadcrumb">
+  <div class="gfnu-bc-item">
+    <a class="gfnu-bc-link" href="#">🏠 Home</a>
+    <span class="gfnu-bc-sep">/</span>
+  </div>
+  <div class="gfnu-bc-item">
+    <a class="gfnu-bc-link" href="#">Components</a>
+    <span class="gfnu-bc-sep">/</span>
+  </div>
+  <div class="gfnu-bc-item">
+    <span class="gfnu-bc-current">UI</span>
+  </div>
+</nav>
+
+<!-- Pill style -->
+<nav class="gfnu-breadcrumb gfnu-bc-pill" style="margin-top:.75rem">
+  <div class="gfnu-bc-item">
+    <a class="gfnu-bc-link" href="#">Home</a>
+    <span class="gfnu-bc-sep">›</span>
+  </div>
+  <div class="gfnu-bc-item">
+    <a class="gfnu-bc-link" href="#">Docs</a>
+    <span class="gfnu-bc-sep">›</span>
+  </div>
+  <div class="gfnu-bc-item">
+    <span class="gfnu-bc-current">Getting Started</span>
+  </div>
+</nav>
+
+<!-- Dark style -->
+<nav class="gfnu-breadcrumb gfnu-bc-dark" style="margin-top:.75rem">
+  <div class="gfnu-bc-item">
+    <a class="gfnu-bc-link" href="#">Dashboard</a>
+    <span class="gfnu-bc-sep">›</span>
+  </div>
+  <div class="gfnu-bc-item">
+    <a class="gfnu-bc-link" href="#">Settings</a>
+    <span class="gfnu-bc-sep">›</span>
+  </div>
+  <div class="gfnu-bc-item">
+    <span class="gfnu-bc-current">Profile</span>
+  </div>
+</nav>`,
+  preview:`<div style="display:flex;flex-direction:column;gap:.75rem;width:265px">
+  <nav class="gfnu-breadcrumb">
+    <div class="gfnu-bc-item"><a class="gfnu-bc-link">🏠 Home</a><span class="gfnu-bc-sep">/</span></div>
+    <div class="gfnu-bc-item"><a class="gfnu-bc-link">Components</a><span class="gfnu-bc-sep">/</span></div>
+    <div class="gfnu-bc-item"><span class="gfnu-bc-current">UI</span></div>
+  </nav>
+  <nav class="gfnu-breadcrumb gfnu-bc-pill">
+    <div class="gfnu-bc-item"><a class="gfnu-bc-link">Home</a><span class="gfnu-bc-sep">›</span></div>
+    <div class="gfnu-bc-item"><a class="gfnu-bc-link">Docs</a><span class="gfnu-bc-sep">›</span></div>
+    <div class="gfnu-bc-item"><span class="gfnu-bc-current">Getting Started</span></div>
+  </nav>
+  <nav class="gfnu-breadcrumb gfnu-bc-dark">
+    <div class="gfnu-bc-item"><a class="gfnu-bc-link">Dashboard</a><span class="gfnu-bc-sep">›</span></div>
+    <div class="gfnu-bc-item"><a class="gfnu-bc-link">Settings</a><span class="gfnu-bc-sep">›</span></div>
+    <div class="gfnu-bc-item"><span class="gfnu-bc-current">Profile</span></div>
+  </nav>
+</div>`
+},
+
+/* ── 8. KEYBOARD SHORTCUT DISPLAY ── */
+{
+  name:'Keyboard Shortcuts',tag:'Developer',
+  bg:'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html:`<!-- Keyboard Shortcut Reference -->
+<div class="gfnu-kbd-wrap">
+  <div class="gfnu-kbd-row">
+    <span class="gfnu-kbd-action">Save file</span>
+    <div class="gfnu-kbd-keys">
+      <span class="gfnu-kbd">⌘</span>
+      <span class="gfnu-kbd-plus">+</span>
+      <span class="gfnu-kbd">S</span>
+    </div>
+  </div>
+  <div class="gfnu-kbd-row">
+    <span class="gfnu-kbd-action">Command palette</span>
+    <div class="gfnu-kbd-keys">
+      <span class="gfnu-kbd">⌘</span>
+      <span class="gfnu-kbd-plus">+</span>
+      <span class="gfnu-kbd">K</span>
+    </div>
+  </div>
+  <div class="gfnu-kbd-row">
+    <span class="gfnu-kbd-action">Toggle dark mode</span>
+    <div class="gfnu-kbd-keys">
+      <span class="gfnu-kbd">⌘</span>
+      <span class="gfnu-kbd-plus">+</span>
+      <span class="gfnu-kbd">Shift</span>
+      <span class="gfnu-kbd-plus">+</span>
+      <span class="gfnu-kbd">D</span>
+    </div>
+  </div>
+  <div class="gfnu-kbd-row">
+    <span class="gfnu-kbd-action">Search</span>
+    <div class="gfnu-kbd-keys">
+      <span class="gfnu-kbd">Ctrl</span>
+      <span class="gfnu-kbd-plus">+</span>
+      <span class="gfnu-kbd">F</span>
+    </div>
+  </div>
+  <div class="gfnu-kbd-row">
+    <span class="gfnu-kbd-action">New tab</span>
+    <div class="gfnu-kbd-keys">
+      <span class="gfnu-kbd">⌘</span>
+      <span class="gfnu-kbd-plus">+</span>
+      <span class="gfnu-kbd">T</span>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="gfnu-kbd-wrap" style="width:250px">
+  ${[
+    {a:'Save file',k:['⌘','S']},
+    {a:'Command palette',k:['⌘','K']},
+    {a:'Toggle dark mode',k:['⌘','⇧','D']},
+    {a:'Search',k:['Ctrl','F']},
+  ].map(r=>`<div class="gfnu-kbd-row">
+    <span class="gfnu-kbd-action">${r.a}</span>
+    <div class="gfnu-kbd-keys">${r.k.map((k,i)=>`<span class="gfnu-kbd">${k}</span>${i<r.k.length-1?'<span class="gfnu-kbd-plus">+</span>':''}`).join('')}</div>
+  </div>`).join('')}
+</div>`
+},
+
+/* ── 9. PROGRESS RINGS ── */
+{
+  name:'Progress Rings',tag:'Data',
+  bg:'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  html:`<!-- Animated Progress Rings -->
+<!-- Each ring: set --gfnu-ring-offset = 175 - (175 * percentage / 100) -->
+<div class="gfnu-rings" id="myRings">
+  <div class="gfnu-ring-wrap">
+    <div class="gfnu-ring" style="--gfnu-ring-offset:17">
+      <svg viewBox="0 0 72 72" width="72" height="72">
+        <circle class="gfnu-ring-bg" cx="36" cy="36" r="28"/>
+        <circle class="gfnu-ring-fill" cx="36" cy="36" r="28" stroke="#1E9E8C"/>
+      </svg>
+      <span class="gfnu-ring-val" style="color:#1E9E8C">90%</span>
+    </div>
+    <span class="gfnu-ring-lbl">Design</span>
+  </div>
+  <div class="gfnu-ring-wrap">
+    <div class="gfnu-ring" style="--gfnu-ring-offset:44">
+      <svg viewBox="0 0 72 72" width="72" height="72">
+        <circle class="gfnu-ring-bg" cx="36" cy="36" r="28"/>
+        <circle class="gfnu-ring-fill" cx="36" cy="36" r="28" stroke="#6366f1"/>
+      </svg>
+      <span class="gfnu-ring-val" style="color:#6366f1">75%</span>
+    </div>
+    <span class="gfnu-ring-lbl">Frontend</span>
+  </div>
+  <div class="gfnu-ring-wrap">
+    <div class="gfnu-ring" style="--gfnu-ring-offset:88">
+      <svg viewBox="0 0 72 72" width="72" height="72">
+        <circle class="gfnu-ring-bg" cx="36" cy="36" r="28"/>
+        <circle class="gfnu-ring-fill" cx="36" cy="36" r="28" stroke="#f59e0b"/>
+      </svg>
+      <span class="gfnu-ring-val" style="color:#f59e0b">50%</span>
+    </div>
+    <span class="gfnu-ring-lbl">Backend</span>
+  </div>
+</div>
+
+<script>
+// Animate rings when they enter the viewport
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.gfnu-ring').forEach(r => r.classList.add('gfnu-animated'));
+      obs.disconnect();
+    }
+  });
+}, { threshold: 0.4 });
+obs.observe(document.getElementById('myRings'));
+<\/script>`,
+  preview(){
+    const rings=[{pct:90,c:'#1E9E8C',l:'Design'},{pct:75,c:'#6366f1',l:'Frontend'},{pct:50,c:'#f59e0b',l:'Backend'}];
+    return `<div class="gfnu-rings" id="rings-preview">
+  ${rings.map(r=>{const off=Math.round(175-(175*r.pct/100));return`<div class="gfnu-ring-wrap"><div class="gfnu-ring" style="--gfnu-ring-offset:${off}"><svg viewBox="0 0 72 72" width="72" height="72"><circle class="gfnu-ring-bg" cx="36" cy="36" r="28"/><circle class="gfnu-ring-fill" cx="36" cy="36" r="28" stroke="${r.c}"/></svg><span class="gfnu-ring-val" style="color:${r.c}">${r.pct}%</span></div><span class="gfnu-ring-lbl">${r.l}</span></div>`}).join('')}
+</div>`;
+  },
+  init(el){
+    const obs=new IntersectionObserver(ents=>{
+      if(ents[0].isIntersecting){
+        el.querySelectorAll('.gfnu-ring').forEach(r=>r.classList.add('gfnu-animated'));
+        obs.disconnect();
+      }
+    },{threshold:.3});
+    obs.observe(el);
+  }
+},
+
+/* ── 10. SPLIT COMPARISON ── */
+{
+  name:'Split Comparison Card',tag:'Marketing',
+  bg:'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  html:`<!-- Split Feature Comparison Card -->
+<div class="gfnu-compare">
+  <div class="gfnu-compare-header">
+    <div class="gfnu-compare-title">Compare Plans</div>
+    <span class="gfnu-compare-badge" style="background:#dcfce7;color:#166534">Free vs Pro</span>
+  </div>
+  <div class="gfnu-compare-cols">
+    <div class="gfnu-compare-col">
+      <div class="gfnu-compare-col-title" style="color:#64748b">⬜ Free</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>3 projects</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Basic analytics</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-no">✕</span>Custom domain</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-no">✕</span>Priority support</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-no">✕</span>Team members</div>
+    </div>
+    <div class="gfnu-compare-col">
+      <div class="gfnu-compare-col-title" style="color:#1E9E8C">✦ Pro</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Unlimited</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Advanced</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Yes</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>24/7</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Unlimited</div>
+    </div>
+  </div>
+  <div class="gfnu-compare-footer">
+    <button class="gfnu-compare-btn gfnu-compare-btn-ghost">Stay Free</button>
+    <button class="gfnu-compare-btn gfnu-compare-btn-solid">Go Pro →</button>
+  </div>
+</div>`,
+  preview:`<div class="gfnu-compare">
+  <div class="gfnu-compare-header"><div class="gfnu-compare-title">Compare Plans</div><span class="gfnu-compare-badge" style="background:#dcfce7;color:#166534">Free vs Pro</span></div>
+  <div class="gfnu-compare-cols">
+    <div class="gfnu-compare-col">
+      <div class="gfnu-compare-col-title" style="color:#64748b">⬜ Free</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>3 projects</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Basic analytics</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-no">✕</span>Custom domain</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-no">✕</span>Priority support</div>
+    </div>
+    <div class="gfnu-compare-col">
+      <div class="gfnu-compare-col-title" style="color:#1E9E8C">✦ Pro</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Unlimited</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Advanced</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>Yes</div>
+      <div class="gfnu-compare-row"><span class="gfnu-compare-check gfnu-compare-check-yes">✓</span>24/7</div>
+    </div>
+  </div>
+  <div class="gfnu-compare-footer">
+    <button class="gfnu-compare-btn gfnu-compare-btn-ghost">Stay Free</button>
+    <button class="gfnu-compare-btn gfnu-compare-btn-solid">Go Pro →</button>
+  </div>
+</div>`
+}
+
+];
+
+/* ── RENDER ── */
+const grid = document.getElementById('ui-grid');
+UI.forEach(item => {
+  const tile = document.createElement('div');
+  tile.className = 'ui-tile';
+  const preview = typeof item.preview === 'function' ? item.preview() : item.preview;
+  tile.innerHTML = `
+    <div class="ui-preview" style="background:${item.bg}">${preview}</div>
+    <div class="ui-meta">
+      <span class="ui-name">${item.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="ui-tag">${item.tag}</span>
+        <span class="click-hint">🖱 Copy HTML</span>
+      </div>
+    </div>`;
+  if (item.init) item.init(tile.querySelector('.ui-preview'));
+  tile.querySelector('.ui-meta').addEventListener('click', () => openModal(item));
+  tile.querySelector('.ui-preview').addEventListener('click', () => openModal(item));
+  grid.appendChild(tile);
+});
+
+/* ── MODAL ── */
+let current = null;
+function openModal(item) {
+  current = item;
+  document.getElementById('modal-title').textContent = item.name;
+  document.getElementById('modal-subtitle').textContent = `${item.tag} · copy & customize`;
+  document.getElementById('modal-code').textContent = item.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function copyCode() {
+  navigator.clipboard.writeText(current.html).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── THEME ── */
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

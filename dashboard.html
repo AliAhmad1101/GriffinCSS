@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboards ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* DASHBOARD GRID — 1 per row */
+.dash-grid{display:flex;flex-direction:column;gap:2.5rem}
+
+/* DASHBOARD TILE */
+.dash-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;box-shadow:var(--sh);transition:box-shadow .3s;animation:gfnd-fadeInUp .5s ease both}
+.dash-tile:hover{box-shadow:var(--sh2)}
+.dash-tile:nth-child(1){animation-delay:.05s}
+.dash-tile:nth-child(2){animation-delay:.12s}
+.dash-tile:nth-child(3){animation-delay:.19s}
+.dash-tile:nth-child(4){animation-delay:.26s}
+.dash-tile:nth-child(5){animation-delay:.33s}
+@keyframes gfnd-fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* TILE HEADER */
+.dash-tile-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem;background:var(--surf2)}
+.dash-tile-name{font-family:var(--font-disp);font-weight:800;font-size:.95rem;color:var(--tx)}
+.dash-tile-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.dash-tile-meta{display:flex;align-items:center;gap:.6rem}
+.dash-tile-copy{display:inline-flex;align-items:center;gap:.3rem;padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.72rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.dash-tile-copy:hover{background:var(--accent);color:#fff}
+.dash-tile-copy.copied{background:var(--accent);color:#fff}
+
+/* TILE PREVIEW */
+.dash-tile-preview{padding:1.75rem 1.5rem;overflow-x:auto}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:860px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover,.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2;margin:0}
+.modal-note{background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* =====================================================
+   GRIFFIN CSS — 5 DASHBOARD STYLES
+   ===================================================== */
+
+/* ── SHARED UTILITIES ── */
+.gfnd-grid{display:grid;gap:1rem}
+.gfnd-flex{display:flex;align-items:center}
+.gfnd-card{background:#fff;border-radius:16px;padding:1.25rem 1.4rem;border:1px solid rgba(0,0,0,.07);box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.gfnd-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;color:#0f172a;line-height:1}
+.gfnd-label{font-size:.72rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.gfnd-delta{display:inline-flex;align-items:center;gap:.2rem;font-size:.72rem;font-weight:700;padding:.15rem .5rem;border-radius:99px;margin-top:.35rem}
+.gfnd-delta-up{background:#f0fdf4;color:#16a34a}
+.gfnd-delta-down{background:#fff1f2;color:#e11d48}
+.gfnd-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.68rem;font-weight:700;padding:.2rem .55rem;border-radius:99px;letter-spacing:.04em}
+.gfnd-avatar{width:2.2rem;height:2.2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0;color:#fff}
+.gfnd-bar-track{height:6px;border-radius:99px;background:rgba(0,0,0,.07);overflow:hidden}
+.gfnd-bar-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
+
+/* ── SPARKLINE SVG ── */
+.gfnd-spark{display:block;width:100%;height:48px}
+
+/* =====================================================
+   DASHBOARD 1 — SaaS Analytics Command Center
+   ===================================================== */
+.gfnd-saas{font-family:'Inter',system-ui,sans-serif;background:#f8fafc;border-radius:20px;padding:1.5rem;min-width:320px}
+.gfnd-saas-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+.gfnd-saas-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#0f172a}
+.gfnd-saas-date{font-size:.74rem;color:#94a3b8;background:#fff;border:1px solid #e2e8f0;padding:.3rem .75rem;border-radius:99px}
+.gfnd-saas-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:.85rem;margin-bottom:1.25rem}
+@media(max-width:700px){.gfnd-saas-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:380px){.gfnd-saas-kpis{grid-template-columns:1fr}}
+.gfnd-saas-kpi{background:#fff;border-radius:14px;padding:1rem 1.1rem;border:1px solid #f1f5f9;box-shadow:0 1px 4px rgba(0,0,0,.04);position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.gfnd-saas-kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.gfnd-saas-kpi-accent{position:absolute;top:0;left:0;width:3px;height:100%;border-radius:3px 0 0 3px}
+.gfnd-saas-kpi-icon{font-size:1.1rem;margin-bottom:.5rem}
+.gfnd-saas-kpi-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:#0f172a;line-height:1;margin-bottom:.2rem}
+.gfnd-saas-kpi-lbl{font-size:.7rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.4rem}
+.gfnd-saas-kpi-delta{font-size:.7rem;font-weight:700;padding:.1rem .4rem;border-radius:99px}
+.gfnd-saas-bottom{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+@media(max-width:560px){.gfnd-saas-bottom{grid-template-columns:1fr}}
+.gfnd-saas-chart{background:#fff;border-radius:14px;padding:1rem 1.1rem;border:1px solid #f1f5f9}
+.gfnd-saas-chart-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem}
+.gfnd-saas-chart-title{font-size:.78rem;font-weight:700;color:#1e293b}
+.gfnd-saas-chart-leg{display:flex;gap:.6rem}
+.gfnd-saas-leg-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:.25rem;vertical-align:middle}
+.gfnd-saas-leg-txt{font-size:.67rem;color:#94a3b8;font-weight:500}
+.gfnd-saas-svg{width:100%;height:90px;display:block}
+.gfnd-saas-activity{background:#fff;border-radius:14px;padding:1rem 1.1rem;border:1px solid #f1f5f9}
+.gfnd-saas-act-head{font-size:.78rem;font-weight:700;color:#1e293b;margin-bottom:.75rem}
+.gfnd-saas-act-item{display:flex;align-items:center;gap:.65rem;padding:.45rem 0;border-bottom:1px solid #f8fafc}
+.gfnd-saas-act-item:last-child{border-bottom:none}
+.gfnd-saas-act-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.gfnd-saas-act-text{flex:1;font-size:.75rem;color:#475569}
+.gfnd-saas-act-time{font-size:.68rem;color:#94a3b8;white-space:nowrap}
+
+/* =====================================================
+   DASHBOARD 2 — Dark Crypto / Finance Terminal
+   ===================================================== */
+.gfnd-crypto{font-family:'Inter',system-ui,sans-serif;background:#0b1120;border-radius:20px;padding:1.5rem;color:#f8fafc;min-width:320px}
+.gfnd-crypto-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.5rem}
+.gfnd-crypto-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:#f8fafc;display:flex;align-items:center;gap:.5rem}
+.gfnd-crypto-brand-dot{width:8px;height:8px;border-radius:50%;background:#22d3ee;box-shadow:0 0 8px #22d3ee;animation:gfnd-pulse 2s infinite}
+@keyframes gfnd-pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.gfnd-crypto-tabs{display:flex;gap:.35rem;background:rgba(255,255,255,.06);border-radius:10px;padding:.25rem}
+.gfnd-crypto-tab{padding:.3rem .8rem;border-radius:7px;border:none;background:none;color:rgba(255,255,255,.4);font-size:.73rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnd-crypto-tab.gfnd-active{background:rgba(255,255,255,.12);color:#f8fafc}
+.gfnd-crypto-hero{background:linear-gradient(135deg,rgba(34,211,238,.08),rgba(99,102,241,.08));border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:1.25rem 1.4rem;margin-bottom:1rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.gfnd-crypto-price-label{font-size:.7rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem}
+.gfnd-crypto-price{font-family:'Syne',sans-serif;font-weight:800;font-size:2.4rem;color:#f8fafc;line-height:1;letter-spacing:-.02em}
+.gfnd-crypto-price sup{font-size:1.1rem;font-weight:600;opacity:.6;vertical-align:super}
+.gfnd-crypto-change{display:inline-flex;align-items:center;gap:.3rem;background:rgba(34,197,94,.15);color:#4ade80;font-size:.78rem;font-weight:700;padding:.3rem .75rem;border-radius:99px;margin-top:.5rem}
+.gfnd-crypto-sparkline{flex:1;min-width:160px;max-width:260px}
+.gfnd-crypto-spark{width:100%;height:70px;display:block}
+.gfnd-crypto-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;margin-bottom:1rem}
+@media(max-width:500px){.gfnd-crypto-grid{grid-template-columns:repeat(2,1fr)}}
+.gfnd-crypto-stat{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:.8rem .9rem}
+.gfnd-crypto-stat-label{font-size:.65rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.gfnd-crypto-stat-val{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:#f8fafc}
+.gfnd-crypto-table-head{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:.5rem;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:.4rem .75rem;margin-bottom:.3rem}
+.gfnd-crypto-row{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:.5rem;align-items:center;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:10px;padding:.65rem .75rem;margin-bottom:.4rem;transition:background .2s;cursor:pointer}
+.gfnd-crypto-row:hover{background:rgba(255,255,255,.07)}
+.gfnd-crypto-row-coin{display:flex;align-items:center;gap:.55rem}
+.gfnd-crypto-row-icon{width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.gfnd-crypto-row-name{font-weight:700;font-size:.8rem;color:#f8fafc}
+.gfnd-crypto-row-sym{font-size:.67rem;color:rgba(255,255,255,.35);font-weight:500}
+.gfnd-crypto-row-val{font-size:.8rem;font-weight:600;color:#f8fafc;text-align:right}
+.gfnd-crypto-row-chg{font-size:.75rem;font-weight:700;text-align:right}
+.gfnd-crypto-row-bar{text-align:right}
+.gfnd-crypto-mini-bar{display:inline-block;height:4px;border-radius:99px;vertical-align:middle}
+
+/* =====================================================
+   DASHBOARD 3 — Project Management / Team Kanban
+   ===================================================== */
+.gfnd-kanban{font-family:'Inter',system-ui,sans-serif;background:#f1f5f9;border-radius:20px;padding:1.5rem;min-width:320px}
+.gfnd-kanban-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+.gfnd-kanban-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#0f172a}
+.gfnd-kanban-actions{display:flex;gap:.5rem;align-items:center}
+.gfnd-kanban-btn{padding:.35rem .85rem;border-radius:9px;border:1.5px solid #e2e8f0;background:#fff;color:#475569;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnd-kanban-btn:hover{border-color:#1E9E8C;color:#1E9E8C}
+.gfnd-kanban-btn-primary{background:#0f172a;color:#fff;border-color:#0f172a}
+.gfnd-kanban-btn-primary:hover{background:#1e293b;border-color:#1e293b;color:#fff}
+.gfnd-kanban-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1.25rem}
+@media(max-width:600px){.gfnd-kanban-stats{grid-template-columns:repeat(2,1fr)}}
+.gfnd-kanban-stat{background:#fff;border-radius:12px;padding:.85rem 1rem;border:1px solid #f1f5f9;text-align:center}
+.gfnd-kanban-stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:#0f172a;line-height:1;margin-bottom:.2rem}
+.gfnd-kanban-stat-lbl{font-size:.67rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+.gfnd-kanban-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem}
+@media(max-width:680px){.gfnd-kanban-cols{grid-template-columns:1fr}}
+.gfnd-kanban-col{background:rgba(0,0,0,.04);border-radius:14px;padding:.85rem;min-height:280px}
+.gfnd-kanban-col-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.gfnd-kanban-col-label{display:flex;align-items:center;gap:.45rem;font-size:.75rem;font-weight:700;color:#1e293b}
+.gfnd-kanban-col-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.gfnd-kanban-col-count{background:#fff;color:#64748b;font-size:.65rem;font-weight:700;padding:.1rem .45rem;border-radius:99px}
+.gfnd-kanban-card{background:#fff;border-radius:10px;padding:.85rem .9rem;margin-bottom:.55rem;border:1px solid rgba(0,0,0,.06);box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:all .2s;position:relative}
+.gfnd-kanban-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.1)}
+.gfnd-kanban-card-tag{font-size:.62rem;font-weight:700;padding:.12rem .45rem;border-radius:6px;margin-bottom:.45rem;display:inline-block;letter-spacing:.04em}
+.gfnd-kanban-card-title{font-size:.8rem;font-weight:700;color:#1e293b;margin-bottom:.55rem;line-height:1.4}
+.gfnd-kanban-card-foot{display:flex;align-items:center;justify-content:space-between}
+.gfnd-kanban-card-avatars{display:flex}
+.gfnd-kanban-card-avatar{width:1.5rem;height:1.5rem;border-radius:50%;border:2px solid #fff;font-size:.58rem;font-weight:700;color:#fff;display:flex;align-items:center;justify-content:center;margin-left:-.4rem;flex-shrink:0}
+.gfnd-kanban-card-avatar:first-child{margin-left:0}
+.gfnd-kanban-card-due{font-size:.67rem;color:#94a3b8;font-weight:500}
+.gfnd-kanban-card-prio{position:absolute;top:.7rem;right:.7rem;width:6px;height:6px;border-radius:50%}
+.gfnd-kanban-progress{margin-top:.5rem}
+.gfnd-kanban-progress-bar{height:3px;border-radius:99px;background:#f1f5f9;overflow:hidden;margin-top:.25rem}
+.gfnd-kanban-progress-fill{height:100%;border-radius:99px;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.gfnd-kanban-progress-txt{font-size:.63rem;color:#94a3b8}
+
+/* =====================================================
+   DASHBOARD 4 — Personal Health & Fitness Tracker
+   ===================================================== */
+.gfnd-health{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(160deg,#0f172a 0%,#1e1b4b 100%);border-radius:20px;padding:1.5rem;color:#f8fafc;min-width:320px}
+.gfnd-health-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:.75rem}
+.gfnd-health-greet{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:#f8fafc}
+.gfnd-health-date{font-size:.74rem;color:rgba(255,255,255,.4);margin-top:.15rem}
+.gfnd-health-avatar{width:2.6rem;height:2.6rem;border-radius:50%;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 0 0 3px rgba(99,102,241,.3)}
+.gfnd-health-rings{display:flex;align-items:center;justify-content:center;gap:2rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.4rem;margin-bottom:1rem;flex-wrap:wrap}
+.gfnd-health-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.gfnd-health-ring-svg{display:block}
+.gfnd-health-ring-label{font-size:.68rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.08em;font-weight:600;text-align:center}
+.gfnd-health-ring-val{font-family:'Syne',sans-serif;font-weight:800;font-size:.85rem;color:#f8fafc;text-align:center}
+.gfnd-health-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
+@media(max-width:560px){.gfnd-health-stats{grid-template-columns:repeat(2,1fr)}}
+.gfnd-health-stat{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:.9rem .85rem;text-align:center;transition:background .2s}
+.gfnd-health-stat:hover{background:rgba(255,255,255,.1)}
+.gfnd-health-stat-icon{font-size:1.3rem;margin-bottom:.3rem}
+.gfnd-health-stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#f8fafc;line-height:1;margin-bottom:.15rem}
+.gfnd-health-stat-lbl{font-size:.65rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em;font-weight:600}
+.gfnd-health-week{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1rem 1.1rem;margin-bottom:1rem}
+.gfnd-health-week-title{font-size:.74rem;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.85rem}
+.gfnd-health-days{display:grid;grid-template-columns:repeat(7,1fr);gap:.4rem}
+.gfnd-health-day{display:flex;flex-direction:column;align-items:center;gap:.35rem}
+.gfnd-health-day-lbl{font-size:.6rem;color:rgba(255,255,255,.3);font-weight:600;text-transform:uppercase}
+.gfnd-health-day-bar-wrap{width:100%;height:60px;display:flex;align-items:flex-end;justify-content:center}
+.gfnd-health-day-bar{width:70%;border-radius:4px 4px 0 0;transition:height 1s cubic-bezier(.4,0,.2,1);min-height:4px}
+.gfnd-health-day-steps{font-size:.6rem;color:rgba(255,255,255,.35);font-weight:600}
+.gfnd-health-goals{display:flex;flex-direction:column;gap:.6rem}
+.gfnd-health-goal{display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:.75rem .9rem}
+.gfnd-health-goal-icon{font-size:1.1rem;flex-shrink:0;width:2.2rem;height:2.2rem;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.gfnd-health-goal-info{flex:1;min-width:0}
+.gfnd-health-goal-label{font-size:.78rem;font-weight:600;color:#f8fafc;margin-bottom:.3rem}
+.gfnd-health-goal-track{height:5px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden}
+.gfnd-health-goal-fill{height:100%;border-radius:99px;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
+.gfnd-health-goal-pct{font-size:.72rem;font-weight:700;color:rgba(255,255,255,.5);flex-shrink:0}
+
+/* =====================================================
+   DASHBOARD 5 — E-Commerce Revenue Overview
+   ===================================================== */
+.gfnd-ecom{font-family:'Inter',system-ui,sans-serif;background:#fff;border-radius:20px;padding:1.5rem;min-width:320px;border:1px solid #f1f5f9}
+.gfnd-ecom-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+.gfnd-ecom-title{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#0f172a;margin-bottom:.2rem}
+.gfnd-ecom-sub{font-size:.74rem;color:#94a3b8}
+.gfnd-ecom-period{display:flex;background:#f8fafc;border:1px solid #f1f5f9;border-radius:10px;padding:.2rem;gap:.15rem}
+.gfnd-ecom-period-btn{padding:.3rem .75rem;border-radius:7px;border:none;background:none;color:#94a3b8;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnd-ecom-period-btn.gfnd-active{background:#fff;color:#0f172a;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.gfnd-ecom-hero{background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:16px;padding:1.25rem 1.4rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.gfnd-ecom-revenue-lbl{font-size:.7rem;color:#16a34a;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.gfnd-ecom-revenue{font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;color:#0f172a;line-height:1;letter-spacing:-.03em}
+.gfnd-ecom-revenue sup{font-size:1.2rem;font-weight:700;vertical-align:super;opacity:.6}
+.gfnd-ecom-rev-delta{display:inline-flex;align-items:center;gap:.25rem;background:#dcfce7;color:#16a34a;font-size:.75rem;font-weight:700;padding:.25rem .6rem;border-radius:99px;margin-top:.5rem}
+.gfnd-ecom-rev-chart{flex:1;min-width:180px}
+.gfnd-ecom-rev-svg{width:100%;height:72px;display:block}
+.gfnd-ecom-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin-bottom:1rem}
+@media(max-width:640px){.gfnd-ecom-metrics{grid-template-columns:repeat(2,1fr)}}
+.gfnd-ecom-metric{padding:.9rem 1rem;border-radius:12px;border:1px solid #f1f5f9;position:relative;overflow:hidden}
+.gfnd-ecom-metric-bg{position:absolute;inset:0;opacity:.04;border-radius:12px}
+.gfnd-ecom-metric-icon{font-size:1rem;margin-bottom:.4rem;position:relative}
+.gfnd-ecom-metric-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.25rem;color:#0f172a;line-height:1;margin-bottom:.15rem;position:relative}
+.gfnd-ecom-metric-lbl{font-size:.67rem;color:#94a3b8;font-weight:600;text-transform:uppercase;letter-spacing:.07em;position:relative}
+.gfnd-ecom-metric-delta{font-size:.68rem;font-weight:700;margin-top:.25rem;position:relative}
+.gfnd-ecom-bottom{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+@media(max-width:580px){.gfnd-ecom-bottom{grid-template-columns:1fr}}
+.gfnd-ecom-products{border:1px solid #f1f5f9;border-radius:14px;padding:1rem 1.1rem}
+.gfnd-ecom-sect-title{font-size:.78rem;font-weight:700;color:#1e293b;margin-bottom:.85rem;display:flex;align-items:center;justify-content:space-between}
+.gfnd-ecom-sect-link{font-size:.7rem;color:#1E9E8C;font-weight:600;cursor:pointer}
+.gfnd-ecom-product{display:flex;align-items:center;gap:.65rem;padding:.45rem 0;border-bottom:1px solid #f8fafc}
+.gfnd-ecom-product:last-child{border-bottom:none}
+.gfnd-ecom-product-thumb{width:2.2rem;height:2.2rem;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.gfnd-ecom-product-name{font-size:.78rem;font-weight:600;color:#1e293b;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gfnd-ecom-product-rev{font-size:.78rem;font-weight:700;color:#0f172a;text-align:right;white-space:nowrap}
+.gfnd-ecom-product-bar-wrap{width:50px;flex-shrink:0}
+.gfnd-ecom-product-bar{height:4px;border-radius:99px;background:#f1f5f9;overflow:hidden}
+.gfnd-ecom-product-fill{height:100%;border-radius:99px;transition:width 1.3s cubic-bezier(.4,0,.2,1)}
+.gfnd-ecom-geo{border:1px solid #f1f5f9;border-radius:14px;padding:1rem 1.1rem}
+.gfnd-ecom-geo-item{display:flex;align-items:center;gap:.65rem;padding:.45rem 0;border-bottom:1px solid #f8fafc}
+.gfnd-ecom-geo-item:last-child{border-bottom:none}
+.gfnd-ecom-geo-flag{font-size:1.2rem;flex-shrink:0;width:1.8rem;text-align:center}
+.gfnd-ecom-geo-info{flex:1;min-width:0}
+.gfnd-ecom-geo-country{font-size:.78rem;font-weight:600;color:#1e293b;margin-bottom:.2rem}
+.gfnd-ecom-geo-bar-wrap{height:4px;background:#f1f5f9;border-radius:99px;overflow:hidden}
+.gfnd-ecom-geo-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#1E9E8C,#28C4AF);transition:width 1.3s cubic-bezier(.4,0,.2,1)}
+.gfnd-ecom-geo-rev{font-size:.76rem;font-weight:700;color:#0f172a;text-align:right;white-space:nowrap;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Dashboards</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link active" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Dashboards</div>
+    <p class="page-sub">
+      <span>5 fully animated dashboard layouts</span> ... click Copy on any tile to grab the HTML.
+    </p>
+  </div>
+  <div class="dash-grid" id="dash-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Dashboard HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="modal-copy-btn" onclick="copyModal()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-pre"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your &lt;head&gt;. All dashboard classes are prefixed <code>gfnd-</code>  zero collisions guaranteed.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── DATA ─────────────────────────────────────────── */
+
+const DASHBOARDS = [
+
+/* 1 ─ SaaS Analytics */
+{
+  name: 'SaaS Analytics Command Center',
+  tag: 'SaaS',
+  buildHTML: () => `<div class="gfnd-saas">
+  <div class="gfnd-saas-top">
+    <div class="gfnd-saas-title">Analytics Overview</div>
+    <div class="gfnd-saas-date">May 2026 · All channels</div>
+  </div>
+
+  <!-- KPI row -->
+  <div class="gfnd-saas-kpis">
+    <div class="gfnd-saas-kpi">
+      <div class="gfnd-saas-kpi-accent" style="background:#1E9E8C"></div>
+      <div class="gfnd-saas-kpi-icon">👥</div>
+      <div class="gfnd-saas-kpi-val">24,581</div>
+      <div class="gfnd-saas-kpi-lbl">Active Users</div>
+      <span class="gfnd-saas-kpi-delta" style="background:#f0fdf4;color:#16a34a">↑ 12.4%</span>
+    </div>
+    <div class="gfnd-saas-kpi">
+      <div class="gfnd-saas-kpi-accent" style="background:#6366f1"></div>
+      <div class="gfnd-saas-kpi-icon">💰</div>
+      <div class="gfnd-saas-kpi-val">$182k</div>
+      <div class="gfnd-saas-kpi-lbl">MRR</div>
+      <span class="gfnd-saas-kpi-delta" style="background:#f0fdf4;color:#16a34a">↑ 8.1%</span>
+    </div>
+    <div class="gfnd-saas-kpi">
+      <div class="gfnd-saas-kpi-accent" style="background:#f59e0b"></div>
+      <div class="gfnd-saas-kpi-icon">📉</div>
+      <div class="gfnd-saas-kpi-val">2.3%</div>
+      <div class="gfnd-saas-kpi-lbl">Churn Rate</div>
+      <span class="gfnd-saas-kpi-delta" style="background:#fff1f2;color:#e11d48">↓ 0.4%</span>
+    </div>
+    <div class="gfnd-saas-kpi">
+      <div class="gfnd-saas-kpi-accent" style="background:#ec4899"></div>
+      <div class="gfnd-saas-kpi-icon">⚡</div>
+      <div class="gfnd-saas-kpi-val">94ms</div>
+      <div class="gfnd-saas-kpi-lbl">Avg Response</div>
+      <span class="gfnd-saas-kpi-delta" style="background:#f0fdf4;color:#16a34a">↑ Faster</span>
+    </div>
+  </div>
+
+  <!-- Chart + Activity -->
+  <div class="gfnd-saas-bottom">
+    <div class="gfnd-saas-chart">
+      <div class="gfnd-saas-chart-head">
+        <span class="gfnd-saas-chart-title">Revenue vs Signups</span>
+        <div class="gfnd-saas-chart-leg">
+          <span><span class="gfnd-saas-leg-dot" style="background:#1E9E8C"></span><span class="gfnd-saas-leg-txt">Revenue</span></span>
+          <span><span class="gfnd-saas-leg-dot" style="background:#6366f1"></span><span class="gfnd-saas-leg-txt">Signups</span></span>
+        </div>
+      </div>
+      <svg class="gfnd-saas-svg" viewBox="0 0 320 90" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="gr1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1E9E8C" stop-opacity=".25"/>
+            <stop offset="100%" stop-color="#1E9E8C" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="gr2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#6366f1" stop-opacity=".2"/>
+            <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,70 C40,60 80,30 120,35 C160,40 200,20 240,25 C280,30 310,15 320,12" fill="url(#gr1)" stroke="none"/>
+        <path d="M0,70 C40,60 80,30 120,35 C160,40 200,20 240,25 C280,30 310,15 320,12 L320,90 L0,90Z" fill="url(#gr1)"/>
+        <path d="M0,70 C40,60 80,30 120,35 C160,40 200,20 240,25 C280,30 310,15 320,12" fill="none" stroke="#1E9E8C" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M0,80 C40,75 80,55 120,58 C160,61 200,45 240,50 C280,55 310,38 320,35" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-dasharray="5,3"/>
+        <circle cx="240" cy="25" r="4" fill="#1E9E8C"/>
+        <circle cx="320" cy="12" r="4" fill="#1E9E8C"/>
+      </svg>
+    </div>
+    <div class="gfnd-saas-activity">
+      <div class="gfnd-saas-act-head">Live Activity</div>
+      <div class="gfnd-saas-act-item">
+        <div class="gfnd-saas-act-dot" style="background:#1E9E8C"></div>
+        <span class="gfnd-saas-act-text">New signup — enterprise plan</span>
+        <span class="gfnd-saas-act-time">now</span>
+      </div>
+      <div class="gfnd-saas-act-item">
+        <div class="gfnd-saas-act-dot" style="background:#6366f1"></div>
+        <span class="gfnd-saas-act-text">API key generated by Acme Co.</span>
+        <span class="gfnd-saas-act-time">1m</span>
+      </div>
+      <div class="gfnd-saas-act-item">
+        <div class="gfnd-saas-act-dot" style="background:#f59e0b"></div>
+        <span class="gfnd-saas-act-text">Deployment #412 completed</span>
+        <span class="gfnd-saas-act-time">4m</span>
+      </div>
+      <div class="gfnd-saas-act-item">
+        <div class="gfnd-saas-act-dot" style="background:#ec4899"></div>
+        <span class="gfnd-saas-act-text">Stripe webhook received</span>
+        <span class="gfnd-saas-act-time">9m</span>
+      </div>
+      <div class="gfnd-saas-act-item">
+        <div class="gfnd-saas-act-dot" style="background:#94a3b8"></div>
+        <span class="gfnd-saas-act-text">User exported CSV report</span>
+        <span class="gfnd-saas-act-time">14m</span>
+      </div>
+    </div>
+  </div>
+</div>`,
+},
+
+/* 2 ─ Crypto Terminal */
+{
+  name: 'Dark Crypto / Finance Terminal',
+  tag: 'Finance',
+  buildHTML: () => `<div class="gfnd-crypto">
+  <div class="gfnd-crypto-header">
+    <div class="gfnd-crypto-brand">
+      <div class="gfnd-crypto-brand-dot"></div>
+      MarketPulse
+    </div>
+    <div class="gfnd-crypto-tabs">
+      <button class="gfnd-crypto-tab gfnd-active">1D</button>
+      <button class="gfnd-crypto-tab">1W</button>
+      <button class="gfnd-crypto-tab">1M</button>
+      <button class="gfnd-crypto-tab">1Y</button>
+    </div>
+  </div>
+
+  <!-- Hero price -->
+  <div class="gfnd-crypto-hero">
+    <div>
+      <div class="gfnd-crypto-price-label">Bitcoin · BTC/USD</div>
+      <div class="gfnd-crypto-price"><sup>$</sup>68,420<span style="font-size:1.2rem;opacity:.5">.50</span></div>
+      <div class="gfnd-crypto-change">▲ +3.82% · +$2,516</div>
+    </div>
+    <div class="gfnd-crypto-sparkline">
+      <svg class="gfnd-crypto-spark" viewBox="0 0 260 70" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="btcGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4ade80" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,55 C20,50 35,45 55,38 C75,31 90,42 110,35 C130,28 145,15 165,20 C185,25 200,18 220,12 C235,8 248,6 260,4" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M0,55 C20,50 35,45 55,38 C75,31 90,42 110,35 C130,28 145,15 165,20 C185,25 200,18 220,12 C235,8 248,6 260,4 L260,70 L0,70Z" fill="url(#btcGrad)"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Stats row -->
+  <div class="gfnd-crypto-grid">
+    <div class="gfnd-crypto-stat">
+      <div class="gfnd-crypto-stat-label">24h High</div>
+      <div class="gfnd-crypto-stat-val">$69,150</div>
+    </div>
+    <div class="gfnd-crypto-stat">
+      <div class="gfnd-crypto-stat-label">24h Low</div>
+      <div class="gfnd-crypto-stat-val">$65,890</div>
+    </div>
+    <div class="gfnd-crypto-stat">
+      <div class="gfnd-crypto-stat-label">Volume</div>
+      <div class="gfnd-crypto-stat-val">$38.2B</div>
+    </div>
+    <div class="gfnd-crypto-stat">
+      <div class="gfnd-crypto-stat-label">Market Cap</div>
+      <div class="gfnd-crypto-stat-val">$1.34T</div>
+    </div>
+    <div class="gfnd-crypto-stat">
+      <div class="gfnd-crypto-stat-label">Fear &amp; Greed</div>
+      <div class="gfnd-crypto-stat-val" style="color:#4ade80">72 · Greed</div>
+    </div>
+    <div class="gfnd-crypto-stat">
+      <div class="gfnd-crypto-stat-label">Dominance</div>
+      <div class="gfnd-crypto-stat-val">52.4%</div>
+    </div>
+  </div>
+
+  <!-- Coin table -->
+  <div class="gfnd-crypto-table-head">
+    <span>Asset</span><span style="text-align:right">Price</span><span style="text-align:right">24h</span><span style="text-align:right">Share</span>
+  </div>
+  <div class="gfnd-crypto-row">
+    <div class="gfnd-crypto-row-coin">
+      <div class="gfnd-crypto-row-icon" style="background:rgba(247,147,26,.15)">₿</div>
+      <div><div class="gfnd-crypto-row-name">Bitcoin</div><div class="gfnd-crypto-row-sym">BTC</div></div>
+    </div>
+    <div class="gfnd-crypto-row-val">$68,420</div>
+    <div class="gfnd-crypto-row-chg" style="color:#4ade80">+3.82%</div>
+    <div class="gfnd-crypto-row-bar"><div class="gfnd-crypto-mini-bar" style="width:52px;background:linear-gradient(90deg,#4ade80,#22c55e)"></div></div>
+  </div>
+  <div class="gfnd-crypto-row">
+    <div class="gfnd-crypto-row-coin">
+      <div class="gfnd-crypto-row-icon" style="background:rgba(98,126,234,.15)">Ξ</div>
+      <div><div class="gfnd-crypto-row-name">Ethereum</div><div class="gfnd-crypto-row-sym">ETH</div></div>
+    </div>
+    <div class="gfnd-crypto-row-val">$3,810</div>
+    <div class="gfnd-crypto-row-chg" style="color:#4ade80">+2.14%</div>
+    <div class="gfnd-crypto-row-bar"><div class="gfnd-crypto-mini-bar" style="width:36px;background:linear-gradient(90deg,#6366f1,#818cf8)"></div></div>
+  </div>
+  <div class="gfnd-crypto-row">
+    <div class="gfnd-crypto-row-coin">
+      <div class="gfnd-crypto-row-icon" style="background:rgba(34,211,238,.12)">◎</div>
+      <div><div class="gfnd-crypto-row-name">Solana</div><div class="gfnd-crypto-row-sym">SOL</div></div>
+    </div>
+    <div class="gfnd-crypto-row-val">$184.20</div>
+    <div class="gfnd-crypto-row-chg" style="color:#f87171">-1.08%</div>
+    <div class="gfnd-crypto-row-bar"><div class="gfnd-crypto-mini-bar" style="width:20px;background:linear-gradient(90deg,#22d3ee,#06b6d4)"></div></div>
+  </div>
+</div>`,
+},
+
+/* 3 ─ Kanban */
+{
+  name: 'Project Management / Team Kanban',
+  tag: 'Productivity',
+  buildHTML: () => `<div class="gfnd-kanban">
+  <div class="gfnd-kanban-top">
+    <div class="gfnd-kanban-title">🗂 Sprint 14 — Griffin v3</div>
+    <div class="gfnd-kanban-actions">
+      <button class="gfnd-kanban-btn">Filter</button>
+      <button class="gfnd-kanban-btn">Sort</button>
+      <button class="gfnd-kanban-btn gfnd-kanban-btn-primary">+ Add Task</button>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="gfnd-kanban-stats">
+    <div class="gfnd-kanban-stat"><div class="gfnd-kanban-stat-num">24</div><div class="gfnd-kanban-stat-lbl">Total Tasks</div></div>
+    <div class="gfnd-kanban-stat"><div class="gfnd-kanban-stat-num" style="color:#1E9E8C">11</div><div class="gfnd-kanban-stat-lbl">Completed</div></div>
+    <div class="gfnd-kanban-stat"><div class="gfnd-kanban-stat-num" style="color:#f59e0b">8</div><div class="gfnd-kanban-stat-lbl">In Progress</div></div>
+    <div class="gfnd-kanban-stat"><div class="gfnd-kanban-stat-num" style="color:#f43f5e">3</div><div class="gfnd-kanban-stat-lbl">Overdue</div></div>
+  </div>
+
+  <!-- Columns -->
+  <div class="gfnd-kanban-cols">
+    <!-- Todo -->
+    <div class="gfnd-kanban-col">
+      <div class="gfnd-kanban-col-head">
+        <span class="gfnd-kanban-col-label"><span class="gfnd-kanban-col-dot" style="background:#94a3b8"></span>To Do</span>
+        <span class="gfnd-kanban-col-count">5</span>
+      </div>
+      <div class="gfnd-kanban-card">
+        <div class="gfnd-kanban-card-prio" style="background:#f43f5e"></div>
+        <div class="gfnd-kanban-card-tag" style="background:#fff1f2;color:#e11d48">High</div>
+        <div class="gfnd-kanban-card-title">Redesign onboarding flow for mobile</div>
+        <div class="gfnd-kanban-card-foot">
+          <div class="gfnd-kanban-card-avatars">
+            <div class="gfnd-kanban-card-avatar" style="background:#6366f1">AL</div>
+            <div class="gfnd-kanban-card-avatar" style="background:#ec4899">JM</div>
+          </div>
+          <span class="gfnd-kanban-card-due">May 14</span>
+        </div>
+      </div>
+      <div class="gfnd-kanban-card">
+        <div class="gfnd-kanban-card-prio" style="background:#f59e0b"></div>
+        <div class="gfnd-kanban-card-tag" style="background:#fffbeb;color:#d97706">Medium</div>
+        <div class="gfnd-kanban-card-title">Write API docs for v3 endpoints</div>
+        <div class="gfnd-kanban-card-foot">
+          <div class="gfnd-kanban-card-avatars">
+            <div class="gfnd-kanban-card-avatar" style="background:#1E9E8C">RK</div>
+          </div>
+          <span class="gfnd-kanban-card-due">May 18</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- In Progress -->
+    <div class="gfnd-kanban-col">
+      <div class="gfnd-kanban-col-head">
+        <span class="gfnd-kanban-col-label"><span class="gfnd-kanban-col-dot" style="background:#f59e0b"></span>In Progress</span>
+        <span class="gfnd-kanban-col-count">3</span>
+      </div>
+      <div class="gfnd-kanban-card">
+        <div class="gfnd-kanban-card-prio" style="background:#1E9E8C"></div>
+        <div class="gfnd-kanban-card-tag" style="background:#f0fdf4;color:#16a34a">Feature</div>
+        <div class="gfnd-kanban-card-title">Build real-time notification system</div>
+        <div class="gfnd-kanban-progress">
+          <div class="gfnd-kanban-progress-txt">Progress · 68%</div>
+          <div class="gfnd-kanban-progress-bar"><div class="gfnd-kanban-progress-fill" style="width:68%;background:#1E9E8C"></div></div>
+        </div>
+        <div class="gfnd-kanban-card-foot" style="margin-top:.55rem">
+          <div class="gfnd-kanban-card-avatars">
+            <div class="gfnd-kanban-card-avatar" style="background:#f97316">TW</div>
+            <div class="gfnd-kanban-card-avatar" style="background:#6366f1">AL</div>
+            <div class="gfnd-kanban-card-avatar" style="background:#ec4899">JM</div>
+          </div>
+          <span class="gfnd-kanban-card-due">May 20</span>
+        </div>
+      </div>
+      <div class="gfnd-kanban-card">
+        <div class="gfnd-kanban-card-prio" style="background:#6366f1"></div>
+        <div class="gfnd-kanban-card-tag" style="background:#f5f3ff;color:#7c3aed">Design</div>
+        <div class="gfnd-kanban-card-title">Dark mode tokens &amp; theming</div>
+        <div class="gfnd-kanban-progress">
+          <div class="gfnd-kanban-progress-txt">Progress · 35%</div>
+          <div class="gfnd-kanban-progress-bar"><div class="gfnd-kanban-progress-fill" style="width:35%;background:#6366f1"></div></div>
+        </div>
+        <div class="gfnd-kanban-card-foot" style="margin-top:.55rem">
+          <div class="gfnd-kanban-card-avatars">
+            <div class="gfnd-kanban-card-avatar" style="background:#1E9E8C">RK</div>
+          </div>
+          <span class="gfnd-kanban-card-due">May 22</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Done -->
+    <div class="gfnd-kanban-col">
+      <div class="gfnd-kanban-col-head">
+        <span class="gfnd-kanban-col-label"><span class="gfnd-kanban-col-dot" style="background:#1E9E8C"></span>Done</span>
+        <span class="gfnd-kanban-col-count">4</span>
+      </div>
+      <div class="gfnd-kanban-card" style="opacity:.7">
+        <div class="gfnd-kanban-card-tag" style="background:#f0fdf4;color:#16a34a">✓ Shipped</div>
+        <div class="gfnd-kanban-card-title" style="text-decoration:line-through;color:#94a3b8">Set up CI/CD pipeline</div>
+        <div class="gfnd-kanban-card-foot">
+          <div class="gfnd-kanban-card-avatars">
+            <div class="gfnd-kanban-card-avatar" style="background:#f97316">TW</div>
+          </div>
+          <span class="gfnd-kanban-card-due" style="color:#1E9E8C">Completed</span>
+        </div>
+      </div>
+      <div class="gfnd-kanban-card" style="opacity:.7">
+        <div class="gfnd-kanban-card-tag" style="background:#f0fdf4;color:#16a34a">✓ Shipped</div>
+        <div class="gfnd-kanban-card-title" style="text-decoration:line-through;color:#94a3b8">Migrate DB to PostgreSQL 16</div>
+        <div class="gfnd-kanban-card-foot">
+          <div class="gfnd-kanban-card-avatars">
+            <div class="gfnd-kanban-card-avatar" style="background:#6366f1">AL</div>
+            <div class="gfnd-kanban-card-avatar" style="background:#1E9E8C">RK</div>
+          </div>
+          <span class="gfnd-kanban-card-due" style="color:#1E9E8C">Completed</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`,
+},
+
+/* 4 ─ Health Tracker */
+{
+  name: 'Personal Health & Fitness Tracker',
+  tag: 'Health',
+  buildHTML: () => `<div class="gfnd-health">
+  <div class="gfnd-health-top">
+    <div>
+      <div class="gfnd-health-greet">Good morning, Alex 👋</div>
+      <div class="gfnd-health-date">Sunday, May 10, 2026</div>
+    </div>
+    <div class="gfnd-health-avatar">🏃</div>
+  </div>
+
+  <!-- Activity rings -->
+  <div class="gfnd-health-rings">
+    <!-- Move ring -->
+    <div class="gfnd-health-ring-wrap">
+      <svg class="gfnd-health-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+        <circle cx="40" cy="40" r="32" fill="none" stroke="#f43f5e" stroke-width="8" stroke-linecap="round"
+          stroke-dasharray="201" stroke-dashoffset="50" transform="rotate(-90 40 40)"/>
+        <text x="40" y="44" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="800" font-family="Syne,sans-serif">74%</text>
+      </svg>
+      <div class="gfnd-health-ring-label">Move</div>
+      <div class="gfnd-health-ring-val">556 / 750 cal</div>
+    </div>
+    <!-- Exercise ring -->
+    <div class="gfnd-health-ring-wrap">
+      <svg class="gfnd-health-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+        <circle cx="40" cy="40" r="32" fill="none" stroke="#4ade80" stroke-width="8" stroke-linecap="round"
+          stroke-dasharray="201" stroke-dashoffset="80" transform="rotate(-90 40 40)"/>
+        <text x="40" y="44" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="800" font-family="Syne,sans-serif">60%</text>
+      </svg>
+      <div class="gfnd-health-ring-label">Exercise</div>
+      <div class="gfnd-health-ring-val">18 / 30 min</div>
+    </div>
+    <!-- Stand ring -->
+    <div class="gfnd-health-ring-wrap">
+      <svg class="gfnd-health-ring-svg" width="80" height="80" viewBox="0 0 80 80">
+        <circle cx="40" cy="40" r="32" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/>
+        <circle cx="40" cy="40" r="32" fill="none" stroke="#22d3ee" stroke-width="8" stroke-linecap="round"
+          stroke-dasharray="201" stroke-dashoffset="25" transform="rotate(-90 40 40)"/>
+        <text x="40" y="44" text-anchor="middle" fill="#f8fafc" font-size="12" font-weight="800" font-family="Syne,sans-serif">88%</text>
+      </svg>
+      <div class="gfnd-health-ring-label">Stand</div>
+      <div class="gfnd-health-ring-val">10 / 12 hrs</div>
+    </div>
+  </div>
+
+  <!-- Stats grid -->
+  <div class="gfnd-health-stats">
+    <div class="gfnd-health-stat">
+      <div class="gfnd-health-stat-icon">👟</div>
+      <div class="gfnd-health-stat-val">8,342</div>
+      <div class="gfnd-health-stat-lbl">Steps</div>
+    </div>
+    <div class="gfnd-health-stat">
+      <div class="gfnd-health-stat-icon">❤️</div>
+      <div class="gfnd-health-stat-val">72 bpm</div>
+      <div class="gfnd-health-stat-lbl">Heart Rate</div>
+    </div>
+    <div class="gfnd-health-stat">
+      <div class="gfnd-health-stat-icon">💧</div>
+      <div class="gfnd-health-stat-val">1.8 L</div>
+      <div class="gfnd-health-stat-lbl">Hydration</div>
+    </div>
+    <div class="gfnd-health-stat">
+      <div class="gfnd-health-stat-icon">😴</div>
+      <div class="gfnd-health-stat-val">7h 12m</div>
+      <div class="gfnd-health-stat-lbl">Sleep</div>
+    </div>
+  </div>
+
+  <!-- Weekly bar chart -->
+  <div class="gfnd-health-week">
+    <div class="gfnd-health-week-title">Steps this week</div>
+    <div class="gfnd-health-days">
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">M</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:72%;background:linear-gradient(180deg,#1E9E8C,#28C4AF)"></div></div>
+        <div class="gfnd-health-day-steps">9.2k</div>
+      </div>
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">T</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:55%;background:linear-gradient(180deg,#6366f1,#818cf8)"></div></div>
+        <div class="gfnd-health-day-steps">7.1k</div>
+      </div>
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">W</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:90%;background:linear-gradient(180deg,#1E9E8C,#28C4AF)"></div></div>
+        <div class="gfnd-health-day-steps">11.4k</div>
+      </div>
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">T</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:40%;background:linear-gradient(180deg,#f59e0b,#fbbf24)"></div></div>
+        <div class="gfnd-health-day-steps">5.3k</div>
+      </div>
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">F</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:65%;background:linear-gradient(180deg,#6366f1,#818cf8)"></div></div>
+        <div class="gfnd-health-day-steps">8.4k</div>
+      </div>
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">S</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:80%;background:linear-gradient(180deg,#ec4899,#f43f5e)"></div></div>
+        <div class="gfnd-health-day-steps">10.1k</div>
+      </div>
+      <div class="gfnd-health-day">
+        <div class="gfnd-health-day-lbl">S</div>
+        <div class="gfnd-health-day-bar-wrap"><div class="gfnd-health-day-bar" style="height:66%;background:linear-gradient(180deg,#1E9E8C,#28C4AF);opacity:.5"></div></div>
+        <div class="gfnd-health-day-steps">8.3k</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Goals -->
+  <div class="gfnd-health-goals">
+    <div class="gfnd-health-goal">
+      <div class="gfnd-health-goal-icon" style="background:rgba(244,63,94,.15)">🔥</div>
+      <div class="gfnd-health-goal-info">
+        <div class="gfnd-health-goal-label">Daily Calorie Burn · 556 / 750 kcal</div>
+        <div class="gfnd-health-goal-track"><div class="gfnd-health-goal-fill" style="width:74%;background:linear-gradient(90deg,#f43f5e,#fb7185)"></div></div>
+      </div>
+      <div class="gfnd-health-goal-pct">74%</div>
+    </div>
+    <div class="gfnd-health-goal">
+      <div class="gfnd-health-goal-icon" style="background:rgba(34,211,238,.15)">💧</div>
+      <div class="gfnd-health-goal-info">
+        <div class="gfnd-health-goal-label">Hydration · 1.8 / 2.5 L</div>
+        <div class="gfnd-health-goal-track"><div class="gfnd-health-goal-fill" style="width:72%;background:linear-gradient(90deg,#22d3ee,#06b6d4)"></div></div>
+      </div>
+      <div class="gfnd-health-goal-pct">72%</div>
+    </div>
+    <div class="gfnd-health-goal">
+      <div class="gfnd-health-goal-icon" style="background:rgba(99,102,241,.15)">🏃</div>
+      <div class="gfnd-health-goal-info">
+        <div class="gfnd-health-goal-label">Step Goal · 8,342 / 10,000</div>
+        <div class="gfnd-health-goal-track"><div class="gfnd-health-goal-fill" style="width:83%;background:linear-gradient(90deg,#6366f1,#818cf8)"></div></div>
+      </div>
+      <div class="gfnd-health-goal-pct">83%</div>
+    </div>
+  </div>
+</div>`,
+},
+
+/* 5 ─ E-Commerce */
+{
+  name: 'E-Commerce Revenue Overview',
+  tag: 'E-Commerce',
+  buildHTML: () => `<div class="gfnd-ecom">
+  <div class="gfnd-ecom-top">
+    <div>
+      <div class="gfnd-ecom-title">Revenue Overview</div>
+      <div class="gfnd-ecom-sub">Storefront · All regions · Live data</div>
+    </div>
+    <div class="gfnd-ecom-period">
+      <button class="gfnd-ecom-period-btn">Day</button>
+      <button class="gfnd-ecom-period-btn">Week</button>
+      <button class="gfnd-ecom-period-btn gfnd-active">Month</button>
+      <button class="gfnd-ecom-period-btn">Year</button>
+    </div>
+  </div>
+
+  <!-- Hero revenue -->
+  <div class="gfnd-ecom-hero">
+    <div>
+      <div class="gfnd-ecom-revenue-lbl">Total Revenue · May 2026</div>
+      <div class="gfnd-ecom-revenue"><sup>$</sup>248,391</div>
+      <div class="gfnd-ecom-rev-delta">▲ +18.6% vs last month</div>
+    </div>
+    <div class="gfnd-ecom-rev-chart">
+      <svg class="gfnd-ecom-rev-svg" viewBox="0 0 260 72" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="ecomGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1E9E8C" stop-opacity=".3"/>
+            <stop offset="100%" stop-color="#1E9E8C" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0,60 C30,55 50,48 80,42 C110,36 130,50 160,38 C190,26 210,18 240,14 C250,12 256,10 260,8" fill="none" stroke="#1E9E8C" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M0,60 C30,55 50,48 80,42 C110,36 130,50 160,38 C190,26 210,18 240,14 C250,12 256,10 260,8 L260,72 L0,72Z" fill="url(#ecomGrad)"/>
+        <circle cx="260" cy="8" r="4" fill="#1E9E8C"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Metrics row -->
+  <div class="gfnd-ecom-metrics">
+    <div class="gfnd-ecom-metric">
+      <div class="gfnd-ecom-metric-bg" style="background:#6366f1"></div>
+      <div class="gfnd-ecom-metric-icon">🛒</div>
+      <div class="gfnd-ecom-metric-val">4,821</div>
+      <div class="gfnd-ecom-metric-lbl">Orders</div>
+      <div class="gfnd-ecom-metric-delta" style="color:#16a34a">↑ 11.2%</div>
+    </div>
+    <div class="gfnd-ecom-metric">
+      <div class="gfnd-ecom-metric-bg" style="background:#f59e0b"></div>
+      <div class="gfnd-ecom-metric-icon">👁</div>
+      <div class="gfnd-ecom-metric-val">$51.52</div>
+      <div class="gfnd-ecom-metric-lbl">Avg. Order</div>
+      <div class="gfnd-ecom-metric-delta" style="color:#16a34a">↑ 6.8%</div>
+    </div>
+    <div class="gfnd-ecom-metric">
+      <div class="gfnd-ecom-metric-bg" style="background:#ec4899"></div>
+      <div class="gfnd-ecom-metric-icon">↩️</div>
+      <div class="gfnd-ecom-metric-val">3.1%</div>
+      <div class="gfnd-ecom-metric-lbl">Return Rate</div>
+      <div class="gfnd-ecom-metric-delta" style="color:#e11d48">↑ 0.3%</div>
+    </div>
+    <div class="gfnd-ecom-metric">
+      <div class="gfnd-ecom-metric-bg" style="background:#1E9E8C"></div>
+      <div class="gfnd-ecom-metric-icon">🔁</div>
+      <div class="gfnd-ecom-metric-val">38.4%</div>
+      <div class="gfnd-ecom-metric-lbl">Repeat Buyers</div>
+      <div class="gfnd-ecom-metric-delta" style="color:#16a34a">↑ 4.1%</div>
+    </div>
+  </div>
+
+  <!-- Products + Geo -->
+  <div class="gfnd-ecom-bottom">
+    <div class="gfnd-ecom-products">
+      <div class="gfnd-ecom-sect-title">Top Products <span class="gfnd-ecom-sect-link">View all →</span></div>
+      <div class="gfnd-ecom-product">
+        <div class="gfnd-ecom-product-thumb" style="background:#f0fdf4">👟</div>
+        <div class="gfnd-ecom-product-name">Air Max Pro</div>
+        <div class="gfnd-ecom-product-bar-wrap"><div class="gfnd-ecom-product-bar"><div class="gfnd-ecom-product-fill" style="width:88%;background:#1E9E8C"></div></div></div>
+        <div class="gfnd-ecom-product-rev">$42,100</div>
+      </div>
+      <div class="gfnd-ecom-product">
+        <div class="gfnd-ecom-product-thumb" style="background:#f5f3ff">🎧</div>
+        <div class="gfnd-ecom-product-name">Studio Buds X</div>
+        <div class="gfnd-ecom-product-bar-wrap"><div class="gfnd-ecom-product-bar"><div class="gfnd-ecom-product-fill" style="width:70%;background:#6366f1"></div></div></div>
+        <div class="gfnd-ecom-product-rev">$33,800</div>
+      </div>
+      <div class="gfnd-ecom-product">
+        <div class="gfnd-ecom-product-thumb" style="background:#fff7ed">⌚</div>
+        <div class="gfnd-ecom-product-name">SmartWatch S7</div>
+        <div class="gfnd-ecom-product-bar-wrap"><div class="gfnd-ecom-product-bar"><div class="gfnd-ecom-product-fill" style="width:55%;background:#f97316"></div></div></div>
+        <div class="gfnd-ecom-product-rev">$26,540</div>
+      </div>
+      <div class="gfnd-ecom-product">
+        <div class="gfnd-ecom-product-thumb" style="background:#fdf4ff">💻</div>
+        <div class="gfnd-ecom-product-name">Laptop Sleeve 15"</div>
+        <div class="gfnd-ecom-product-bar-wrap"><div class="gfnd-ecom-product-bar"><div class="gfnd-ecom-product-fill" style="width:38%;background:#ec4899"></div></div></div>
+        <div class="gfnd-ecom-product-rev">$18,220</div>
+      </div>
+    </div>
+
+    <div class="gfnd-ecom-geo">
+      <div class="gfnd-ecom-sect-title">Revenue by Region <span class="gfnd-ecom-sect-link">Map →</span></div>
+      <div class="gfnd-ecom-geo-item">
+        <div class="gfnd-ecom-geo-flag">🇺🇸</div>
+        <div class="gfnd-ecom-geo-info">
+          <div class="gfnd-ecom-geo-country">United States</div>
+          <div class="gfnd-ecom-geo-bar-wrap"><div class="gfnd-ecom-geo-fill" style="width:82%"></div></div>
+        </div>
+        <div class="gfnd-ecom-geo-rev">$102k</div>
+      </div>
+      <div class="gfnd-ecom-geo-item">
+        <div class="gfnd-ecom-geo-flag">🇬🇧</div>
+        <div class="gfnd-ecom-geo-info">
+          <div class="gfnd-ecom-geo-country">United Kingdom</div>
+          <div class="gfnd-ecom-geo-bar-wrap"><div class="gfnd-ecom-geo-fill" style="width:56%"></div></div>
+        </div>
+        <div class="gfnd-ecom-geo-rev">$48k</div>
+      </div>
+      <div class="gfnd-ecom-geo-item">
+        <div class="gfnd-ecom-geo-flag">🇩🇪</div>
+        <div class="gfnd-ecom-geo-info">
+          <div class="gfnd-ecom-geo-country">Germany</div>
+          <div class="gfnd-ecom-geo-bar-wrap"><div class="gfnd-ecom-geo-fill" style="width:44%"></div></div>
+        </div>
+        <div class="gfnd-ecom-geo-rev">$38k</div>
+      </div>
+      <div class="gfnd-ecom-geo-item">
+        <div class="gfnd-ecom-geo-flag">🇮🇳</div>
+        <div class="gfnd-ecom-geo-info">
+          <div class="gfnd-ecom-geo-country">India</div>
+          <div class="gfnd-ecom-geo-bar-wrap"><div class="gfnd-ecom-geo-fill" style="width:34%"></div></div>
+        </div>
+        <div class="gfnd-ecom-geo-rev">$29k</div>
+      </div>
+      <div class="gfnd-ecom-geo-item">
+        <div class="gfnd-ecom-geo-flag">🇸🇬</div>
+        <div class="gfnd-ecom-geo-info">
+          <div class="gfnd-ecom-geo-country">Singapore</div>
+          <div class="gfnd-ecom-geo-bar-wrap"><div class="gfnd-ecom-geo-fill" style="width:22%"></div></div>
+        </div>
+        <div class="gfnd-ecom-geo-rev">$18k</div>
+      </div>
+    </div>
+  </div>
+</div>`,
+},
+
+]; // end DASHBOARDS
+
+/* ── RENDER ─────────────────────────────────────────── */
+const grid = document.getElementById('dash-grid');
+
+DASHBOARDS.forEach((d, i) => {
+  const html = d.buildHTML();
+  const tile = document.createElement('div');
+  tile.className = 'dash-tile';
+  tile.style.animationDelay = (i * 0.07 + 0.05) + 's';
+  tile.innerHTML = `
+    <div class="dash-tile-header">
+      <span class="dash-tile-name">${d.name}</span>
+      <div class="dash-tile-meta">
+        <span class="dash-tile-tag">${d.tag}</span>
+        <button class="dash-tile-copy" onclick="copyTile(this, ${i})">⎘ Copy HTML</button>
+      </div>
+    </div>
+    <div class="dash-tile-preview">${html}</div>
+  `;
+  grid.appendChild(tile);
+});
+
+/* ── COPY TILE ─────────────────────────────────────── */
+function copyTile(btn, idx) {
+  const html = DASHBOARDS[idx].buildHTML();
+  navigator.clipboard.writeText(html).then(() => {
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '⎘ Copy HTML'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+/* ── MODAL ─────────────────────────────────────────── */
+let _currentHTML = '';
+function openModal(d) {
+  _currentHTML = d.buildHTML();
+  document.getElementById('modal-title').textContent = d.name;
+  document.getElementById('modal-subtitle').textContent = `${d.tag} dashboard — copy & drop in`;
+  document.getElementById('modal-pre').textContent = _currentHTML;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function copyModal() {
+  navigator.clipboard.writeText(_currentHTML).then(() => {
+    const btn = document.getElementById('modal-copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── THEME ─────────────────────────────────────────── */
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* GRID */
+.anim-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.anim-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.anim-grid{grid-template-columns:1fr}}
+
+/* TILE */
+.anim-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.anim-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.anim-preview{padding:2rem 1.5rem;min-height:240px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.anim-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s;pointer-events:none}
+.anim-tile:hover .anim-preview::after{transform:translateX(100%)}
+.anim-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2);cursor:pointer}
+.anim-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.anim-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3)}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.anim-tile{animation:gfn-fadeInUp .4s ease both}
+.anim-tile:nth-child(1){animation-delay:.05s}.anim-tile:nth-child(2){animation-delay:.1s}.anim-tile:nth-child(3){animation-delay:.15s}
+.anim-tile:nth-child(4){animation-delay:.2s}.anim-tile:nth-child(5){animation-delay:.25s}.anim-tile:nth-child(6){animation-delay:.3s}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2;margin:0}
+.modal-note{background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* ═══════════════════════════════════════════════════════════════════
+   GRIFFIN CSS — 6 ANIMATED COMPONENTS
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── 1. AURORA HERO BANNER ── */
+.gfna-aurora{position:relative;width:300px;height:180px;border-radius:22px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif}
+.gfna-aurora-bg{position:absolute;inset:0;background:#050818}
+.gfna-aurora-layer{position:absolute;border-radius:50%;filter:blur(40px);mix-blend-mode:screen;animation:gfna-aurora-drift linear infinite}
+@keyframes gfna-aurora-drift{0%{transform:translate(0,0) scale(1)}33%{transform:translate(30px,-20px) scale(1.15)}66%{transform:translate(-20px,15px) scale(.9)}100%{transform:translate(0,0) scale(1)}}
+.gfna-aurora-l1{width:180px;height:120px;background:radial-gradient(ellipse,rgba(30,158,140,.7),transparent 70%);top:-20px;left:-30px;animation-duration:6s}
+.gfna-aurora-l2{width:160px;height:130px;background:radial-gradient(ellipse,rgba(99,102,241,.6),transparent 70%);top:10px;right:-20px;animation-duration:8s;animation-delay:-3s}
+.gfna-aurora-l3{width:140px;height:100px;background:radial-gradient(ellipse,rgba(236,72,153,.5),transparent 70%);bottom:-10px;left:30%;animation-duration:7s;animation-delay:-1.5s}
+.gfna-aurora-stars{position:absolute;inset:0;pointer-events:none}
+.gfna-aurora-star{position:absolute;border-radius:50%;background:#fff;animation:gfna-twinkle ease-in-out infinite}
+@keyframes gfna-twinkle{0%,100%{opacity:.2;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.gfna-aurora-content{position:relative;z-index:2;text-align:center;color:#fff}
+.gfna-aurora-label{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:.35rem}
+.gfna-aurora-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;letter-spacing:-.02em;line-height:1.15;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+.gfna-aurora-title em{font-style:normal;background:linear-gradient(90deg,#28C4AF,#818cf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gfna-aurora-sub{font-size:.72rem;color:rgba(255,255,255,.55);margin-top:.3rem}
+
+/* ── 2. MARQUEE TICKER ── */
+.gfna-marquee-wrap{width:320px;font-family:'Inter',system-ui,sans-serif}
+.gfna-marquee-header{display:flex;align-items:center;justify-content:space-between;padding:.5rem 0 .6rem}
+.gfna-marquee-title{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#64748b}
+.gfna-marquee-live{display:flex;align-items:center;gap:.35rem;font-size:.62rem;font-weight:700;color:#22c55e}
+.gfna-marquee-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;animation:gfna-pulse-dot 1.4s ease-in-out infinite}
+@keyframes gfna-pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
+.gfna-marquee-track{overflow:hidden;border-radius:14px;background:#0f172a;padding:.65rem 0;position:relative}
+.gfna-marquee-track::before,.gfna-marquee-track::after{content:'';position:absolute;top:0;bottom:0;width:40px;z-index:2;pointer-events:none}
+.gfna-marquee-track::before{left:0;background:linear-gradient(90deg,#0f172a,transparent)}
+.gfna-marquee-track::after{right:0;background:linear-gradient(-90deg,#0f172a,transparent)}
+.gfna-marquee-inner{display:flex;gap:2rem;width:max-content;animation:gfna-marquee-scroll 18s linear infinite}
+@keyframes gfna-marquee-scroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.gfna-marquee-inner:hover{animation-play-state:paused}
+.gfna-marquee-item{display:flex;align-items:center;gap:.6rem;padding:0 .5rem;white-space:nowrap}
+.gfna-marquee-sym{font-size:.72rem;font-weight:800;color:#fff;letter-spacing:.04em}
+.gfna-marquee-price{font-size:.72rem;font-weight:700;font-family:'JetBrains Mono',monospace}
+.gfna-marquee-price.up{color:#22c55e}
+.gfna-marquee-price.dn{color:#f43f5e}
+.gfna-marquee-chg{font-size:.62rem;font-weight:600;padding:.1rem .35rem;border-radius:5px}
+.gfna-marquee-chg.up{background:rgba(34,197,94,.15);color:#22c55e}
+.gfna-marquee-chg.dn{background:rgba(244,63,94,.15);color:#f43f5e}
+.gfna-marquee-sep{color:rgba(255,255,255,.12);font-size:.7rem}
+
+/* ── 3. PARTICLE ORBIT LOADER ── */
+.gfna-orbit{width:180px;height:180px;position:relative;display:flex;align-items:center;justify-content:center;font-family:'Inter',system-ui,sans-serif}
+.gfna-orbit-ring{position:absolute;border-radius:50%;border:1.5px solid transparent}
+.gfna-orbit-r1{width:160px;height:160px;border-top-color:rgba(30,158,140,.8);border-right-color:rgba(30,158,140,.2);animation:gfna-spin 2s linear infinite}
+.gfna-orbit-r2{width:120px;height:120px;border-top-color:rgba(99,102,241,.8);border-left-color:rgba(99,102,241,.2);animation:gfna-spin 1.4s linear infinite reverse}
+.gfna-orbit-r3{width:80px;height:80px;border-top-color:rgba(236,72,153,.8);border-right-color:rgba(236,72,153,.2);animation:gfna-spin .9s linear infinite}
+@keyframes gfna-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.gfna-orbit-dot{position:absolute;width:8px;height:8px;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%)}
+.gfna-orbit-d1{background:#1E9E8C;box-shadow:0 0 8px rgba(30,158,140,.8);animation:gfna-orbit-d1 2s linear infinite}
+.gfna-orbit-d2{background:#6366f1;box-shadow:0 0 8px rgba(99,102,241,.8);animation:gfna-orbit-d2 1.4s linear infinite}
+.gfna-orbit-d3{background:#ec4899;box-shadow:0 0 8px rgba(236,72,153,.8);animation:gfna-orbit-d3 .9s linear infinite}
+@keyframes gfna-orbit-d1{0%{transform:translate(calc(-50% + 76px),-50%)}100%{transform:translate(calc(-50% + 76px),-50%) rotate(360deg);transform:rotate(360deg) translateX(76px) translateY(-4px)}}
+/* Using CSS custom property trick for clean orbit */
+.gfna-orbit-d1{transform-origin:center;offset-path:ellipse(76px 76px);animation:gfna-od1 2s linear infinite}
+.gfna-orbit-d2{offset-path:ellipse(56px 56px);animation:gfna-od2 1.4s linear infinite}
+.gfna-orbit-d3{offset-path:ellipse(36px 36px);animation:gfna-od3 .9s linear infinite}
+@keyframes gfna-od1{from{transform:rotate(0deg) translateX(76px)}to{transform:rotate(360deg) translateX(76px)}}
+@keyframes gfna-od2{from{transform:rotate(0deg) translateX(56px)}to{transform:rotate(360deg) translateX(56px)}}
+@keyframes gfna-od3{from{transform:rotate(0deg) translateX(36px)}to{transform:rotate(360deg) translateX(36px)}}
+.gfna-orbit-core{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#1E9E8C,#6366f1);box-shadow:0 0 20px rgba(30,158,140,.5);position:relative;z-index:1;animation:gfna-core-pulse 2s ease-in-out infinite}
+@keyframes gfna-core-pulse{0%,100%{box-shadow:0 0 16px rgba(30,158,140,.5),0 0 32px rgba(99,102,241,.2)}50%{box-shadow:0 0 28px rgba(30,158,140,.8),0 0 56px rgba(99,102,241,.4)}}
+.gfna-orbit-label{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);font-size:.68rem;font-weight:600;color:#94a3b8;white-space:nowrap;letter-spacing:.06em}
+
+/* ── 4. TYPEWRITER HERO ── */
+.gfna-typewriter{width:300px;font-family:'Inter',system-ui,sans-serif;text-align:center;padding:1rem}
+.gfna-tw-eyebrow{display:inline-flex;align-items:center;gap:.4rem;background:rgba(30,158,140,.1);border:1px solid rgba(30,158,140,.25);color:#1E9E8C;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:.25rem .75rem;border-radius:99px;margin-bottom:.85rem}
+.gfna-tw-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:#1E9E8C;animation:gfna-pulse-dot 1.4s ease-in-out infinite}
+.gfna-tw-headline{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;color:#0f172a;line-height:1.2;margin-bottom:.35rem;letter-spacing:-.03em}
+.gfna-tw-line{display:block;min-height:1.6rem}
+.gfna-tw-cursor{display:inline-block;width:2px;height:1.2em;background:#1E9E8C;margin-left:2px;vertical-align:text-bottom;animation:gfna-blink-cur .75s step-end infinite}
+@keyframes gfna-blink-cur{0%,100%{opacity:1}50%{opacity:0}}
+.gfna-tw-sub{font-size:.78rem;color:#64748b;line-height:1.6;margin-bottom:1rem}
+.gfna-tw-btn{padding:.6rem 1.4rem;border-radius:9999px;background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none;font-weight:700;font-size:.82rem;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden;font-family:inherit}
+.gfna-tw-btn::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent);animation:gfna-tw-shimmer 2.5s infinite}
+@keyframes gfna-tw-shimmer{0%{left:-100%}100%{left:200%}}
+.gfna-tw-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 24px rgba(30,158,140,.4)}
+
+/* ── 5. ANIMATED SKILL / RATING BARS ── */
+.gfna-skillbars{width:280px;font-family:'Inter',system-ui,sans-serif;display:flex;flex-direction:column;gap:.85rem}
+.gfna-skill-row{display:flex;flex-direction:column;gap:.3rem}
+.gfna-skill-head{display:flex;align-items:center;justify-content:space-between}
+.gfna-skill-name{font-size:.78rem;font-weight:600;color:#1e293b;display:flex;align-items:center;gap:.4rem}
+.gfna-skill-icon{font-size:.85rem}
+.gfna-skill-pct{font-size:.72rem;font-weight:700;color:#64748b;font-family:'JetBrains Mono',monospace;transition:color .3s}
+.gfna-skill-track{height:7px;background:#f1f5f9;border-radius:99px;overflow:hidden}
+.gfna-skill-fill{height:100%;border-radius:99px;width:0;transition:width 1.4s cubic-bezier(.4,0,.2,1)}
+.gfna-skill-row.gfna-animated .gfna-skill-fill{width:var(--gfna-skill-w)}
+.gfna-skill-row.gfna-animated .gfna-skill-pct{color:#1E9E8C}
+
+/* ── 6. ANIMATED GRADIENT CARD ── */
+.gfna-gradcard{width:280px;border-radius:22px;padding:1.75rem;font-family:'Inter',system-ui,sans-serif;position:relative;overflow:hidden;cursor:pointer}
+.gfna-gradcard-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0f172a 0%,#1e1b4b 50%,#0f172a 100%);background-size:200% 200%;animation:gfna-grad-shift 6s ease infinite}
+@keyframes gfna-grad-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.gfna-gradcard-mesh{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.gfna-gradcard-blob{position:absolute;border-radius:50%;filter:blur(30px);animation:gfna-blob-float ease-in-out infinite}
+@keyframes gfna-blob-float{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(15px,-15px) scale(1.1)}}
+.gfna-gc-blob1{width:130px;height:130px;background:radial-gradient(circle,rgba(30,158,140,.4),transparent 70%);top:-30px;right:-20px;animation-duration:5s}
+.gfna-gc-blob2{width:110px;height:110px;background:radial-gradient(circle,rgba(99,102,241,.35),transparent 70%);bottom:-25px;left:-20px;animation-duration:7s;animation-delay:-2s}
+.gfna-gc-blob3{width:80px;height:80px;background:radial-gradient(circle,rgba(236,72,153,.3),transparent 70%);top:40%;left:40%;animation-duration:4s;animation-delay:-1s}
+.gfna-gradcard-content{position:relative;z-index:1}
+.gfna-gradcard-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.8);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:.2rem .65rem;border-radius:99px;margin-bottom:.85rem}
+.gfna-gradcard-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;margin-bottom:.4rem;line-height:1.2;letter-spacing:-.02em}
+.gfna-gradcard-desc{font-size:.78rem;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:1.25rem}
+.gfna-gradcard-stats{display:flex;gap:1.25rem;margin-bottom:1.25rem}
+.gfna-gradcard-stat{}
+.gfna-gradcard-stat-val{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;line-height:1}
+.gfna-gradcard-stat-lbl{font-size:.6rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:.15rem}
+.gfna-gradcard-cta{display:flex;align-items:center;gap:.6rem}
+.gfna-gradcard-btn{padding:.55rem 1.2rem;border-radius:9999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;transition:all .25s;font-family:inherit}
+.gfna-gradcard-btn:hover{background:rgba(255,255,255,.22);transform:translateY(-1px)}
+.gfna-gradcard-btn-primary{background:linear-gradient(135deg,#1E9E8C,#28C4AF);border-color:transparent;box-shadow:0 4px 16px rgba(30,158,140,.35)}
+.gfna-gradcard-btn-primary:hover{box-shadow:0 8px 28px rgba(30,158,140,.5)}
+.gfna-gradcard-shine{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s;z-index:2;pointer-events:none}
+.gfna-gradcard:hover .gfna-gradcard-shine{transform:translateX(100%)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Animated</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link active" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Animated</div>
+    <p class="page-sub">
+      <span>6 purely CSS-animated components</span> ... click any tile to copy its HTML. 
+    </p>
+  </div>
+  <div class="anim-grid" id="anim-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Animated HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your &lt;head&gt;. All animated classes are prefixed <code>gfna-</code> to guarantee zero collisions. Typewriter and Skill Bars require the small inline JS shown in the snippet.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ITEMS = [
+
+/* ── 1. AURORA HERO BANNER ── */
+{
+  name: 'Aurora Hero Banner',
+  tag: 'Hero',
+  bg: '#050818',
+  html: `<div class="gfna-aurora">
+  <div class="gfna-aurora-bg"></div>
+
+  <!-- Animated light layers -->
+  <div class="gfna-aurora-layer gfna-aurora-l1"></div>
+  <div class="gfna-aurora-layer gfna-aurora-l2"></div>
+  <div class="gfna-aurora-layer gfna-aurora-l3"></div>
+
+  <!-- Twinkling stars (add as many as you like) -->
+  <div class="gfna-aurora-stars">
+    <span class="gfna-aurora-star" style="width:2px;height:2px;top:15%;left:20%;animation-duration:2.1s"></span>
+    <span class="gfna-aurora-star" style="width:3px;height:3px;top:30%;left:72%;animation-duration:1.7s;animation-delay:-.5s"></span>
+    <span class="gfna-aurora-star" style="width:2px;height:2px;top:65%;left:40%;animation-duration:2.4s;animation-delay:-1s"></span>
+    <span class="gfna-aurora-star" style="width:2px;height:2px;top:20%;left:85%;animation-duration:1.9s;animation-delay:-.3s"></span>
+    <span class="gfna-aurora-star" style="width:3px;height:3px;top:78%;left:12%;animation-duration:2.2s;animation-delay:-.8s"></span>
+  </div>
+
+  <!-- Content -->
+  <div class="gfna-aurora-content">
+    <div class="gfna-aurora-label">Griffin CSS</div>
+    <div class="gfna-aurora-title">Build <em>beautiful</em><br>interfaces</div>
+    <div class="gfna-aurora-sub">Pure CSS · Zero dependencies</div>
+  </div>
+</div>`,
+  preview() {
+    return `<div class="gfna-aurora">
+  <div class="gfna-aurora-bg"></div>
+  <div class="gfna-aurora-layer gfna-aurora-l1"></div>
+  <div class="gfna-aurora-layer gfna-aurora-l2"></div>
+  <div class="gfna-aurora-layer gfna-aurora-l3"></div>
+  <div class="gfna-aurora-stars">
+    <span class="gfna-aurora-star" style="width:2px;height:2px;top:15%;left:20%;animation-duration:2.1s"></span>
+    <span class="gfna-aurora-star" style="width:3px;height:3px;top:30%;left:72%;animation-duration:1.7s;animation-delay:-.5s"></span>
+    <span class="gfna-aurora-star" style="width:2px;height:2px;top:65%;left:40%;animation-duration:2.4s;animation-delay:-1s"></span>
+    <span class="gfna-aurora-star" style="width:2px;height:2px;top:20%;left:85%;animation-duration:1.9s;animation-delay:-.3s"></span>
+    <span class="gfna-aurora-star" style="width:3px;height:3px;top:78%;left:12%;animation-duration:2.2s;animation-delay:-.8s"></span>
+  </div>
+  <div class="gfna-aurora-content">
+    <div class="gfna-aurora-label">Griffin CSS</div>
+    <div class="gfna-aurora-title">Build <em>beautiful</em><br>interfaces</div>
+    <div class="gfna-aurora-sub">Pure CSS · Zero dependencies</div>
+  </div>
+</div>`;
+  }
+},
+
+/* ── 2. MARQUEE TICKER ── */
+{
+  name: 'Marquee Ticker',
+  tag: 'Display',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html: `<!-- Marquee Ticker — pause on hover is CSS-only via animation-play-state -->
+<div class="gfna-marquee-wrap">
+  <div class="gfna-marquee-header">
+    <span class="gfna-marquee-title">Live Markets</span>
+    <span class="gfna-marquee-live">
+      <span class="gfna-marquee-dot"></span>Live
+    </span>
+  </div>
+  <div class="gfna-marquee-track">
+    <div class="gfna-marquee-inner">
+      <!-- First set -->
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">BTC</span>
+        <span class="gfna-marquee-price up">$67,420</span>
+        <span class="gfna-marquee-chg up">+3.82%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">ETH</span>
+        <span class="gfna-marquee-price up">$3,891</span>
+        <span class="gfna-marquee-chg up">+1.24%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">AAPL</span>
+        <span class="gfna-marquee-price dn">$189.30</span>
+        <span class="gfna-marquee-chg dn">-0.54%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">TSLA</span>
+        <span class="gfna-marquee-price up">$248.50</span>
+        <span class="gfna-marquee-chg up">+2.11%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">NVDA</span>
+        <span class="gfna-marquee-price up">$875.20</span>
+        <span class="gfna-marquee-chg up">+4.67%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">SOL</span>
+        <span class="gfna-marquee-price dn">$152.40</span>
+        <span class="gfna-marquee-chg dn">-1.32%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <!-- Duplicate set for seamless loop -->
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">BTC</span>
+        <span class="gfna-marquee-price up">$67,420</span>
+        <span class="gfna-marquee-chg up">+3.82%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">ETH</span>
+        <span class="gfna-marquee-price up">$3,891</span>
+        <span class="gfna-marquee-chg up">+1.24%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">AAPL</span>
+        <span class="gfna-marquee-price dn">$189.30</span>
+        <span class="gfna-marquee-chg dn">-0.54%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">TSLA</span>
+        <span class="gfna-marquee-price up">$248.50</span>
+        <span class="gfna-marquee-chg up">+2.11%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">NVDA</span>
+        <span class="gfna-marquee-price up">$875.20</span>
+        <span class="gfna-marquee-chg up">+4.67%</span>
+      </div>
+      <span class="gfna-marquee-sep">·</span>
+      <div class="gfna-marquee-item">
+        <span class="gfna-marquee-sym">SOL</span>
+        <span class="gfna-marquee-price dn">$152.40</span>
+        <span class="gfna-marquee-chg dn">-1.32%</span>
+      </div>
+    </div>
+  </div>
+</div>`,
+  preview() {
+    const items = [
+      {s:'BTC',p:'$67,420',c:'+3.82%',t:'up'},
+      {s:'ETH',p:'$3,891',c:'+1.24%',t:'up'},
+      {s:'AAPL',p:'$189.30',c:'-0.54%',t:'dn'},
+      {s:'TSLA',p:'$248.50',c:'+2.11%',t:'up'},
+      {s:'NVDA',p:'$875.20',c:'+4.67%',t:'up'},
+      {s:'SOL',p:'$152.40',c:'-1.32%',t:'dn'},
+    ];
+    const row = items.map(i=>`<div class="gfna-marquee-item"><span class="gfna-marquee-sym">${i.s}</span><span class="gfna-marquee-price ${i.t}">${i.p}</span><span class="gfna-marquee-chg ${i.t}">${i.c}</span></div><span class="gfna-marquee-sep">·</span>`).join('');
+    return `<div class="gfna-marquee-wrap" style="width:280px">
+  <div class="gfna-marquee-header">
+    <span class="gfna-marquee-title">Live Markets</span>
+    <span class="gfna-marquee-live"><span class="gfna-marquee-dot"></span>Live</span>
+  </div>
+  <div class="gfna-marquee-track">
+    <div class="gfna-marquee-inner">${row}${row}</div>
+  </div>
+</div>`;
+  }
+},
+
+/* ── 3. PARTICLE ORBIT LOADER ── */
+{
+  name: 'Particle Orbit Loader',
+  tag: 'Loading',
+  bg: 'linear-gradient(135deg,#0f172a,#1e293b)',
+  html: `<div class="gfna-orbit">
+  <!-- Spinning rings -->
+  <div class="gfna-orbit-ring gfna-orbit-r1"></div>
+  <div class="gfna-orbit-ring gfna-orbit-r2"></div>
+  <div class="gfna-orbit-ring gfna-orbit-r3"></div>
+
+  <!-- Orbiting dots -->
+  <div class="gfna-orbit-dot gfna-orbit-d1"></div>
+  <div class="gfna-orbit-dot gfna-orbit-d2"></div>
+  <div class="gfna-orbit-dot gfna-orbit-d3"></div>
+
+  <!-- Pulsing core -->
+  <div class="gfna-orbit-core"></div>
+
+  <span class="gfna-orbit-label">Processing…</span>
+</div>`,
+  preview() {
+    return `<div class="gfna-orbit">
+  <div class="gfna-orbit-ring gfna-orbit-r1"></div>
+  <div class="gfna-orbit-ring gfna-orbit-r2"></div>
+  <div class="gfna-orbit-ring gfna-orbit-r3"></div>
+  <div class="gfna-orbit-dot gfna-orbit-d1"></div>
+  <div class="gfna-orbit-dot gfna-orbit-d2"></div>
+  <div class="gfna-orbit-dot gfna-orbit-d3"></div>
+  <div class="gfna-orbit-core"></div>
+  <span class="gfna-orbit-label">Processing…</span>
+</div>`;
+  }
+},
+
+/* ── 4. TYPEWRITER HERO ── */
+{
+  name: 'Typewriter Hero',
+  tag: 'Hero',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  html: `<div class="gfna-typewriter">
+  <div class="gfna-tw-eyebrow">
+    <span class="gfna-tw-eyebrow-dot"></span>
+    Available for work
+  </div>
+  <div class="gfna-tw-headline">
+    I design &amp; build<br>
+    <span class="gfna-tw-line" id="myTwLine">&nbsp;<span class="gfna-tw-cursor"></span></span>
+  </div>
+  <p class="gfna-tw-sub">
+    Crafting pixel-perfect interfaces with clean, maintainable code.
+  </p>
+  <button class="gfna-tw-btn">See my work →</button>
+</div>
+
+<script>
+(function() {
+  const phrases = [
+    'beautiful UIs.',
+    'fast web apps.',
+    'design systems.',
+    'cool experiences.',
+  ];
+  const el = document.getElementById('myTwLine');
+  let pi = 0, ci = 0, deleting = false;
+
+  function type() {
+    const phrase = phrases[pi];
+    const displayed = deleting ? phrase.slice(0, ci--) : phrase.slice(0, ci++);
+    el.innerHTML = displayed + '<span class="gfna-tw-cursor"></span>';
+
+    if (!deleting && ci > phrase.length) {
+      setTimeout(() => { deleting = true; type(); }, 1800);
+      return;
+    }
+    if (deleting && ci < 0) {
+      deleting = false;
+      pi = (pi + 1) % phrases.length;
+      ci = 0;
+      setTimeout(type, 400);
+      return;
+    }
+    setTimeout(type, deleting ? 45 : 90);
+  }
+  type();
+})();
+<\/script>`,
+  preview() {
+    return `<div class="gfna-typewriter" id="tw-preview">
+  <div class="gfna-tw-eyebrow"><span class="gfna-tw-eyebrow-dot"></span>Available for work</div>
+  <div class="gfna-tw-headline">I design &amp; build<br><span class="gfna-tw-line" id="tw-line">&nbsp;<span class="gfna-tw-cursor"></span></span></div>
+  <p class="gfna-tw-sub">Crafting pixel-perfect interfaces with clean, maintainable code.</p>
+  <button class="gfna-tw-btn">See my work →</button>
+</div>`;
+  },
+  init(el) {
+    const phrases = ['beautiful UIs.','fast web apps.','design systems.','cool experiences.'];
+    const line = el.querySelector('#tw-line');
+    if (!line) return;
+    let pi=0,ci=0,del=false;
+    function type(){
+      const ph=phrases[pi];
+      const d=del?ph.slice(0,ci--):ph.slice(0,ci++);
+      line.innerHTML=d+'<span class="gfna-tw-cursor"></span>';
+      if(!del&&ci>ph.length){setTimeout(()=>{del=true;type();},1800);return;}
+      if(del&&ci<0){del=false;pi=(pi+1)%phrases.length;ci=0;setTimeout(type,400);return;}
+      setTimeout(type,del?45:90);
+    }
+    type();
+  }
+},
+
+/* ── 5. ANIMATED SKILL BARS ── */
+{
+  name: 'Animated Skill Bars',
+  tag: 'Profile',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  html: `<div class="gfna-skillbars" id="mySkillbars">
+  <div class="gfna-skill-row" data-pct="94" style="--gfna-skill-w:94%">
+    <div class="gfna-skill-head">
+      <span class="gfna-skill-name"><span class="gfna-skill-icon">⚡</span>React / Next.js</span>
+      <span class="gfna-skill-pct">94%</span>
+    </div>
+    <div class="gfna-skill-track">
+      <div class="gfna-skill-fill" style="background:linear-gradient(90deg,#6366f1,#818cf8)"></div>
+    </div>
+  </div>
+  <div class="gfna-skill-row" data-pct="88" style="--gfna-skill-w:88%">
+    <div class="gfna-skill-head">
+      <span class="gfna-skill-name"><span class="gfna-skill-icon">🎨</span>CSS / Design Systems</span>
+      <span class="gfna-skill-pct">88%</span>
+    </div>
+    <div class="gfna-skill-track">
+      <div class="gfna-skill-fill" style="background:linear-gradient(90deg,#1E9E8C,#28C4AF)"></div>
+    </div>
+  </div>
+  <div class="gfna-skill-row" data-pct="79" style="--gfna-skill-w:79%">
+    <div class="gfna-skill-head">
+      <span class="gfna-skill-name"><span class="gfna-skill-icon">🛠</span>Node.js / APIs</span>
+      <span class="gfna-skill-pct">79%</span>
+    </div>
+    <div class="gfna-skill-track">
+      <div class="gfna-skill-fill" style="background:linear-gradient(90deg,#f59e0b,#fbbf24)"></div>
+    </div>
+  </div>
+  <div class="gfna-skill-row" data-pct="72" style="--gfna-skill-w:72%">
+    <div class="gfna-skill-head">
+      <span class="gfna-skill-name"><span class="gfna-skill-icon">☁️</span>DevOps / Cloud</span>
+      <span class="gfna-skill-pct">72%</span>
+    </div>
+    <div class="gfna-skill-track">
+      <div class="gfna-skill-fill" style="background:linear-gradient(90deg,#f43f5e,#fb7185)"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const wrap = document.getElementById('mySkillbars');
+  const obs = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      wrap.querySelectorAll('.gfna-skill-row').forEach((row, i) => {
+        setTimeout(() => row.classList.add('gfna-animated'), i * 120);
+      });
+      obs.disconnect();
+    }
+  }, { threshold: 0.4 });
+  obs.observe(wrap);
+})();
+<\/script>`,
+  preview() {
+    return `<div class="gfna-skillbars" id="skill-preview" style="width:260px">
+  ${[
+    {n:'React / Next.js',w:'94%',ic:'⚡',g:'#6366f1,#818cf8'},
+    {n:'CSS / Design Systems',w:'88%',ic:'🎨',g:'#1E9E8C,#28C4AF'},
+    {n:'Node.js / APIs',w:'79%',ic:'🛠',g:'#f59e0b,#fbbf24'},
+    {n:'DevOps / Cloud',w:'72%',ic:'☁️',g:'#f43f5e,#fb7185'},
+  ].map((s,i)=>`<div class="gfna-skill-row" style="--gfna-skill-w:${s.w}">
+    <div class="gfna-skill-head">
+      <span class="gfna-skill-name"><span class="gfna-skill-icon">${s.ic}</span>${s.n}</span>
+      <span class="gfna-skill-pct">${s.w}</span>
+    </div>
+    <div class="gfna-skill-track"><div class="gfna-skill-fill" style="background:linear-gradient(90deg,${s.g})"></div></div>
+  </div>`).join('')}
+</div>`;
+  },
+  init(el) {
+    const rows = el.querySelectorAll('.gfna-skill-row');
+    const obs = new IntersectionObserver(ents=>{
+      if(ents[0].isIntersecting){
+        rows.forEach((r,i)=>setTimeout(()=>r.classList.add('gfna-animated'),i*120));
+        obs.disconnect();
+      }
+    },{threshold:.3});
+    obs.observe(el);
+  }
+},
+
+/* ── 6. ANIMATED GRADIENT CARD ── */
+{
+  name: 'Animated Gradient Card',
+  tag: 'Card',
+  bg: '#050818',
+  html: `<div class="gfna-gradcard">
+  <!-- Animated mesh background -->
+  <div class="gfna-gradcard-bg"></div>
+  <div class="gfna-gradcard-mesh">
+    <div class="gfna-gradcard-blob gfna-gc-blob1"></div>
+    <div class="gfna-gradcard-blob gfna-gc-blob2"></div>
+    <div class="gfna-gradcard-blob gfna-gc-blob3"></div>
+  </div>
+  <!-- Hover shine effect -->
+  <div class="gfna-gradcard-shine"></div>
+
+  <!-- Content -->
+  <div class="gfna-gradcard-content">
+    <div class="gfna-gradcard-badge">✦ Featured Project</div>
+    <div class="gfna-gradcard-title">Griffin CSS<br>Design System</div>
+    <div class="gfna-gradcard-desc">
+      A modern utility-first CSS framework with 100+ components,
+      dark mode, and beautiful design tokens.
+    </div>
+    <div class="gfna-gradcard-stats">
+      <div class="gfna-gradcard-stat">
+        <div class="gfna-gradcard-stat-val">100+</div>
+        <div class="gfna-gradcard-stat-lbl">Components</div>
+      </div>
+      <div class="gfna-gradcard-stat">
+        <div class="gfna-gradcard-stat-val">~8kb</div>
+        <div class="gfna-gradcard-stat-lbl">Gzipped</div>
+      </div>
+      <div class="gfna-gradcard-stat">
+        <div class="gfna-gradcard-stat-val">0</div>
+        <div class="gfna-gradcard-stat-lbl">Deps</div>
+      </div>
+    </div>
+    <div class="gfna-gradcard-cta">
+      <button class="gfna-gradcard-btn gfna-gradcard-btn-primary">Get Started</button>
+      <button class="gfna-gradcard-btn">View Docs</button>
+    </div>
+  </div>
+</div>`,
+  preview() {
+    return `<div class="gfna-gradcard" style="width:260px">
+  <div class="gfna-gradcard-bg"></div>
+  <div class="gfna-gradcard-mesh">
+    <div class="gfna-gradcard-blob gfna-gc-blob1"></div>
+    <div class="gfna-gradcard-blob gfna-gc-blob2"></div>
+    <div class="gfna-gradcard-blob gfna-gc-blob3"></div>
+  </div>
+  <div class="gfna-gradcard-shine"></div>
+  <div class="gfna-gradcard-content">
+    <div class="gfna-gradcard-badge">✦ Featured Project</div>
+    <div class="gfna-gradcard-title">Griffin CSS<br>Design System</div>
+    <div class="gfna-gradcard-desc">A modern CSS framework with 100+ components and beautiful design tokens.</div>
+    <div class="gfna-gradcard-stats">
+      <div class="gfna-gradcard-stat"><div class="gfna-gradcard-stat-val">100+</div><div class="gfna-gradcard-stat-lbl">Components</div></div>
+      <div class="gfna-gradcard-stat"><div class="gfna-gradcard-stat-val">~8kb</div><div class="gfna-gradcard-stat-lbl">Gzipped</div></div>
+      <div class="gfna-gradcard-stat"><div class="gfna-gradcard-stat-val">0</div><div class="gfna-gradcard-stat-lbl">Deps</div></div>
+    </div>
+    <div class="gfna-gradcard-cta">
+      <button class="gfna-gradcard-btn gfna-gradcard-btn-primary">Get Started</button>
+      <button class="gfna-gradcard-btn">View Docs</button>
+    </div>
+  </div>
+</div>`;
+  }
+}
+
+];
+
+/* ── RENDER ── */
+const grid = document.getElementById('anim-grid');
+ITEMS.forEach(item => {
+  const tile = document.createElement('div');
+  tile.className = 'anim-tile';
+  tile.innerHTML = `
+    <div class="anim-preview" style="background:${item.bg}">${item.preview()}</div>
+    <div class="anim-meta">
+      <span class="anim-name">${item.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="anim-tag">${item.tag}</span>
+        <span class="click-hint">🖱 Copy HTML</span>
+      </div>
+    </div>`;
+  if (item.init) item.init(tile.querySelector('.anim-preview'));
+  tile.querySelector('.anim-meta').addEventListener('click', () => openModal(item));
+  tile.querySelector('.anim-preview').addEventListener('click', () => openModal(item));
+  grid.appendChild(tile);
+});
+
+/* ── CODE MODAL ── */
+let current = null;
+function openModal(item) {
+  current = item;
+  document.getElementById('modal-title').textContent = item.name;
+  document.getElementById('modal-subtitle').textContent = `${item.tag} · copy & customize`;
+  document.getElementById('modal-code').textContent = item.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function copyCode() {
+  navigator.clipboard.writeText(current.html).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── THEME ── */
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

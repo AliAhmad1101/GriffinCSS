@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modals ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* MODALS GRID — 3 per row */
+.modals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.modals-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.modals-grid{grid-template-columns:1fr}}
+
+/* MODAL TILE */
+.modal-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.modal-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.modal-preview{padding:2rem 1.5rem;min-height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.modal-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s}
+.modal-tile:hover .modal-preview::after{transform:translateX(100%)}
+.modal-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.modal-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.modal-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3)}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.modal-tile{animation:gfn-fadeInUp .4s ease both}
+.modal-tile:nth-child(1){animation-delay:.05s}.modal-tile:nth-child(2){animation-delay:.1s}
+.modal-tile:nth-child(3){animation-delay:.15s}.modal-tile:nth-child(4){animation-delay:.2s}
+.modal-tile:nth-child(5){animation-delay:.25s}.modal-tile:nth-child(6){animation-delay:.3s}
+
+/* CODE VIEWER MODAL (the meta modal for showing code) */
+#code-modal{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.code-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.code-modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:740px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.3);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .code-modal-box{transform:scale(1) translateY(0)}
+.code-modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.code-modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.code-modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.code-modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.code-modal-close:hover{background:var(--bg2)}
+.code-modal-body{flex:1;overflow-y:auto;padding:1.25rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.code-modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2}
+.code-modal-note{margin-top:1rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* ═══════════════════════════════════════════════════════════
+   GRIFFIN CSS — 6 MODAL STYLES
+═══════════════════════════════════════════════════════════ */
+
+/* ── SHARED OVERLAY ── */
+.gfn-m-overlay{position:fixed;inset:0;z-index:8000;display:flex;align-items:center;justify-content:center;padding:1rem;pointer-events:none;opacity:0;transition:opacity .3s}
+.gfn-m-overlay.gfn-m-active{opacity:1;pointer-events:all}
+.gfn-m-backdrop{position:absolute;inset:0}
+
+/* ── 1. FROSTED GLASS MODAL ── */
+.gfn-m-glass-overlay .gfn-m-backdrop{background:rgba(15,23,42,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.gfn-m-glass-box{position:relative;z-index:1;width:100%;max-width:420px;background:rgba(255,255,255,.12);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.25);border-radius:24px;padding:2rem;box-shadow:0 24px 64px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.2);transform:scale(.88) translateY(20px);transition:transform .4s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;color:#fff;font-family:'Inter',system-ui,sans-serif}
+.gfn-m-overlay.gfn-m-active .gfn-m-glass-box{transform:scale(1) translateY(0);opacity:1}
+.gfn-m-glass-icon{width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.1rem}
+.gfn-m-glass-title{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;margin-bottom:.4rem;letter-spacing:-.02em}
+.gfn-m-glass-body{font-size:.85rem;color:rgba(255,255,255,.75);line-height:1.65;margin-bottom:1.5rem}
+.gfn-m-glass-actions{display:flex;gap:.75rem}
+.gfn-m-glass-btn-primary{flex:1;padding:.6rem 1rem;border-radius:9999px;background:#fff;color:#0f172a;border:none;font-weight:700;font-size:.85rem;cursor:pointer;transition:opacity .2s;font-family:inherit}
+.gfn-m-glass-btn-primary:hover{opacity:.9}
+.gfn-m-glass-btn-ghost{flex:1;padding:.6rem 1rem;border-radius:9999px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);font-weight:600;font-size:.85rem;cursor:pointer;transition:background .2s;font-family:inherit}
+.gfn-m-glass-btn-ghost:hover{background:rgba(255,255,255,.22)}
+.gfn-m-glass-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.85rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.gfn-m-glass-close:hover{background:rgba(255,255,255,.28)}
+
+/* ── 2. BOTTOM SHEET MODAL ── */
+.gfn-m-sheet-overlay{align-items:flex-end;padding:0}
+.gfn-m-sheet-overlay .gfn-m-backdrop{background:rgba(0,0,0,.5);backdrop-filter:blur(4px)}
+.gfn-m-sheet-box{position:relative;z-index:1;width:100%;max-width:100%;background:#fff;border-radius:24px 24px 0 0;padding:0 0 env(safe-area-inset-bottom,0);box-shadow:0 -8px 40px rgba(0,0,0,.18);transform:translateY(100%);transition:transform .45s cubic-bezier(.34,1.2,.64,1);font-family:'Inter',system-ui,sans-serif}
+.gfn-m-overlay.gfn-m-active .gfn-m-sheet-box{transform:translateY(0)}
+.gfn-m-sheet-handle{width:36px;height:4px;border-radius:99px;background:#e2e8f0;margin:1rem auto .5rem;cursor:grab}
+.gfn-m-sheet-header{padding:1rem 1.5rem .25rem;display:flex;align-items:flex-start;justify-content:space-between}
+.gfn-m-sheet-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.gfn-m-sheet-subtitle{font-size:.78rem;color:#94a3b8;margin-top:.15rem}
+.gfn-m-sheet-close{width:30px;height:30px;border-radius:50%;background:#f1f5f9;border:none;color:#64748b;font-size:.85rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;flex-shrink:0}
+.gfn-m-sheet-close:hover{background:#e2e8f0}
+.gfn-m-sheet-list{padding:.5rem 1rem 1.25rem}
+.gfn-m-sheet-item{display:flex;align-items:center;gap:1rem;padding:.85rem .75rem;border-radius:14px;cursor:pointer;transition:background .2s}
+.gfn-m-sheet-item:hover{background:#f8fafc}
+.gfn-m-sheet-item-icon{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.gfn-m-sheet-item-label{font-size:.88rem;font-weight:600;color:#1e293b}
+.gfn-m-sheet-item-sub{font-size:.72rem;color:#94a3b8}
+.gfn-m-sheet-divider{height:1px;background:#f1f5f9;margin:.25rem 1rem}
+
+/* ── 3. CINEMATIC HERO MODAL ── */
+.gfn-m-hero-overlay .gfn-m-backdrop{background:rgba(0,0,0,.75)}
+.gfn-m-hero-box{position:relative;z-index:1;width:100%;max-width:480px;border-radius:24px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.5);transform:scale(.8) translateY(40px);transition:transform .5s cubic-bezier(.34,1.4,.64,1),opacity .4s;opacity:0;font-family:'Inter',system-ui,sans-serif}
+.gfn-m-overlay.gfn-m-active .gfn-m-hero-box{transform:scale(1) translateY(0);opacity:1}
+.gfn-m-hero-bg{height:200px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.gfn-m-hero-bg-grad{position:absolute;inset:0;background:linear-gradient(135deg,#667eea,#764ba2)}
+.gfn-m-hero-bg-orb1{position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08);top:-60px;right:-40px}
+.gfn-m-hero-bg-orb2{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-30px;left:20px}
+.gfn-m-hero-emoji{font-size:3.5rem;position:relative;z-index:1;animation:gfn-hero-float 3s ease-in-out infinite}
+@keyframes gfn-hero-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.gfn-m-hero-close{position:absolute;top:1rem;right:1rem;z-index:2;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s}
+.gfn-m-hero-close:hover{background:rgba(0,0,0,.5)}
+.gfn-m-hero-body{background:#fff;padding:1.75rem}
+.gfn-m-hero-badge{display:inline-flex;align-items:center;gap:.35rem;background:#f5f3ff;color:#7c3aed;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.2rem .65rem;border-radius:99px;margin-bottom:.75rem}
+.gfn-m-hero-title{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:#0f172a;letter-spacing:-.03em;margin-bottom:.5rem;line-height:1.2}
+.gfn-m-hero-text{font-size:.85rem;color:#64748b;line-height:1.65;margin-bottom:1.5rem}
+.gfn-m-hero-actions{display:flex;gap:.75rem}
+.gfn-m-hero-btn-primary{flex:1;padding:.65rem;border-radius:12px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;font-weight:700;font-size:.88rem;cursor:pointer;transition:opacity .2s,transform .2s;font-family:inherit}
+.gfn-m-hero-btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.gfn-m-hero-btn-ghost{padding:.65rem 1.25rem;border-radius:12px;background:none;color:#64748b;border:1.5px solid #e2e8f0;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfn-m-hero-btn-ghost:hover{border-color:#94a3b8;color:#1e293b}
+
+/* ── 4. DANGER / CONFIRM MODAL ── */
+.gfn-m-danger-overlay .gfn-m-backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
+.gfn-m-danger-box{position:relative;z-index:1;width:100%;max-width:400px;background:#fff;border-radius:20px;padding:2rem;box-shadow:0 20px 60px rgba(0,0,0,.25);transform:scale(.9) translateY(-20px);transition:transform .35s cubic-bezier(.34,1.56,.64,1),opacity .3s;opacity:0;font-family:'Inter',system-ui,sans-serif;text-align:center}
+.gfn-m-overlay.gfn-m-active .gfn-m-danger-box{transform:scale(1) translateY(0);opacity:1}
+.gfn-m-danger-ring{width:72px;height:72px;border-radius:50%;background:#fff1f2;display:flex;align-items:center;justify-content:center;margin:0 auto 1.1rem;animation:gfn-danger-ring 1s ease-out both;position:relative}
+.gfn-m-danger-ring::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid #fecdd3;animation:gfn-danger-pulse 2s ease-in-out infinite}
+@keyframes gfn-danger-ring{0%{transform:scale(0) rotate(-15deg);opacity:0}70%{transform:scale(1.12) rotate(5deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes gfn-danger-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.08)}}
+.gfn-m-danger-icon{font-size:1.8rem}
+.gfn-m-danger-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:.4rem;letter-spacing:-.02em}
+.gfn-m-danger-text{font-size:.84rem;color:#64748b;line-height:1.65;margin-bottom:1.5rem}
+.gfn-m-danger-input-label{font-size:.75rem;font-weight:600;color:#64748b;text-align:left;display:block;margin-bottom:.35rem}
+.gfn-m-danger-input{width:100%;padding:.6rem .9rem;border-radius:10px;border:1.5px solid #e2e8f0;font-size:.85rem;font-family:inherit;outline:none;margin-bottom:1.25rem;transition:border-color .2s;color:#0f172a}
+.gfn-m-danger-input:focus{border-color:#f43f5e}
+.gfn-m-danger-actions{display:flex;flex-direction:column;gap:.6rem}
+.gfn-m-danger-btn-delete{padding:.65rem;border-radius:12px;background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;border:none;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfn-m-danger-btn-delete:hover{box-shadow:0 6px 20px rgba(244,63,94,.4);transform:translateY(-1px)}
+.gfn-m-danger-btn-cancel{padding:.65rem;border-radius:12px;background:none;color:#64748b;border:1.5px solid #e2e8f0;font-weight:600;font-size:.88rem;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfn-m-danger-btn-cancel:hover{border-color:#cbd5e1;color:#1e293b}
+
+/* ── 5. COMMAND PALETTE MODAL ── */
+.gfn-m-cmd-overlay .gfn-m-backdrop{background:rgba(0,0,0,.6);backdrop-filter:blur(8px)}
+.gfn-m-cmd-box{position:relative;z-index:1;width:100%;max-width:540px;background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:18px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,.6);transform:scale(.94) translateY(-24px);transition:transform .3s cubic-bezier(.34,1.4,.64,1),opacity .25s;opacity:0;font-family:'Inter',system-ui,sans-serif;align-self:flex-start;margin-top:10vh}
+.gfn-m-overlay.gfn-m-active .gfn-m-cmd-box{transform:scale(1) translateY(0);opacity:1}
+.gfn-m-cmd-search{display:flex;align-items:center;gap:.75rem;padding:.85rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.08)}
+.gfn-m-cmd-search-icon{font-size:1rem;opacity:.45;flex-shrink:0}
+.gfn-m-cmd-input{flex:1;background:none;border:none;outline:none;font-size:.95rem;color:#fff;font-family:inherit;caret-color:#1E9E8C}
+.gfn-m-cmd-input::placeholder{color:rgba(255,255,255,.3)}
+.gfn-m-cmd-kbd{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:.15rem .5rem;font-size:.62rem;color:rgba(255,255,255,.35);font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.gfn-m-cmd-section-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.3);padding:.6rem 1.1rem .25rem}
+.gfn-m-cmd-item{display:flex;align-items:center;gap:.75rem;padding:.6rem 1.1rem;cursor:pointer;transition:background .15s;border-radius:0}
+.gfn-m-cmd-item:hover,.gfn-m-cmd-item.gfn-m-cmd-selected{background:rgba(255,255,255,.06)}
+.gfn-m-cmd-item-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.gfn-m-cmd-item-label{font-size:.85rem;font-weight:500;color:rgba(255,255,255,.85)}
+.gfn-m-cmd-item-sub{font-size:.72rem;color:rgba(255,255,255,.35);margin-top:.05rem}
+.gfn-m-cmd-item-badge{margin-left:auto;font-size:.6rem;font-weight:600;padding:.12rem .45rem;border-radius:99px;flex-shrink:0}
+.gfn-m-cmd-footer{display:flex;align-items:center;gap:1rem;padding:.65rem 1.1rem;border-top:1px solid rgba(255,255,255,.06)}
+.gfn-m-cmd-hint{display:flex;align-items:center;gap:.35rem;font-size:.65rem;color:rgba(255,255,255,.3)}
+.gfn-m-cmd-hint kbd{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:.08rem .35rem;font-size:.6rem;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4)}
+.gfn-m-cmd-items-wrap{max-height:280px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+
+/* ── 6. STEP / ONBOARDING MODAL ── */
+.gfn-m-step-overlay .gfn-m-backdrop{background:rgba(0,0,0,.55);backdrop-filter:blur(6px)}
+.gfn-m-step-box{position:relative;z-index:1;width:100%;max-width:440px;background:#fff;border-radius:24px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.22);transform:translateY(40px) scale(.94);transition:transform .4s cubic-bezier(.34,1.4,.64,1),opacity .3s;opacity:0;font-family:'Inter',system-ui,sans-serif}
+.gfn-m-overlay.gfn-m-active .gfn-m-step-box{transform:translateY(0) scale(1);opacity:1}
+.gfn-m-step-track{height:3px;background:#f1f5f9;position:relative}
+.gfn-m-step-track-fill{height:100%;background:linear-gradient(90deg,#1E9E8C,#28C4AF);border-radius:99px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+.gfn-m-step-body{padding:2rem}
+.gfn-m-step-num{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#1E9E8C;margin-bottom:.6rem;display:flex;align-items:center;gap:.4rem}
+.gfn-m-step-dot{width:6px;height:6px;border-radius:50%;background:#1E9E8C;display:inline-block}
+.gfn-m-step-icon-wrap{width:60px;height:60px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:1rem;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gfn-m-step-title{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:#0f172a;margin-bottom:.5rem;letter-spacing:-.02em;transition:all .3s}
+.gfn-m-step-text{font-size:.85rem;color:#64748b;line-height:1.65;margin-bottom:1.75rem;min-height:52px}
+.gfn-m-step-dots{display:flex;gap:.4rem;margin-bottom:1.5rem}
+.gfn-m-step-pip{width:6px;height:6px;border-radius:50%;background:#e2e8f0;transition:all .3s}
+.gfn-m-step-pip.active{width:20px;border-radius:99px;background:#1E9E8C}
+.gfn-m-step-actions{display:flex;justify-content:space-between;align-items:center}
+.gfn-m-step-btn-prev{background:none;border:1.5px solid #e2e8f0;color:#64748b;padding:.6rem 1.25rem;border-radius:10px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.gfn-m-step-btn-prev:hover{border-color:#94a3b8;color:#1e293b}
+.gfn-m-step-btn-prev:disabled{opacity:.35;cursor:not-allowed}
+.gfn-m-step-btn-next{background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none;padding:.6rem 1.5rem;border-radius:10px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem;font-family:inherit}
+.gfn-m-step-btn-next:hover{box-shadow:0 6px 18px rgba(30,158,140,.4);transform:translateY(-1px)}
+.gfn-m-step-close{position:absolute;top:1rem;right:1rem;width:28px;height:28px;border-radius:50%;background:#f8fafc;border:1px solid #e2e8f0;color:#94a3b8;font-size:.8rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.gfn-m-step-close:hover{background:#f1f5f9;color:#1e293b}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Modals</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link active" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Modals</div>
+    <p class="page-sub">
+      <span>6 animated modal components</span> ... click any preview to launch the live modal, then grab its HTML. CSS is loaded from your CDN link.
+    </p>
+  </div>
+  <div class="modals-grid" id="modals-grid"></div>
+</main>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     LIVE MODALS (rendered in the page)
+══════════════════════════════════════ -->
+
+<!-- 1. Frosted Glass -->
+<div class="gfn-m-overlay gfn-m-glass-overlay" id="live-glass">
+  <div class="gfn-m-backdrop" onclick="closeModal('live-glass')"></div>
+  <div class="gfn-m-glass-box">
+    <button class="gfn-m-glass-close" onclick="closeModal('live-glass')">✕</button>
+    <div class="gfn-m-glass-icon">🔮</div>
+    <div class="gfn-m-glass-title">Enable Pro Features</div>
+    <div class="gfn-m-glass-body">Unlock unlimited projects, advanced analytics, and priority support. Your team will love it.</div>
+    <div class="gfn-m-glass-actions">
+      <button class="gfn-m-glass-btn-primary">Upgrade Now</button>
+      <button class="gfn-m-glass-btn-ghost" onclick="closeModal('live-glass')">Maybe Later</button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Bottom Sheet -->
+<div class="gfn-m-overlay gfn-m-sheet-overlay" id="live-sheet">
+  <div class="gfn-m-backdrop" onclick="closeModal('live-sheet')"></div>
+  <div class="gfn-m-sheet-box">
+    <div class="gfn-m-sheet-handle"></div>
+    <div class="gfn-m-sheet-header">
+      <div>
+        <div class="gfn-m-sheet-title">Share to</div>
+        <div class="gfn-m-sheet-subtitle">Choose where to send this</div>
+      </div>
+      <button class="gfn-m-sheet-close" onclick="closeModal('live-sheet')">✕</button>
+    </div>
+    <div class="gfn-m-sheet-list">
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#e0f2fe">🐦</div>
+        <div><div class="gfn-m-sheet-item-label">Twitter / X</div><div class="gfn-m-sheet-item-sub">Share to your timeline</div></div>
+      </div>
+      <div class="gfn-m-sheet-divider"></div>
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#f0fdf4">💬</div>
+        <div><div class="gfn-m-sheet-item-label">WhatsApp</div><div class="gfn-m-sheet-item-sub">Send to a contact</div></div>
+      </div>
+      <div class="gfn-m-sheet-divider"></div>
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#fef3c7">🔗</div>
+        <div><div class="gfn-m-sheet-item-label">Copy Link</div><div class="gfn-m-sheet-item-sub">Copy to clipboard</div></div>
+      </div>
+      <div class="gfn-m-sheet-divider"></div>
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#fdf4ff">📧</div>
+        <div><div class="gfn-m-sheet-item-label">Email</div><div class="gfn-m-sheet-item-sub">Send via email</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Cinematic Hero -->
+<div class="gfn-m-overlay gfn-m-hero-overlay" id="live-hero">
+  <div class="gfn-m-backdrop" onclick="closeModal('live-hero')"></div>
+  <div class="gfn-m-hero-box">
+    <div class="gfn-m-hero-bg">
+      <div class="gfn-m-hero-bg-grad"></div>
+      <div class="gfn-m-hero-bg-orb1"></div>
+      <div class="gfn-m-hero-bg-orb2"></div>
+      <div class="gfn-m-hero-emoji">🚀</div>
+      <button class="gfn-m-hero-close" onclick="closeModal('live-hero')">✕</button>
+    </div>
+    <div class="gfn-m-hero-body">
+      <div class="gfn-m-hero-badge">⚡ New Release</div>
+      <div class="gfn-m-hero-title">Griffin CSS v2.0 is here</div>
+      <div class="gfn-m-hero-text">50 new components, dark mode improvements, and a completely redesigned token system. The biggest update yet.</div>
+      <div class="gfn-m-hero-actions">
+        <button class="gfn-m-hero-btn-primary">Explore What's New</button>
+        <button class="gfn-m-hero-btn-ghost" onclick="closeModal('live-hero')">Skip</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Danger Confirm -->
+<div class="gfn-m-overlay gfn-m-danger-overlay" id="live-danger">
+  <div class="gfn-m-backdrop" onclick="closeModal('live-danger')"></div>
+  <div class="gfn-m-danger-box">
+    <div class="gfn-m-danger-ring"><span class="gfn-m-danger-icon">🗑</span></div>
+    <div class="gfn-m-danger-title">Delete this project?</div>
+    <div class="gfn-m-danger-text">This will permanently delete <strong>"Nova Dashboard"</strong> and all its data. This action cannot be undone.</div>
+    <label class="gfn-m-danger-input-label">Type <strong>DELETE</strong> to confirm</label>
+    <input class="gfn-m-danger-input" type="text" placeholder="DELETE" />
+    <div class="gfn-m-danger-actions">
+      <button class="gfn-m-danger-btn-delete">Yes, Delete Project</button>
+      <button class="gfn-m-danger-btn-cancel" onclick="closeModal('live-danger')">Cancel, Keep It</button>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Command Palette -->
+<div class="gfn-m-overlay gfn-m-cmd-overlay" id="live-cmd">
+  <div class="gfn-m-backdrop" onclick="closeModal('live-cmd')"></div>
+  <div class="gfn-m-cmd-box">
+    <div class="gfn-m-cmd-search">
+      <span class="gfn-m-cmd-search-icon">🔍</span>
+      <input class="gfn-m-cmd-input" placeholder="Search commands, files, people…" />
+      <span class="gfn-m-cmd-kbd">ESC</span>
+    </div>
+    <div class="gfn-m-cmd-items-wrap">
+      <div class="gfn-m-cmd-section-label">Recent</div>
+      <div class="gfn-m-cmd-item gfn-m-cmd-selected">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(99,102,241,.15)">📊</div>
+        <div><div class="gfn-m-cmd-item-label">Open Dashboard</div><div class="gfn-m-cmd-item-sub">analytics/overview</div></div>
+        <span class="gfn-m-cmd-item-badge" style="background:rgba(99,102,241,.15);color:#818cf8">Page</span>
+      </div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(16,185,129,.15)">🧩</div>
+        <div><div class="gfn-m-cmd-item-label">Component Library</div><div class="gfn-m-cmd-item-sub">design/components</div></div>
+        <span class="gfn-m-cmd-item-badge" style="background:rgba(16,185,129,.15);color:#34d399">Page</span>
+      </div>
+      <div class="gfn-m-cmd-section-label">Actions</div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(245,158,11,.15)">✏️</div>
+        <div><div class="gfn-m-cmd-item-label">New Document</div><div class="gfn-m-cmd-item-sub">Create a blank document</div></div>
+        <span class="gfn-m-cmd-item-badge" style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.3)">⌘N</span>
+      </div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(244,63,94,.15)">🚀</div>
+        <div><div class="gfn-m-cmd-item-label">Deploy to Production</div><div class="gfn-m-cmd-item-sub">Trigger a new deployment</div></div>
+        <span class="gfn-m-cmd-item-badge" style="background:rgba(244,63,94,.15);color:#fb7185">Action</span>
+      </div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(139,92,246,.15)">👤</div>
+        <div><div class="gfn-m-cmd-item-label">Invite Team Member</div><div class="gfn-m-cmd-item-sub">Add someone to this workspace</div></div>
+      </div>
+    </div>
+    <div class="gfn-m-cmd-footer">
+      <div class="gfn-m-cmd-hint"><kbd>↑↓</kbd> Navigate</div>
+      <div class="gfn-m-cmd-hint"><kbd>↵</kbd> Open</div>
+      <div class="gfn-m-cmd-hint"><kbd>ESC</kbd> Close</div>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Step Onboarding -->
+<div class="gfn-m-overlay gfn-m-step-overlay" id="live-step">
+  <div class="gfn-m-backdrop" onclick="closeModal('live-step')"></div>
+  <div class="gfn-m-step-box" id="step-box">
+    <button class="gfn-m-step-close" onclick="closeModal('live-step')">✕</button>
+    <div class="gfn-m-step-track"><div class="gfn-m-step-track-fill" id="step-fill"></div></div>
+    <div class="gfn-m-step-body">
+      <div class="gfn-m-step-num"><span class="gfn-m-step-dot"></span><span id="step-num-label">Step 1 of 4</span></div>
+      <div class="gfn-m-step-icon-wrap" id="step-icon-wrap"></div>
+      <div class="gfn-m-step-title" id="step-title"></div>
+      <div class="gfn-m-step-text" id="step-text"></div>
+      <div class="gfn-m-step-dots" id="step-dots"></div>
+      <div class="gfn-m-step-actions">
+        <button class="gfn-m-step-btn-prev" id="step-prev" onclick="stepNav(-1)">← Back</button>
+        <button class="gfn-m-step-btn-next" id="step-next" onclick="stepNav(1)">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CODE VIEWER MODAL -->
+<div id="code-modal">
+  <div class="code-modal-backdrop" onclick="closeCodeModal()"></div>
+  <div class="code-modal-box">
+    <div class="code-modal-header">
+      <div>
+        <div class="code-modal-title" id="code-modal-title">Modal HTML</div>
+        <div class="code-modal-subtitle" id="code-modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="code-modal-close" onclick="closeCodeModal()">✕</button>
+    </div>
+    <div class="code-modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="code-modal-pre" id="code-modal-pre"></pre>
+      <div class="code-modal-note">💡 The CSS is loaded via your Griffin CDN link. Use <code>gfn-m-overlay</code> + <code>gfn-m-active</code> to show/hide. Toggle the class with a button or JavaScript.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── STEP MODAL STATE ── */
+const STEPS = [
+  {icon:'👋',color:'#e0f2fe',title:'Welcome aboard!',text:'Thanks for joining Griffin CSS. Let\'s walk you through a few quick steps to get your workspace set up perfectly.'},
+  {icon:'🎨',color:'#f5f3ff',title:'Pick your theme',text:'Griffin CSS ships with light and dark mode out of the box. Toggle it anytime with a single attribute — no extra config needed.'},
+  {icon:'🧩',color:'#ecfdf5',title:'Browse components',text:'You have access to 100+ components — cards, navbars, buttons, modals, forms, and more. Everything is copy-paste ready.'},
+  {icon:'🚀',color:'#fff7ed',title:'You\'re all set!',text:'That\'s everything you need to know. Start building something awesome. The whole component library is just one click away.'},
+];
+let currentStep = 0;
+
+function renderStep() {
+  const s = STEPS[currentStep];
+  document.getElementById('step-num-label').textContent = `Step ${currentStep+1} of ${STEPS.length}`;
+  const iw = document.getElementById('step-icon-wrap');
+  iw.textContent = s.icon;
+  iw.style.background = s.color;
+  document.getElementById('step-title').textContent = s.title;
+  document.getElementById('step-text').textContent = s.text;
+  document.getElementById('step-fill').style.width = `${((currentStep+1)/STEPS.length)*100}%`;
+  const dots = document.getElementById('step-dots');
+  dots.innerHTML = STEPS.map((_,i) => `<div class="gfn-m-step-pip${i===currentStep?' active':''}"></div>`).join('');
+  document.getElementById('step-prev').disabled = currentStep === 0;
+  const nextBtn = document.getElementById('step-next');
+  nextBtn.innerHTML = currentStep === STEPS.length-1 ? 'Finish ✓' : 'Next →';
+}
+
+function stepNav(dir) {
+  if (dir === 1 && currentStep === STEPS.length - 1) { closeModal('live-step'); return; }
+  currentStep = Math.max(0, Math.min(STEPS.length-1, currentStep + dir));
+  renderStep();
+}
+
+/* ── MODAL DATA ── */
+const MODALS = [
+{
+  name: 'Frosted Glass Modal',
+  tag: 'Premium',
+  bg: 'linear-gradient(135deg,#667eea,#764ba2)',
+  liveId: 'live-glass',
+  previewHtml: `<div style="background:rgba(255,255,255,.14);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:1.4rem;width:210px;color:#fff;font-family:'Inter',sans-serif;box-shadow:0 16px 40px rgba(0,0,0,.3)">
+    <div style="width:38px;height:38px;border-radius:12px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.75rem">🔮</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.92rem;margin-bottom:.3rem">Enable Pro Features</div>
+    <div style="font-size:.7rem;color:rgba(255,255,255,.7);line-height:1.55;margin-bottom:1rem">Unlock unlimited projects and priority support.</div>
+    <div style="display:flex;gap:.5rem">
+      <button style="flex:1;padding:.45rem;border-radius:99px;background:#fff;color:#0f172a;border:none;font-weight:700;font-size:.7rem;cursor:pointer">Upgrade</button>
+      <button style="flex:1;padding:.45rem;border-radius:99px;background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2);font-size:.7rem;cursor:pointer">Later</button>
+    </div>
+  </div>`,
+  html: `<!-- Frosted Glass Modal -->
+<!-- Trigger button -->
+<button onclick="document.getElementById('myGlassModal').classList.add('gfn-m-active')">
+  Open Modal
+</button>
+
+<!-- Modal markup -->
+<div class="gfn-m-overlay gfn-m-glass-overlay" id="myGlassModal">
+  <div class="gfn-m-backdrop"
+       onclick="document.getElementById('myGlassModal').classList.remove('gfn-m-active')">
+  </div>
+  <div class="gfn-m-glass-box">
+    <button class="gfn-m-glass-close"
+            onclick="document.getElementById('myGlassModal').classList.remove('gfn-m-active')">
+      ✕
+    </button>
+    <div class="gfn-m-glass-icon">🔮</div>
+    <div class="gfn-m-glass-title">Enable Pro Features</div>
+    <div class="gfn-m-glass-body">
+      Unlock unlimited projects, advanced analytics, and priority support.
+      Your team will love it.
+    </div>
+    <div class="gfn-m-glass-actions">
+      <button class="gfn-m-glass-btn-primary">Upgrade Now</button>
+      <button class="gfn-m-glass-btn-ghost"
+              onclick="document.getElementById('myGlassModal').classList.remove('gfn-m-active')">
+        Maybe Later
+      </button>
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Bottom Sheet Modal',
+  tag: 'Mobile',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  liveId: 'live-sheet',
+  previewHtml: `<div style="background:#fff;border-radius:18px 18px 0 0;width:240px;padding:0 0 1rem;box-shadow:0 -6px 24px rgba(0,0,0,.12);font-family:'Inter',sans-serif">
+    <div style="width:30px;height:3px;border-radius:99px;background:#e2e8f0;margin:.75rem auto .5rem"></div>
+    <div style="padding:.5rem 1rem .25rem;font-family:'Syne',sans-serif;font-weight:800;font-size:.88rem;color:#0f172a">Share to</div>
+    <div style="padding:.25rem .75rem">
+      ${['🐦 Twitter / X','💬 WhatsApp','🔗 Copy Link'].map(i=>`<div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .4rem;border-radius:10px;font-size:.75rem;color:#1e293b;font-weight:500">${i}</div>`).join('<div style="height:1px;background:#f1f5f9;margin:.1rem 0"></div>')}
+    </div>
+  </div>`,
+  html: `<!-- Bottom Sheet Modal -->
+<!-- Trigger button -->
+<button onclick="document.getElementById('mySheetModal').classList.add('gfn-m-active')">
+  Share
+</button>
+
+<!-- Modal markup -->
+<div class="gfn-m-overlay gfn-m-sheet-overlay" id="mySheetModal">
+  <div class="gfn-m-backdrop"
+       onclick="document.getElementById('mySheetModal').classList.remove('gfn-m-active')">
+  </div>
+  <div class="gfn-m-sheet-box">
+    <div class="gfn-m-sheet-handle"></div>
+    <div class="gfn-m-sheet-header">
+      <div>
+        <div class="gfn-m-sheet-title">Share to</div>
+        <div class="gfn-m-sheet-subtitle">Choose where to send this</div>
+      </div>
+      <button class="gfn-m-sheet-close"
+              onclick="document.getElementById('mySheetModal').classList.remove('gfn-m-active')">
+        ✕
+      </button>
+    </div>
+    <div class="gfn-m-sheet-list">
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#e0f2fe">🐦</div>
+        <div>
+          <div class="gfn-m-sheet-item-label">Twitter / X</div>
+          <div class="gfn-m-sheet-item-sub">Share to your timeline</div>
+        </div>
+      </div>
+      <div class="gfn-m-sheet-divider"></div>
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#f0fdf4">💬</div>
+        <div>
+          <div class="gfn-m-sheet-item-label">WhatsApp</div>
+          <div class="gfn-m-sheet-item-sub">Send to a contact</div>
+        </div>
+      </div>
+      <div class="gfn-m-sheet-divider"></div>
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#fef3c7">🔗</div>
+        <div>
+          <div class="gfn-m-sheet-item-label">Copy Link</div>
+          <div class="gfn-m-sheet-item-sub">Copy to clipboard</div>
+        </div>
+      </div>
+      <div class="gfn-m-sheet-divider"></div>
+      <div class="gfn-m-sheet-item">
+        <div class="gfn-m-sheet-item-icon" style="background:#fdf4ff">📧</div>
+        <div>
+          <div class="gfn-m-sheet-item-label">Email</div>
+          <div class="gfn-m-sheet-item-sub">Send via email</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Cinematic Hero Modal',
+  tag: 'Announcement',
+  bg: 'linear-gradient(135deg,#667eea 0%,#764ba2 100%)',
+  liveId: 'live-hero',
+  previewHtml: `<div style="background:#fff;border-radius:18px;overflow:hidden;width:210px;box-shadow:0 16px 40px rgba(0,0,0,.2);font-family:'Inter',sans-serif">
+    <div style="height:90px;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;font-size:2.5rem;position:relative">
+      <div style="position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);top:-40px;right:-30px"></div>
+      🚀
+    </div>
+    <div style="padding:1rem">
+      <div style="display:inline-block;background:#f5f3ff;color:#7c3aed;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.15rem .5rem;border-radius:99px;margin-bottom:.5rem">⚡ New Release</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.88rem;color:#0f172a;margin-bottom:.3rem">Griffin CSS v2.0</div>
+      <div style="font-size:.7rem;color:#64748b;line-height:1.55;margin-bottom:.85rem">50 new components & dark mode improvements.</div>
+      <button style="width:100%;padding:.45rem;border-radius:10px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;font-weight:700;font-size:.72rem;cursor:pointer">Explore →</button>
+    </div>
+  </div>`,
+  html: `<!-- Cinematic Hero Modal -->
+<!-- Trigger button -->
+<button onclick="document.getElementById('myHeroModal').classList.add('gfn-m-active')">
+  What's New
+</button>
+
+<!-- Modal markup -->
+<div class="gfn-m-overlay gfn-m-hero-overlay" id="myHeroModal">
+  <div class="gfn-m-backdrop"
+       onclick="document.getElementById('myHeroModal').classList.remove('gfn-m-active')">
+  </div>
+  <div class="gfn-m-hero-box">
+    <div class="gfn-m-hero-bg">
+      <div class="gfn-m-hero-bg-grad"></div>
+      <div class="gfn-m-hero-bg-orb1"></div>
+      <div class="gfn-m-hero-bg-orb2"></div>
+      <div class="gfn-m-hero-emoji">🚀</div>
+      <button class="gfn-m-hero-close"
+              onclick="document.getElementById('myHeroModal').classList.remove('gfn-m-active')">
+        ✕
+      </button>
+    </div>
+    <div class="gfn-m-hero-body">
+      <div class="gfn-m-hero-badge">⚡ New Release</div>
+      <div class="gfn-m-hero-title">Griffin CSS v2.0 is here</div>
+      <div class="gfn-m-hero-text">
+        50 new components, dark mode improvements, and a completely redesigned
+        token system. The biggest update yet.
+      </div>
+      <div class="gfn-m-hero-actions">
+        <button class="gfn-m-hero-btn-primary">Explore What's New</button>
+        <button class="gfn-m-hero-btn-ghost"
+                onclick="document.getElementById('myHeroModal').classList.remove('gfn-m-active')">
+          Skip
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Danger Confirm Modal',
+  tag: 'Destructive',
+  bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+  liveId: 'live-danger',
+  previewHtml: `<div style="background:#fff;border-radius:18px;padding:1.5rem;width:210px;text-align:center;box-shadow:0 12px 32px rgba(0,0,0,.15);font-family:'Inter',sans-serif">
+    <div style="width:54px;height:54px;border-radius:50%;background:#fff1f2;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem;font-size:1.4rem;box-shadow:0 0 0 6px rgba(254,205,211,.4)">🗑</div>
+    <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a;margin-bottom:.3rem">Delete project?</div>
+    <div style="font-size:.7rem;color:#64748b;line-height:1.5;margin-bottom:1rem">This cannot be undone. All data will be lost permanently.</div>
+    <div style="display:flex;flex-direction:column;gap:.45rem">
+      <button style="padding:.5rem;border-radius:10px;background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;border:none;font-weight:700;font-size:.75rem;cursor:pointer">Yes, Delete</button>
+      <button style="padding:.5rem;border-radius:10px;background:none;color:#64748b;border:1.5px solid #e2e8f0;font-size:.75rem;cursor:pointer">Cancel</button>
+    </div>
+  </div>`,
+  html: `<!-- Danger Confirm Modal -->
+<!-- Trigger button -->
+<button onclick="document.getElementById('myDangerModal').classList.add('gfn-m-active')">
+  Delete Project
+</button>
+
+<!-- Modal markup -->
+<div class="gfn-m-overlay gfn-m-danger-overlay" id="myDangerModal">
+  <div class="gfn-m-backdrop"
+       onclick="document.getElementById('myDangerModal').classList.remove('gfn-m-active')">
+  </div>
+  <div class="gfn-m-danger-box">
+    <div class="gfn-m-danger-ring">
+      <span class="gfn-m-danger-icon">🗑</span>
+    </div>
+    <div class="gfn-m-danger-title">Delete this project?</div>
+    <div class="gfn-m-danger-text">
+      This will permanently delete <strong>"Nova Dashboard"</strong> and all its data.
+      This action cannot be undone.
+    </div>
+    <label class="gfn-m-danger-input-label">
+      Type <strong>DELETE</strong> to confirm
+    </label>
+    <input class="gfn-m-danger-input" type="text" placeholder="DELETE" />
+    <div class="gfn-m-danger-actions">
+      <button class="gfn-m-danger-btn-delete">Yes, Delete Project</button>
+      <button class="gfn-m-danger-btn-cancel"
+              onclick="document.getElementById('myDangerModal').classList.remove('gfn-m-active')">
+        Cancel, Keep It
+      </button>
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Command Palette Modal',
+  tag: 'App / Power',
+  bg: 'linear-gradient(135deg,#0f172a,#1e293b)',
+  liveId: 'live-cmd',
+  previewHtml: `<div style="background:#0f172a;border:1px solid rgba(255,255,255,.1);border-radius:16px;overflow:hidden;width:230px;box-shadow:0 20px 48px rgba(0,0,0,.5);font-family:'Inter',sans-serif">
+    <div style="display:flex;align-items:center;gap:.6rem;padding:.7rem .9rem;border-bottom:1px solid rgba(255,255,255,.07)">
+      <span style="opacity:.4">🔍</span>
+      <span style="font-size:.78rem;color:rgba(255,255,255,.3)">Search commands…</span>
+      <span style="margin-left:auto;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:.1rem .4rem;font-size:.55rem;color:rgba(255,255,255,.3);font-family:monospace">ESC</span>
+    </div>
+    <div style="padding:.35rem 0">
+      ${[['📊','Open Dashboard','#6366f1'],['🧩','Components','#10b981'],['✏️','New Document','#f59e0b']].map(([ic,lb,c])=>`<div style="display:flex;align-items:center;gap:.6rem;padding:.5rem .9rem">
+        <div style="width:24px;height:24px;border-radius:7px;background:${c}22;display:flex;align-items:center;justify-content:center;font-size:.75rem">${ic}</div>
+        <span style="font-size:.75rem;color:rgba(255,255,255,.75)">${lb}</span>
+      </div>`).join('')}
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.06);padding:.45rem .9rem;display:flex;gap:.75rem">
+      <span style="font-size:.6rem;color:rgba(255,255,255,.25)"><span style="background:rgba(255,255,255,.08);padding:.05rem .3rem;border-radius:3px;margin-right:.25rem">↵</span>Open</span>
+      <span style="font-size:.6rem;color:rgba(255,255,255,.25)"><span style="background:rgba(255,255,255,.08);padding:.05rem .3rem;border-radius:3px;margin-right:.25rem">↑↓</span>Navigate</span>
+    </div>
+  </div>`,
+  html: `<!-- Command Palette Modal -->
+<!-- Trigger button (or wire to Cmd+K) -->
+<button onclick="document.getElementById('myCmdModal').classList.add('gfn-m-active')">
+  ⌘ K  Search
+</button>
+
+<!-- Wire Cmd+K keyboard shortcut -->
+<script>
+  document.addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      document.getElementById('myCmdModal').classList.add('gfn-m-active');
+    }
+    if (e.key === 'Escape') {
+      document.getElementById('myCmdModal').classList.remove('gfn-m-active');
+    }
+  });
+<\/script>
+
+<!-- Modal markup -->
+<div class="gfn-m-overlay gfn-m-cmd-overlay" id="myCmdModal">
+  <div class="gfn-m-backdrop"
+       onclick="document.getElementById('myCmdModal').classList.remove('gfn-m-active')">
+  </div>
+  <div class="gfn-m-cmd-box">
+    <div class="gfn-m-cmd-search">
+      <span class="gfn-m-cmd-search-icon">🔍</span>
+      <input class="gfn-m-cmd-input" placeholder="Search commands, files, people…" />
+      <span class="gfn-m-cmd-kbd">ESC</span>
+    </div>
+    <div class="gfn-m-cmd-items-wrap">
+      <div class="gfn-m-cmd-section-label">Recent</div>
+      <div class="gfn-m-cmd-item gfn-m-cmd-selected">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(99,102,241,.15)">📊</div>
+        <div>
+          <div class="gfn-m-cmd-item-label">Open Dashboard</div>
+          <div class="gfn-m-cmd-item-sub">analytics/overview</div>
+        </div>
+        <span class="gfn-m-cmd-item-badge"
+              style="background:rgba(99,102,241,.15);color:#818cf8">Page</span>
+      </div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(16,185,129,.15)">🧩</div>
+        <div>
+          <div class="gfn-m-cmd-item-label">Component Library</div>
+          <div class="gfn-m-cmd-item-sub">design/components</div>
+        </div>
+        <span class="gfn-m-cmd-item-badge"
+              style="background:rgba(16,185,129,.15);color:#34d399">Page</span>
+      </div>
+      <div class="gfn-m-cmd-section-label">Actions</div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(245,158,11,.15)">✏️</div>
+        <div>
+          <div class="gfn-m-cmd-item-label">New Document</div>
+          <div class="gfn-m-cmd-item-sub">Create a blank document</div>
+        </div>
+        <span class="gfn-m-cmd-item-badge"
+              style="background:rgba(255,255,255,.06);color:rgba(255,255,255,.3)">⌘N</span>
+      </div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(244,63,94,.15)">🚀</div>
+        <div>
+          <div class="gfn-m-cmd-item-label">Deploy to Production</div>
+          <div class="gfn-m-cmd-item-sub">Trigger a new deployment</div>
+        </div>
+        <span class="gfn-m-cmd-item-badge"
+              style="background:rgba(244,63,94,.15);color:#fb7185">Action</span>
+      </div>
+      <div class="gfn-m-cmd-item">
+        <div class="gfn-m-cmd-item-icon" style="background:rgba(139,92,246,.15)">👤</div>
+        <div>
+          <div class="gfn-m-cmd-item-label">Invite Team Member</div>
+          <div class="gfn-m-cmd-item-sub">Add someone to this workspace</div>
+        </div>
+      </div>
+    </div>
+    <div class="gfn-m-cmd-footer">
+      <div class="gfn-m-cmd-hint"><kbd>↑↓</kbd> Navigate</div>
+      <div class="gfn-m-cmd-hint"><kbd>↵</kbd> Open</div>
+      <div class="gfn-m-cmd-hint"><kbd>ESC</kbd> Close</div>
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Step / Onboarding Modal',
+  tag: 'Onboarding',
+  bg: 'linear-gradient(135deg,#ecfdf5,#d1fae5)',
+  liveId: 'live-step',
+  previewHtml: `<div style="background:#fff;border-radius:18px;overflow:hidden;width:210px;box-shadow:0 12px 32px rgba(0,0,0,.12);font-family:'Inter',sans-serif">
+    <div style="height:3px;background:#f1f5f9"><div style="width:50%;height:100%;background:linear-gradient(90deg,#1E9E8C,#28C4AF);border-radius:99px"></div></div>
+    <div style="padding:1.25rem">
+      <div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#1E9E8C;margin-bottom:.5rem">● Step 2 of 4</div>
+      <div style="width:44px;height:44px;border-radius:14px;background:#f5f3ff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:.75rem">🎨</div>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:.9rem;color:#0f172a;margin-bottom:.3rem">Pick your theme</div>
+      <div style="font-size:.72rem;color:#64748b;line-height:1.55;margin-bottom:1rem">Toggle dark mode with a single data attribute.</div>
+      <div style="display:flex;gap:.35rem;margin-bottom:1rem">
+        ${[0,1,2,3].map(i=>`<div style="width:${i===1?'18px':'6px'};height:6px;border-radius:99px;background:${i===1?'#1E9E8C':'#e2e8f0'}"></div>`).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-between">
+        <button style="padding:.4rem .85rem;border-radius:8px;background:none;border:1.5px solid #e2e8f0;color:#64748b;font-size:.72rem;cursor:pointer">← Back</button>
+        <button style="padding:.4rem .85rem;border-radius:8px;background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none;font-weight:700;font-size:.72rem;cursor:pointer">Next →</button>
+      </div>
+    </div>
+  </div>`,
+  html: `<!-- Step / Onboarding Modal -->
+<!-- Trigger button -->
+<button onclick="openOnboarding()">Get Started</button>
+
+<script>
+  // Step data — customize title, text, icon, and icon background color
+  const STEPS = [
+    { icon: '👋', color: '#e0f2fe', title: 'Welcome aboard!',
+      text: 'Let us walk you through a few quick steps to get set up.' },
+    { icon: '🎨', color: '#f5f3ff', title: 'Pick your theme',
+      text: 'Light and dark mode included — toggle with one attribute.' },
+    { icon: '🧩', color: '#ecfdf5', title: 'Browse components',
+      text: '100+ copy-paste ready components at your fingertips.' },
+    { icon: '🚀', color: '#fff7ed', title: "You're all set!",
+      text: 'Start building something awesome.' },
+  ];
+  let currentStep = 0;
+
+  function renderStep() {
+    const s = STEPS[currentStep];
+    document.getElementById('myStepNum').textContent = \`Step \${currentStep+1} of \${STEPS.length}\`;
+    const iw = document.getElementById('myStepIcon');
+    iw.textContent = s.icon; iw.style.background = s.color;
+    document.getElementById('myStepTitle').textContent = s.title;
+    document.getElementById('myStepText').textContent = s.text;
+    document.getElementById('myStepFill').style.width =
+      \`\${((currentStep+1)/STEPS.length)*100}%\`;
+    document.getElementById('myStepDots').innerHTML =
+      STEPS.map((_,i) =>
+        \`<div class="gfn-m-step-pip\${i===currentStep?' active':''}">\</div>\`
+      ).join('');
+    document.getElementById('myStepPrev').disabled = currentStep === 0;
+    document.getElementById('myStepNext').innerHTML =
+      currentStep === STEPS.length-1 ? 'Finish ✓' : 'Next →';
+  }
+
+  function stepNav(dir) {
+    if (dir === 1 && currentStep === STEPS.length - 1) {
+      document.getElementById('myStepModal').classList.remove('gfn-m-active');
+      return;
+    }
+    currentStep = Math.max(0, Math.min(STEPS.length-1, currentStep + dir));
+    renderStep();
+  }
+
+  function openOnboarding() {
+    currentStep = 0;
+    renderStep();
+    document.getElementById('myStepModal').classList.add('gfn-m-active');
+  }
+<\/script>
+
+<!-- Modal markup -->
+<div class="gfn-m-overlay gfn-m-step-overlay" id="myStepModal">
+  <div class="gfn-m-backdrop"
+       onclick="document.getElementById('myStepModal').classList.remove('gfn-m-active')">
+  </div>
+  <div class="gfn-m-step-box">
+    <button class="gfn-m-step-close"
+            onclick="document.getElementById('myStepModal').classList.remove('gfn-m-active')">
+      ✕
+    </button>
+    <div class="gfn-m-step-track">
+      <div class="gfn-m-step-track-fill" id="myStepFill"></div>
+    </div>
+    <div class="gfn-m-step-body">
+      <div class="gfn-m-step-num">
+        <span class="gfn-m-step-dot"></span>
+        <span id="myStepNum">Step 1 of 4</span>
+      </div>
+      <div class="gfn-m-step-icon-wrap" id="myStepIcon"></div>
+      <div class="gfn-m-step-title" id="myStepTitle"></div>
+      <div class="gfn-m-step-text" id="myStepText"></div>
+      <div class="gfn-m-step-dots" id="myStepDots"></div>
+      <div class="gfn-m-step-actions">
+        <button class="gfn-m-step-btn-prev" id="myStepPrev" onclick="stepNav(-1)">
+          ← Back
+        </button>
+        <button class="gfn-m-step-btn-next" id="myStepNext" onclick="stepNav(1)">
+          Next →
+        </button>
+      </div>
+    </div>
+  </div>
+</div>`
+}
+];
+
+/* ── RENDER GRID ── */
+const grid = document.getElementById('modals-grid');
+MODALS.forEach(m => {
+  const tile = document.createElement('div');
+  tile.className = 'modal-tile';
+  tile.innerHTML = `
+    <div class="modal-preview" style="background:${m.bg};cursor:pointer" title="Click to preview live modal">
+      ${m.previewHtml}
+    </div>
+    <div class="modal-meta">
+      <span class="modal-name">${m.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="modal-tag">${m.tag}</span>
+        <span class="click-hint">🖱 Preview / Code</span>
+      </div>
+    </div>`;
+
+  // Click preview → open live modal
+  tile.querySelector('.modal-preview').addEventListener('click', () => {
+    if (m.liveId === 'live-step') {
+      currentStep = 0;
+      renderStep();
+    }
+    document.getElementById(m.liveId).classList.add('gfn-m-active');
+  });
+
+  // Click meta → open code viewer
+  tile.querySelector('.modal-meta').addEventListener('click', () => openCodeModal(m));
+
+  grid.appendChild(tile);
+});
+
+/* ── LIVE MODAL HELPERS ── */
+function closeModal(id) {
+  document.getElementById(id).classList.remove('gfn-m-active');
+}
+renderStep();
+
+/* ── CODE MODAL ── */
+let currentHtml = '';
+function openCodeModal(m) {
+  currentHtml = m.html;
+  document.getElementById('code-modal-title').textContent = m.name;
+  document.getElementById('code-modal-subtitle').textContent = `${m.tag} · copy HTML and customize`;
+  document.getElementById('code-modal-pre').textContent = m.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCodeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function copyCode() {
+  navigator.clipboard.writeText(currentHtml).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeCodeModal();
+    document.querySelectorAll('.gfn-m-overlay').forEach(el => el.classList.remove('gfn-m-active'));
+  }
+});
+
+/* ── THEME ── */
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+/* ── SIDEBAR ── */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

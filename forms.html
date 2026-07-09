@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forms ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* FORMS GRID */
+.forms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+@media(max-width:900px){.forms-grid{grid-template-columns:1fr}}
+
+/* FORM TILE */
+.form-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.form-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.form-preview{padding:1.75rem 1.5rem;display:flex;align-items:flex-start;justify-content:center;position:relative;overflow:hidden;pointer-events:none}
+.form-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s}
+.form-tile:hover .form-preview::after{transform:translateX(100%)}
+.form-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.form-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.form-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3);display:flex;align-items:center;gap:.25rem}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.form-tile{animation:gfn-fadeInUp .4s ease both}
+.form-tile:nth-child(1){animation-delay:.05s}
+.form-tile:nth-child(2){animation-delay:.1s}
+.form-tile:nth-child(3){animation-delay:.15s}
+.form-tile:nth-child(4){animation-delay:.2s}
+.form-tile:nth-child(5){animation-delay:.25s}
+.form-tile:nth-child(6){animation-delay:.3s}
+
+/* MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:720px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2}
+.modal-note{margin-top:1rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* =====================================================
+   GRIFFIN CSS — 6 FORM STYLES
+   ===================================================== */
+
+/* --- SHARED BASE --- */
+.gfn-form{font-family:'Inter',system-ui,sans-serif;width:100%}
+.gfn-form *{box-sizing:border-box}
+.gfn-form-group{margin-bottom:1rem}
+.gfn-form-row{display:grid;grid-template-columns:1fr 1fr;gap:.85rem}
+.gfn-label{display:block;font-size:.78rem;font-weight:600;color:#1e293b;margin-bottom:.4rem}
+.gfn-input{width:100%;padding:.6rem .85rem;border-radius:8px;font-size:.85rem;font-family:'Inter',system-ui,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;color:#1e293b}
+.gfn-input::placeholder{color:#94a3b8}
+.gfn-textarea{resize:vertical;min-height:90px}
+.gfn-hint{font-size:.7rem;color:#94a3b8;margin-top:.3rem}
+.gfn-error{font-size:.7rem;color:#ef4444;margin-top:.3rem}
+
+/* 1. Clean Minimal */
+.gfn-form-minimal .gfn-input{background:#f8fafc;border:1.5px solid #e2e8f0}
+.gfn-form-minimal .gfn-input:focus{border-color:#1E9E8C;box-shadow:0 0 0 3px rgba(30,158,140,.12)}
+.gfn-form-minimal .gfn-form-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:.25rem}
+.gfn-form-minimal .gfn-form-sub{font-size:.78rem;color:#64748b;margin-bottom:1.25rem}
+.gfn-form-minimal .gfn-btn-submit{width:100%;padding:.7rem;background:#1E9E8C;color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;transition:background .2s,transform .15s}
+.gfn-form-minimal .gfn-btn-submit:hover{background:#167A6C;transform:translateY(-1px)}
+.gfn-form-minimal .gfn-btn-submit:active{transform:translateY(0)}
+
+/* 2. Floating Label */
+.gfn-form-float .gfn-float-group{position:relative;margin-bottom:1.1rem}
+.gfn-form-float .gfn-input{background:#fff;border:1.5px solid #e2e8f0;padding:.9rem .85rem .35rem;font-size:.88rem}
+.gfn-form-float .gfn-input:focus{border-color:#6366f1;box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+.gfn-form-float .gfn-float-label{position:absolute;left:.85rem;top:.62rem;font-size:.85rem;color:#94a3b8;pointer-events:none;transition:all .2s cubic-bezier(.4,0,.2,1)}
+.gfn-form-float .gfn-input:focus~.gfn-float-label,.gfn-form-float .gfn-input:not(:placeholder-shown)~.gfn-float-label{top:.28rem;font-size:.65rem;color:#6366f1;font-weight:600}
+.gfn-form-float .gfn-form-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:1.25rem}
+.gfn-form-float .gfn-btn-submit{width:100%;padding:.7rem;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s}
+.gfn-form-float .gfn-btn-submit:hover{opacity:.9;transform:translateY(-1px)}
+.gfn-form-float .gfn-btn-submit:active{transform:translateY(0)}
+
+/* 3. Card Step Form */
+.gfn-form-card{background:#fff;border-radius:16px;padding:1.5rem;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #e2e8f0}
+.gfn-form-card .gfn-input{background:#f8fafc;border:1.5px solid #e2e8f0}
+.gfn-form-card .gfn-input:focus{border-color:#f43f5e;box-shadow:0 0 0 3px rgba(244,63,94,.1)}
+.gfn-form-card .gfn-step-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.gfn-form-card .gfn-step-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.gfn-form-card .gfn-step-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;color:#0f172a}
+.gfn-form-card .gfn-step-sub{font-size:.72rem;color:#64748b}
+.gfn-form-card .gfn-step-dots{display:flex;gap:.4rem;margin-bottom:1.25rem}
+.gfn-form-card .gfn-dot{width:28px;height:4px;border-radius:99px;background:#e2e8f0}
+.gfn-form-card .gfn-dot.active{background:#f43f5e}
+.gfn-form-card .gfn-btn-row{display:flex;gap:.6rem;margin-top:.5rem}
+.gfn-form-card .gfn-btn-next{flex:1;padding:.65rem;background:#f43f5e;color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .2s,transform .15s}
+.gfn-form-card .gfn-btn-next:hover{background:#e11d48;transform:translateY(-1px)}
+.gfn-form-card .gfn-btn-back{padding:.65rem 1rem;background:#f1f5f9;color:#64748b;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s}
+.gfn-form-card .gfn-btn-back:hover{background:#e2e8f0}
+
+/* 4. Dark Form */
+.gfn-form-dark{background:#0f172a;border-radius:16px;padding:1.5rem}
+.gfn-form-dark .gfn-label{color:#94a3b8}
+.gfn-form-dark .gfn-input{background:#1e293b;border:1.5px solid #334155;color:#f8fafc}
+.gfn-form-dark .gfn-input::placeholder{color:#475569}
+.gfn-form-dark .gfn-input:focus{border-color:#28C4AF;box-shadow:0 0 0 3px rgba(40,196,175,.15)}
+.gfn-form-dark .gfn-form-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:#f8fafc;margin-bottom:.25rem}
+.gfn-form-dark .gfn-form-sub{font-size:.78rem;color:#475569;margin-bottom:1.25rem}
+.gfn-form-dark .gfn-hint{color:#475569}
+.gfn-form-dark .gfn-select{background:#1e293b;border:1.5px solid #334155;color:#f8fafc}
+.gfn-form-dark .gfn-select:focus{border-color:#28C4AF;box-shadow:0 0 0 3px rgba(40,196,175,.15)}
+.gfn-form-dark .gfn-btn-submit{width:100%;padding:.7rem;background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;border:none;border-radius:8px;font-size:.88rem;font-weight:700;cursor:pointer;transition:opacity .2s,transform .15s}
+.gfn-form-dark .gfn-btn-submit:hover{opacity:.88;transform:translateY(-1px)}
+.gfn-form-dark .gfn-btn-submit:active{transform:translateY(0)}
+
+/* 5. Inline / Search Form */
+.gfn-form-inline .gfn-form-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:.35rem}
+.gfn-form-inline .gfn-form-sub{font-size:.78rem;color:#64748b;margin-bottom:1.1rem}
+.gfn-form-inline .gfn-inline-row{display:flex;gap:.5rem;align-items:center}
+.gfn-form-inline .gfn-input{background:#fff;border:1.5px solid #e2e8f0;flex:1}
+.gfn-form-inline .gfn-input:focus{border-color:#f59e0b;box-shadow:0 0 0 3px rgba(245,158,11,.12)}
+.gfn-form-inline .gfn-btn-submit{padding:.6rem 1.25rem;background:#f59e0b;color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .2s,transform .15s;flex-shrink:0}
+.gfn-form-inline .gfn-btn-submit:hover{background:#d97706;transform:translateY(-1px)}
+.gfn-form-inline .gfn-btn-submit:active{transform:translateY(0)}
+.gfn-form-inline .gfn-chip-row{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.85rem}
+.gfn-form-inline .gfn-chip{font-size:.68rem;font-weight:600;padding:.2rem .65rem;border-radius:99px;background:#fef3c7;color:#b45309;border:1px solid #fde68a;cursor:pointer;transition:all .15s}
+.gfn-form-inline .gfn-chip:hover{background:#f59e0b;color:#fff;border-color:#f59e0b}
+.gfn-form-inline .gfn-chip.active{background:#f59e0b;color:#fff;border-color:#f59e0b}
+.gfn-form-inline .gfn-checkbox-row{display:flex;align-items:center;gap:.5rem;margin-top:.75rem}
+.gfn-form-inline .gfn-checkbox{width:15px;height:15px;accent-color:#f59e0b;cursor:pointer}
+.gfn-form-inline .gfn-checkbox-label{font-size:.75rem;color:#64748b}
+
+/* 6. Settings / Profile Form */
+.gfn-form-settings .gfn-form-title{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:#0f172a;margin-bottom:.25rem}
+.gfn-form-settings .gfn-form-sub{font-size:.78rem;color:#64748b;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid #f1f5f9}
+.gfn-form-settings .gfn-input{background:#f8fafc;border:1.5px solid #e2e8f0}
+.gfn-form-settings .gfn-input:focus{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.1)}
+.gfn-form-settings .gfn-avatar-row{display:flex;align-items:center;gap:.85rem;margin-bottom:1.1rem}
+.gfn-form-settings .gfn-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#8b5cf6,#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;font-weight:800;flex-shrink:0}
+.gfn-form-settings .gfn-avatar-info{flex:1}
+.gfn-form-settings .gfn-avatar-name{font-size:.85rem;font-weight:700;color:#0f172a}
+.gfn-form-settings .gfn-avatar-email{font-size:.72rem;color:#94a3b8}
+.gfn-form-settings .gfn-change-btn{font-size:.72rem;font-weight:600;padding:.3rem .7rem;border-radius:8px;border:1.5px solid #e2e8f0;background:#fff;color:#64748b;cursor:pointer;transition:all .15s}
+.gfn-form-settings .gfn-change-btn:hover{border-color:#8b5cf6;color:#8b5cf6}
+.gfn-form-settings .gfn-toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;border-bottom:1px solid #f8fafc}
+.gfn-form-settings .gfn-toggle-label{font-size:.82rem;font-weight:600;color:#0f172a}
+.gfn-form-settings .gfn-toggle-desc{font-size:.7rem;color:#94a3b8}
+.gfn-form-settings .gfn-toggle{width:38px;height:21px;background:#e2e8f0;border-radius:99px;border:none;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
+.gfn-form-settings .gfn-toggle.on{background:#8b5cf6}
+.gfn-form-settings .gfn-toggle::after{content:'';position:absolute;width:15px;height:15px;background:#fff;border-radius:50%;top:3px;left:3px;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.gfn-form-settings .gfn-toggle.on::after{left:20px}
+.gfn-form-settings .gfn-btn-row{display:flex;gap:.6rem;margin-top:1rem}
+.gfn-form-settings .gfn-btn-submit{padding:.65rem 1.4rem;background:#8b5cf6;color:#fff;border:none;border-radius:8px;font-size:.85rem;font-weight:700;cursor:pointer;transition:background .2s,transform .15s}
+.gfn-form-settings .gfn-btn-submit:hover{background:#7c3aed;transform:translateY(-1px)}
+.gfn-form-settings .gfn-btn-cancel{padding:.65rem 1.1rem;background:#f1f5f9;color:#64748b;border:none;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s}
+.gfn-form-settings .gfn-btn-cancel:hover{background:#e2e8f0}
+.gfn-select{width:100%;padding:.6rem .85rem;border-radius:8px;font-size:.85rem;font-family:'Inter',system-ui,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s;color:#1e293b;cursor:pointer;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .85rem center}
+.gfn-select{background-color:#f8fafc;border:1.5px solid #e2e8f0}
+.gfn-select:focus{border-color:#1E9E8C;box-shadow:0 0 0 3px rgba(30,158,140,.12);outline:none}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Forms</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link active" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Forms</div>
+    <p class="page-sub">
+      <span>6 unique form components</span> ... click any form to view &amp; copy its HTML.
+    </p>
+  </div>
+  <div class="forms-grid" id="forms-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Form HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> and you're good. All form classes are prefixed <code>gfn-</code> to guarantee zero collisions.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const FORMS = [
+{
+  name: 'Clean Minimal',
+  tag: 'Contact',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  preview: `<div class="gfn-form gfn-form-minimal" style="max-width:340px;width:100%">
+  <div class="gfn-form-title">Get in touch</div>
+  <div class="gfn-form-sub">We'll get back to you within 24 hours.</div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">First name</label>
+      <input class="gfn-input" type="text" placeholder="Alex">
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">Last name</label>
+      <input class="gfn-input" type="text" placeholder="Johnson">
+    </div>
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Email address</label>
+    <input class="gfn-input" type="email" placeholder="alex@example.com">
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Message</label>
+    <textarea class="gfn-input gfn-textarea" placeholder="Tell us how we can help..."></textarea>
+  </div>
+  <button class="gfn-btn-submit">Send Message →</button>
+</div>`,
+  html: `<div class="gfn-form gfn-form-minimal">
+  <div class="gfn-form-title">Get in touch</div>
+  <div class="gfn-form-sub">We'll get back to you within 24 hours.</div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">First name</label>
+      <input class="gfn-input" type="text" placeholder="Alex">
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">Last name</label>
+      <input class="gfn-input" type="text" placeholder="Johnson">
+    </div>
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Email address</label>
+    <input class="gfn-input" type="email" placeholder="alex@example.com">
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Message</label>
+    <textarea class="gfn-input gfn-textarea" placeholder="Tell us how we can help..."></textarea>
+  </div>
+  <button class="gfn-btn-submit">Send Message →</button>
+</div>`
+},
+{
+  name: 'Floating Label',
+  tag: 'Auth',
+  bg: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  preview: `<div class="gfn-form gfn-form-float" style="max-width:320px;width:100%">
+  <div class="gfn-form-title">Create account</div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="text" placeholder=" " id="fp-name">
+    <label class="gfn-float-label" for="fp-name">Full name</label>
+  </div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="email" placeholder=" " id="fp-email">
+    <label class="gfn-float-label" for="fp-email">Email address</label>
+  </div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="password" placeholder=" " id="fp-pass">
+    <label class="gfn-float-label" for="fp-pass">Password</label>
+  </div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="password" placeholder=" " id="fp-confirm">
+    <label class="gfn-float-label" for="fp-confirm">Confirm password</label>
+  </div>
+  <button class="gfn-btn-submit">Create Account</button>
+</div>`,
+  html: `<div class="gfn-form gfn-form-float">
+  <div class="gfn-form-title">Create account</div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="text" placeholder=" " id="fp-name">
+    <label class="gfn-float-label" for="fp-name">Full name</label>
+  </div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="email" placeholder=" " id="fp-email">
+    <label class="gfn-float-label" for="fp-email">Email address</label>
+  </div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="password" placeholder=" " id="fp-pass">
+    <label class="gfn-float-label" for="fp-pass">Password</label>
+  </div>
+  <div class="gfn-float-group">
+    <input class="gfn-input" type="password" placeholder=" " id="fp-confirm">
+    <label class="gfn-float-label" for="fp-confirm">Confirm password</label>
+  </div>
+  <button class="gfn-btn-submit">Create Account</button>
+</div>`
+},
+{
+  name: 'Card Step Form',
+  tag: 'Multi-step',
+  bg: 'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+  preview: `<div class="gfn-form gfn-form-card" style="max-width:340px;width:100%">
+  <div class="gfn-step-dots">
+    <div class="gfn-dot active"></div>
+    <div class="gfn-dot active"></div>
+    <div class="gfn-dot"></div>
+  </div>
+  <div class="gfn-step-header">
+    <div class="gfn-step-num">2</div>
+    <div>
+      <div class="gfn-step-title">Shipping details</div>
+      <div class="gfn-step-sub">Step 2 of 3 — Where should we send it?</div>
+    </div>
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Street address</label>
+    <input class="gfn-input" type="text" placeholder="123 Main Street">
+  </div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">City</label>
+      <input class="gfn-input" type="text" placeholder="New York">
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">ZIP code</label>
+      <input class="gfn-input" type="text" placeholder="10001">
+    </div>
+  </div>
+  <div class="gfn-btn-row">
+    <button class="gfn-btn-back">← Back</button>
+    <button class="gfn-btn-next">Next Step →</button>
+  </div>
+</div>`,
+  html: `<div class="gfn-form gfn-form-card">
+  <div class="gfn-step-dots">
+    <div class="gfn-dot active"></div>
+    <div class="gfn-dot active"></div>
+    <div class="gfn-dot"></div>
+  </div>
+  <div class="gfn-step-header">
+    <div class="gfn-step-num">2</div>
+    <div>
+      <div class="gfn-step-title">Shipping details</div>
+      <div class="gfn-step-sub">Step 2 of 3 — Where should we send it?</div>
+    </div>
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Street address</label>
+    <input class="gfn-input" type="text" placeholder="123 Main Street">
+  </div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">City</label>
+      <input class="gfn-input" type="text" placeholder="New York">
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">ZIP code</label>
+      <input class="gfn-input" type="text" placeholder="10001">
+    </div>
+  </div>
+  <div class="gfn-btn-row">
+    <button class="gfn-btn-back">← Back</button>
+    <button class="gfn-btn-next">Next Step →</button>
+  </div>
+</div>`
+},
+{
+  name: 'Dark Form',
+  tag: 'Dark',
+  bg: 'linear-gradient(135deg,#0f172a,#1e293b)',
+  preview: `<div class="gfn-form gfn-form-dark" style="max-width:340px;width:100%">
+  <div class="gfn-form-title">New project</div>
+  <div class="gfn-form-sub">Fill in the details to get started.</div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Project name</label>
+    <input class="gfn-input" type="text" placeholder="My Awesome App">
+  </div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">Framework</label>
+      <select class="gfn-input gfn-select gfn-form-dark__select" style="background:#1e293b;border:1.5px solid #334155;color:#f8fafc">
+        <option>Godot 4</option>
+        <option>Unity</option>
+        <option>Unreal</option>
+      </select>
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">Visibility</label>
+      <select class="gfn-input gfn-select" style="background:#1e293b;border:1.5px solid #334155;color:#f8fafc">
+        <option>Public</option>
+        <option>Private</option>
+        <option>Team</option>
+      </select>
+    </div>
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Description</label>
+    <textarea class="gfn-input gfn-textarea" style="background:#1e293b;border:1.5px solid #334155;color:#f8fafc" placeholder="What are you building?"></textarea>
+    <div class="gfn-hint">Optional — shown on your public profile.</div>
+  </div>
+  <button class="gfn-btn-submit">Create Project →</button>
+</div>`,
+  html: `<div class="gfn-form gfn-form-dark">
+  <div class="gfn-form-title">New project</div>
+  <div class="gfn-form-sub">Fill in the details to get started.</div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Project name</label>
+    <input class="gfn-input" type="text" placeholder="My Awesome App">
+  </div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">Framework</label>
+      <select class="gfn-input gfn-select">
+        <option>Godot 4</option>
+        <option>Unity</option>
+        <option>Unreal</option>
+      </select>
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">Visibility</label>
+      <select class="gfn-input gfn-select">
+        <option>Public</option>
+        <option>Private</option>
+        <option>Team</option>
+      </select>
+    </div>
+  </div>
+  <div class="gfn-form-group">
+    <label class="gfn-label">Description</label>
+    <textarea class="gfn-input gfn-textarea" placeholder="What are you building?"></textarea>
+    <div class="gfn-hint">Optional — shown on your public profile.</div>
+  </div>
+  <button class="gfn-btn-submit">Create Project →</button>
+</div>`
+},
+{
+  name: 'Inline Search',
+  tag: 'Search',
+  bg: 'linear-gradient(135deg,#fffbeb,#fef3c7)',
+  preview: `<div class="gfn-form gfn-form-inline" style="max-width:340px;width:100%">
+  <div class="gfn-form-title">Find your course</div>
+  <div class="gfn-form-sub">Search from 2,400+ free learning resources.</div>
+  <div class="gfn-inline-row">
+    <input class="gfn-input" type="search" placeholder="e.g. Game Design, Python...">
+    <button class="gfn-btn-submit">Search</button>
+  </div>
+  <div class="gfn-chip-row">
+    <span class="gfn-chip active">🎮 Game Dev</span>
+    <span class="gfn-chip">🐍 Python</span>
+    <span class="gfn-chip">🎨 UI Design</span>
+    <span class="gfn-chip">🔐 Security</span>
+    <span class="gfn-chip">📱 Mobile</span>
+  </div>
+  <div class="gfn-checkbox-row">
+    <input class="gfn-checkbox" type="checkbox" id="free-only" checked>
+    <label class="gfn-checkbox-label" for="free-only">Show free courses only</label>
+  </div>
+</div>`,
+  html: `<div class="gfn-form gfn-form-inline">
+  <div class="gfn-form-title">Find your course</div>
+  <div class="gfn-form-sub">Search from 2,400+ free learning resources.</div>
+  <div class="gfn-inline-row">
+    <input class="gfn-input" type="search" placeholder="e.g. Game Design, Python...">
+    <button class="gfn-btn-submit">Search</button>
+  </div>
+  <div class="gfn-chip-row">
+    <span class="gfn-chip active">🎮 Game Dev</span>
+    <span class="gfn-chip">🐍 Python</span>
+    <span class="gfn-chip">🎨 UI Design</span>
+    <span class="gfn-chip">🔐 Security</span>
+    <span class="gfn-chip">📱 Mobile</span>
+  </div>
+  <div class="gfn-checkbox-row">
+    <input class="gfn-checkbox" type="checkbox" id="free-only" checked>
+    <label class="gfn-checkbox-label" for="free-only">Show free courses only</label>
+  </div>
+</div>`
+},
+{
+  name: 'Settings / Profile',
+  tag: 'Settings',
+  bg: 'linear-gradient(135deg,#faf5ff,#f3e8ff)',
+  preview: `<div class="gfn-form gfn-form-settings" style="max-width:340px;width:100%">
+  <div class="gfn-form-title">Account settings</div>
+  <div class="gfn-form-sub">Manage your profile and preferences.</div>
+  <div class="gfn-avatar-row">
+    <div class="gfn-avatar">JD</div>
+    <div class="gfn-avatar-info">
+      <div class="gfn-avatar-name">Jordan Davis</div>
+      <div class="gfn-avatar-email">jordan@studio.dev</div>
+    </div>
+    <button class="gfn-change-btn">Change</button>
+  </div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">First name</label>
+      <input class="gfn-input" type="text" value="Jordan">
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">Last name</label>
+      <input class="gfn-input" type="text" value="Davis">
+    </div>
+  </div>
+  <div class="gfn-toggle-row">
+    <div>
+      <div class="gfn-toggle-label">Email notifications</div>
+      <div class="gfn-toggle-desc">Weekly digest and product updates</div>
+    </div>
+    <button class="gfn-toggle on"></button>
+  </div>
+  <div class="gfn-toggle-row">
+    <div>
+      <div class="gfn-toggle-label">Public profile</div>
+      <div class="gfn-toggle-desc">Show your work to the community</div>
+    </div>
+    <button class="gfn-toggle"></button>
+  </div>
+  <div class="gfn-btn-row">
+    <button class="gfn-btn-submit">Save Changes</button>
+    <button class="gfn-btn-cancel">Cancel</button>
+  </div>
+</div>`,
+  html: `<div class="gfn-form gfn-form-settings">
+  <div class="gfn-form-title">Account settings</div>
+  <div class="gfn-form-sub">Manage your profile and preferences.</div>
+  <div class="gfn-avatar-row">
+    <div class="gfn-avatar">JD</div>
+    <div class="gfn-avatar-info">
+      <div class="gfn-avatar-name">Jordan Davis</div>
+      <div class="gfn-avatar-email">jordan@studio.dev</div>
+    </div>
+    <button class="gfn-change-btn">Change</button>
+  </div>
+  <div class="gfn-form-row">
+    <div class="gfn-form-group">
+      <label class="gfn-label">First name</label>
+      <input class="gfn-input" type="text" value="Jordan">
+    </div>
+    <div class="gfn-form-group">
+      <label class="gfn-label">Last name</label>
+      <input class="gfn-input" type="text" value="Davis">
+    </div>
+  </div>
+  <div class="gfn-toggle-row">
+    <div>
+      <div class="gfn-toggle-label">Email notifications</div>
+      <div class="gfn-toggle-desc">Weekly digest and product updates</div>
+    </div>
+    <button class="gfn-toggle on"></button>
+  </div>
+  <div class="gfn-toggle-row">
+    <div>
+      <div class="gfn-toggle-label">Public profile</div>
+      <div class="gfn-toggle-desc">Show your work to the community</div>
+    </div>
+    <button class="gfn-toggle"></button>
+  </div>
+  <div class="gfn-btn-row">
+    <button class="gfn-btn-submit">Save Changes</button>
+    <button class="gfn-btn-cancel">Cancel</button>
+  </div>
+</div>`
+}
+];
+
+const grid = document.getElementById('forms-grid');
+FORMS.forEach((f, i) => {
+  const tile = document.createElement('div');
+  tile.className = 'form-tile';
+  tile.innerHTML = `
+    <div class="form-preview" style="background:${f.bg}">
+      ${f.preview}
+    </div>
+    <div class="form-meta">
+      <span class="form-name">${f.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="form-tag">${f.tag}</span>
+        <span class="click-hint">🖱 Click</span>
+      </div>
+    </div>
+  `;
+  tile.addEventListener('click', () => openModal(f));
+  grid.appendChild(tile);
+});
+
+let currentCode = '';
+function openModal(f) {
+  currentCode = f.html;
+  document.getElementById('modal-title').textContent = f.name;
+  document.getElementById('modal-subtitle').textContent = `${f.tag} form — copy & customize`;
+  document.getElementById('modal-code').textContent = f.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = 'Copy Code';
+  btn.classList.remove('copied');
+}
+function copyCode() {
+  navigator.clipboard.writeText(currentCode).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if(s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+// Toggle interactivity inside previews
+document.addEventListener('click', e => {
+  const toggle = e.target.closest('.gfn-toggle');
+  if(toggle) { e.stopPropagation(); toggle.classList.toggle('on'); }
+  const chip = e.target.closest('.gfn-chip');
+  if(chip) { e.stopPropagation(); chip.classList.toggle('active'); }
+});
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

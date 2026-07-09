@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Landing Pages ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* LANDINGS GRID — 1 per row */
+.landings-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+
+/* LANDING TILE */
+.landing-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.landing-tile:hover{transform:translateY(-4px);box-shadow:var(--sh2);border-color:var(--accent)}
+.landing-preview{min-height:420px;display:flex;align-items:stretch;justify-content:center;position:relative;overflow:hidden;pointer-events:none}
+.landing-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.04) 50%,transparent 60%);transform:translateX(-100%);transition:transform .6s;z-index:10;pointer-events:none}
+.landing-tile:hover .landing-preview::after{transform:translateX(100%)}
+.landing-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.landing-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.landing-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3);display:flex;align-items:center;gap:.25rem}
+
+@keyframes gfn-lp-fadeup{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.landing-tile{animation:gfn-lp-fadeup .45s ease both}
+.landing-tile:nth-child(1){animation-delay:.05s}
+.landing-tile:nth-child(2){animation-delay:.12s}
+.landing-tile:nth-child(3){animation-delay:.19s}
+.landing-tile:nth-child(4){animation-delay:.26s}
+.landing-tile:nth-child(5){animation-delay:.33s}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.code-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px)}
+.code-modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:800px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.3);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .code-modal-box{transform:scale(1) translateY(0)}
+.code-modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.code-modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.code-modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.code-modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.code-modal-close:hover{background:var(--bg2)}
+.code-modal-body{flex:1;overflow-y:auto;padding:1.25rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.code-modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2}
+.code-modal-note{margin-top:1rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* =====================================================
+   GRIFFIN CSS — 5 LANDING PAGE HERO SECTIONS
+   ===================================================== */
+
+/* ── SHARED ── */
+.gfn-lp-hero{width:100%;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;position:relative;overflow:hidden}
+.gfn-lp-hero *{box-sizing:border-box}
+.gfn-lp-nav{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;position:relative;z-index:2}
+.gfn-lp-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;text-decoration:none}
+.gfn-lp-nav-links{display:flex;align-items:center;gap:1.5rem}
+.gfn-lp-nav-link{font-size:.83rem;font-weight:500;text-decoration:none;cursor:pointer;transition:opacity .15s}
+.gfn-lp-nav-link:hover{opacity:.7}
+.gfn-lp-center{text-align:center;position:relative;z-index:2}
+.gfn-lp-eyebrow{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:700;padding:.3rem .9rem;border-radius:9999px;margin-bottom:1.5rem;letter-spacing:.04em}
+.gfn-lp-h1{font-family:'Syne',sans-serif;font-weight:800;letter-spacing:-.04em;line-height:1.06;margin-bottom:1.25rem}
+.gfn-lp-sub{line-height:1.72;max-width:540px;margin:0 auto 2.25rem}
+.gfn-lp-actions{display:flex;align-items:center;justify-content:center;gap:.85rem;flex-wrap:wrap}
+.gfn-lp-btn{display:inline-flex;align-items:center;gap:.45rem;padding:.8rem 1.85rem;border-radius:9999px;font-size:.9rem;font-weight:700;border:none;cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);font-family:inherit;text-decoration:none;white-space:nowrap}
+.gfn-lp-btn-outline{background:transparent;border:1.75px solid currentColor}
+
+/* ── 1. DARK PARTICLE HERO ── */
+.gfn-lp-dark{background:#080b14;color:#fff;min-height:100vh;display:flex;flex-direction:column}
+.gfn-lp-dark .gfn-lp-logo{color:#fff}
+.gfn-lp-dark .gfn-lp-logo em{color:#1E9E8C;font-style:normal}
+.gfn-lp-dark .gfn-lp-nav-link{color:rgba(255,255,255,.65)}
+.gfn-lp-dark .gfn-lp-nav-cta{padding:.42rem 1.1rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9999px;color:#fff;font-size:.8rem;font-weight:700;cursor:pointer;transition:background .2s;font-family:inherit}
+.gfn-lp-dark .gfn-lp-nav-cta:hover{background:rgba(255,255,255,.16)}
+.gfn-lp-dark .gfn-lp-body{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 2rem 4rem;position:relative}
+.gfn-lp-dark-canvas{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.gfn-lp-dark-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.5}
+.gfn-lp-dark-orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(30,158,140,.35),transparent 70%);top:-120px;left:50%;transform:translateX(-50%);animation:gfn-lp-orb-drift 8s ease-in-out infinite}
+.gfn-lp-dark-orb2{width:300px;height:300px;background:radial-gradient(circle,rgba(99,102,241,.25),transparent 70%);bottom:-60px;right:5%;animation:gfn-lp-orb-drift 11s ease-in-out infinite reverse}
+.gfn-lp-dark-orb3{width:200px;height:200px;background:radial-gradient(circle,rgba(236,72,153,.2),transparent 70%);top:20%;left:5%;animation:gfn-lp-orb-drift 9s ease-in-out infinite 2s}
+@keyframes gfn-lp-orb-drift{0%,100%{transform:translateX(-50%) translateY(0) scale(1)}50%{transform:translateX(-50%) translateY(-30px) scale(1.05)}}
+.gfn-lp-dark-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 50%,black 30%,transparent 80%)}
+.gfn-lp-dark .gfn-lp-eyebrow{background:rgba(30,158,140,.15);color:#28C4AF;border:1px solid rgba(30,158,140,.3)}
+.gfn-lp-dark .gfn-lp-h1{font-size:clamp(2.4rem,5.5vw,4.2rem);color:#fff}
+.gfn-lp-dark .gfn-lp-h1 em{font-style:normal;background:linear-gradient(90deg,#1E9E8C,#28C4AF,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gfn-lp-dark .gfn-lp-sub{font-size:1rem;color:rgba(255,255,255,.6)}
+.gfn-lp-dark .gfn-lp-btn-primary{background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;box-shadow:0 4px 24px rgba(30,158,140,.4)}
+.gfn-lp-dark .gfn-lp-btn-primary:hover{box-shadow:0 8px 32px rgba(30,158,140,.6);transform:translateY(-2px)}
+.gfn-lp-dark .gfn-lp-btn-outline{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.2)}
+.gfn-lp-dark .gfn-lp-btn-outline:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.gfn-lp-dark .gfn-lp-proof{display:flex;align-items:center;justify-content:center;gap:.65rem;margin-top:2rem;font-size:.8rem;color:rgba(255,255,255,.4)}
+.gfn-lp-dark .gfn-lp-proof-avs{display:flex}
+.gfn-lp-dark .gfn-lp-proof-av{width:28px;height:28px;border-radius:50%;border:2px solid #080b14;margin-left:-8px;font-size:.55rem;font-weight:700;display:flex;align-items:center;justify-content:center;color:#fff}
+.gfn-lp-dark .gfn-lp-proof-av:first-child{margin-left:0}
+.gfn-lp-dark .gfn-lp-stars{color:#f59e0b;letter-spacing:-.05em;font-size:.82rem}
+.gfn-lp-dark .gfn-lp-ticker{display:flex;gap:2.5rem;margin-top:3.5rem;justify-content:center;flex-wrap:wrap}
+.gfn-lp-dark .gfn-lp-ticker-item{text-align:center}
+.gfn-lp-dark .gfn-lp-ticker-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;line-height:1}
+.gfn-lp-dark .gfn-lp-ticker-lbl{font-size:.72rem;color:rgba(255,255,255,.4);margin-top:.2rem}
+
+/* ── 2. EDITORIAL SPLIT HERO ── */
+.gfn-lp-split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;font-family:'Inter',system-ui,sans-serif}
+.gfn-lp-split-left{background:#fff;display:flex;flex-direction:column;justify-content:center;padding:3rem 4rem;position:relative}
+.gfn-lp-split-right{background:#0f172a;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.gfn-lp-split .gfn-lp-split-nav{position:absolute;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4rem;z-index:2}
+.gfn-lp-split .gfn-lp-logo{color:#0f172a;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.gfn-lp-split .gfn-lp-logo em{color:#1E9E8C;font-style:normal}
+.gfn-lp-split-tag{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#1E9E8C;display:flex;align-items:center;gap:.5rem;margin-bottom:1.1rem}
+.gfn-lp-split-tag::before{content:'';width:28px;height:2px;background:#1E9E8C;border-radius:99px;flex-shrink:0}
+.gfn-lp-split .gfn-lp-h1{font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.06;color:#0f172a;margin-bottom:1.25rem}
+.gfn-lp-split .gfn-lp-h1 span{position:relative;display:inline-block}
+.gfn-lp-split .gfn-lp-h1 span::after{content:'';position:absolute;left:0;bottom:-4px;width:100%;height:4px;background:linear-gradient(90deg,#1E9E8C,#28C4AF);border-radius:99px}
+.gfn-lp-split .gfn-lp-sub{font-size:.95rem;color:#64748b;line-height:1.75;margin-bottom:2rem;max-width:420px}
+.gfn-lp-split-actions{display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
+.gfn-lp-split .gfn-lp-btn-primary{background:#0f172a;color:#fff;padding:.8rem 1.85rem;border-radius:12px;font-size:.9rem;font-weight:700;transition:all .22s}
+.gfn-lp-split .gfn-lp-btn-primary:hover{background:#1e293b;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.gfn-lp-split .gfn-lp-btn-outline{color:#0f172a;border-color:rgba(0,0,0,.18);padding:.78rem 1.6rem;border-radius:12px;font-size:.9rem;font-weight:600}
+.gfn-lp-split .gfn-lp-btn-outline:hover{border-color:#1E9E8C;color:#1E9E8C}
+.gfn-lp-split-right-inner{position:relative;z-index:1;text-align:center;padding:2rem}
+.gfn-lp-split-code{background:#111827;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:1.5rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.85;color:rgba(255,255,255,.75);text-align:left;box-shadow:0 32px 64px rgba(0,0,0,.4);position:relative}
+.gfn-lp-split-code::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(30,158,140,.5),transparent)}
+.gfn-lp-split-dots{display:flex;gap:.45rem;margin-bottom:1rem}
+.gfn-lp-split-dot{width:12px;height:12px;border-radius:50%}
+.gfn-lp-split-code .gfn-lp-c-g{color:#4ade80}
+.gfn-lp-split-code .gfn-lp-c-t{color:#28C4AF}
+.gfn-lp-split-code .gfn-lp-c-p{color:#a78bfa}
+.gfn-lp-split-code .gfn-lp-c-y{color:#fbbf24}
+.gfn-lp-split-code .gfn-lp-c-m{color:rgba(255,255,255,.4)}
+.gfn-lp-split-right-orb{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(30,158,140,.12),transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:gfn-lp-orb-drift 7s ease-in-out infinite}
+.gfn-lp-split-right-line{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:1.5rem}
+.gfn-lp-split-stat{text-align:center;color:#fff}
+.gfn-lp-split-stat-num{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800}
+.gfn-lp-split-stat-lbl{font-size:.65rem;color:rgba(255,255,255,.35);margin-top:.1rem;text-transform:uppercase;letter-spacing:.08em}
+@media(max-width:800px){.gfn-lp-split{grid-template-columns:1fr}.gfn-lp-split-right{display:none}.gfn-lp-split-left{padding:6rem 2rem 4rem}.gfn-lp-split .gfn-lp-split-nav{padding:1.25rem 2rem}}
+
+/* ── 3. BOLD GRADIENT HERO ── */
+.gfn-lp-bold{background:linear-gradient(160deg,#0f0a1e 0%,#1a0533 40%,#0d1a3a 100%);min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden;color:#fff;font-family:'Inter',system-ui,sans-serif}
+.gfn-lp-bold-mesh{position:absolute;inset:0;background:conic-gradient(from 200deg at 50% 60%,rgba(139,92,246,.12) 0deg,rgba(30,158,140,.1) 80deg,rgba(236,72,153,.08) 160deg,transparent 240deg);animation:gfn-lp-mesh-spin 20s linear infinite;transform-origin:50% 60%}
+@keyframes gfn-lp-mesh-spin{to{transform:rotate(360deg)}}
+.gfn-lp-bold-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.gfn-lp-bold-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.05);animation:gfn-lp-ring-pulse 4s ease-in-out infinite}
+.gfn-lp-bold-ring:nth-child(1){width:300px;height:300px;animation-delay:0s}
+.gfn-lp-bold-ring:nth-child(2){width:500px;height:500px;animation-delay:.8s}
+.gfn-lp-bold-ring:nth-child(3){width:700px;height:700px;animation-delay:1.6s}
+@keyframes gfn-lp-ring-pulse{0%,100%{opacity:.4;transform:scale(1)}50%{opacity:.08;transform:scale(1.04)}}
+.gfn-lp-bold .gfn-lp-nav{position:relative;z-index:3;padding:1.4rem 3rem}
+.gfn-lp-bold .gfn-lp-logo{color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.gfn-lp-bold .gfn-lp-logo em{color:#a78bfa;font-style:normal}
+.gfn-lp-bold .gfn-lp-nav-link{color:rgba(255,255,255,.55)}
+.gfn-lp-bold .gfn-lp-nav-cta{padding:.42rem 1.1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:9999px;color:#fff;font-size:.8rem;font-weight:700;cursor:pointer;transition:background .2s;font-family:inherit}
+.gfn-lp-bold .gfn-lp-nav-cta:hover{background:rgba(255,255,255,.15)}
+.gfn-lp-bold-body{flex:1;display:flex;align-items:center;justify-content:center;padding:3rem 2rem;position:relative;z-index:2}
+.gfn-lp-bold .gfn-lp-eyebrow{background:rgba(167,139,250,.15);color:#c4b5fd;border:1px solid rgba(167,139,250,.25)}
+.gfn-lp-bold .gfn-lp-h1{font-size:clamp(2.6rem,6vw,5rem);color:#fff}
+.gfn-lp-bold .gfn-lp-h1 em{font-style:normal;background:linear-gradient(90deg,#a78bfa,#ec4899,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.gfn-lp-bold .gfn-lp-sub{font-size:1.05rem;color:rgba(255,255,255,.55)}
+.gfn-lp-bold .gfn-lp-btn-primary{background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff;box-shadow:0 4px 28px rgba(139,92,246,.4);font-size:.92rem}
+.gfn-lp-bold .gfn-lp-btn-primary:hover{box-shadow:0 8px 36px rgba(139,92,246,.6);transform:translateY(-3px) scale(1.02)}
+.gfn-lp-bold .gfn-lp-btn-outline{color:rgba(255,255,255,.65);border-color:rgba(255,255,255,.18);font-size:.92rem}
+.gfn-lp-bold .gfn-lp-btn-outline:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.gfn-lp-bold-features{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin-top:3rem}
+.gfn-lp-bold-feature{display:flex;align-items:center;gap:.5rem;font-size:.8rem;color:rgba(255,255,255,.45)}
+.gfn-lp-bold-feature-dot{width:5px;height:5px;border-radius:50%;background:#8b5cf6;flex-shrink:0}
+@media(max-width:600px){.gfn-lp-bold .gfn-lp-nav{padding:1.25rem 1.25rem}.gfn-lp-bold .gfn-lp-nav-links{display:none}}
+
+/* ── 4. WARM MINIMAL HERO ── */
+.gfn-lp-warm{background:#faf7f2;min-height:100vh;display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif;position:relative}
+.gfn-lp-warm-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1}
+.gfn-lp-warm .gfn-lp-nav{position:relative;z-index:3;padding:1.5rem 3rem;border-bottom:1px solid rgba(0,0,0,.06)}
+.gfn-lp-warm .gfn-lp-logo{color:#1c1917;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem}
+.gfn-lp-warm .gfn-lp-logo em{color:#ea580c;font-style:normal}
+.gfn-lp-warm .gfn-lp-nav-link{color:#78716c}
+.gfn-lp-warm .gfn-lp-nav-cta{padding:.42rem 1.1rem;background:#1c1917;border-radius:9999px;color:#fff;font-size:.8rem;font-weight:700;cursor:pointer;border:none;transition:background .2s;font-family:inherit}
+.gfn-lp-warm .gfn-lp-nav-cta:hover{background:#292524}
+.gfn-lp-warm-body{flex:1;display:flex;align-items:center;justify-content:center;padding:4rem 2rem 5rem;position:relative;z-index:2}
+.gfn-lp-warm-inner{max-width:720px;width:100%;text-align:center}
+.gfn-lp-warm-kicker{display:inline-flex;align-items:center;gap:.6rem;font-size:.78rem;font-weight:600;color:#78716c;margin-bottom:1.75rem;padding:.35rem .9rem;border-radius:9999px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.07)}
+.gfn-lp-warm-kicker-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.2);animation:gfn-lp-live-dot 2s ease-in-out infinite}
+@keyframes gfn-lp-live-dot{0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.2)}50%{box-shadow:0 0 0 6px rgba(34,197,94,.1)}}
+.gfn-lp-warm .gfn-lp-h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,5.5vw,4.5rem);font-weight:800;letter-spacing:-.05em;line-height:1.04;color:#1c1917;margin-bottom:1.35rem}
+.gfn-lp-warm-stamp{display:inline-block;background:#ea580c;color:#fff;padding:.05rem .35rem;border-radius:6px;margin:0 .1rem;transform:rotate(-1.5deg);position:relative;top:-2px}
+.gfn-lp-warm .gfn-lp-sub{font-size:1rem;color:#78716c;line-height:1.75;max-width:500px;margin:0 auto 2.25rem}
+.gfn-lp-warm .gfn-lp-btn-primary{background:#1c1917;color:#fff;border-radius:12px;padding:.82rem 1.9rem}
+.gfn-lp-warm .gfn-lp-btn-primary:hover{background:#ea580c;transform:translateY(-2px);box-shadow:0 8px 24px rgba(234,88,12,.35)}
+.gfn-lp-warm .gfn-lp-btn-outline{color:#1c1917;border-color:rgba(0,0,0,.18);border-radius:12px;padding:.8rem 1.6rem}
+.gfn-lp-warm .gfn-lp-btn-outline:hover{border-color:#ea580c;color:#ea580c}
+.gfn-lp-warm-logos{margin-top:3.5rem;border-top:1px solid rgba(0,0,0,.07);padding-top:2rem}
+.gfn-lp-warm-logos-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:#a8a29e;margin-bottom:1.25rem}
+.gfn-lp-warm-logos-row{display:flex;justify-content:center;align-items:center;gap:2.5rem;flex-wrap:wrap}
+.gfn-lp-warm-logo-item{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:800;color:#c4bfba;letter-spacing:-.02em}
+@media(max-width:600px){.gfn-lp-warm .gfn-lp-nav{padding:1.25rem 1.25rem}.gfn-lp-warm .gfn-lp-nav-links{display:none}}
+
+/* ── 5. BRUTALIST HERO ── */
+.gfn-lp-brutal{background:#f5f0e8;min-height:100vh;display:flex;flex-direction:column;font-family:'Inter',system-ui,sans-serif;position:relative}
+.gfn-lp-brutal .gfn-lp-nav{border-bottom:3px solid #000;padding:1.1rem 3rem;position:relative;z-index:3}
+.gfn-lp-brutal .gfn-lp-logo{color:#000;font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;letter-spacing:-.02em}
+.gfn-lp-brutal .gfn-lp-logo em{color:#000;font-style:normal;text-decoration:underline;text-underline-offset:3px}
+.gfn-lp-brutal .gfn-lp-nav-link{color:#000;font-size:.83rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.gfn-lp-brutal .gfn-lp-nav-link:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
+.gfn-lp-brutal .gfn-lp-nav-cta{padding:.45rem 1.1rem;background:#000;color:#f5f0e8;border:3px solid #000;font-size:.8rem;font-weight:800;cursor:pointer;font-family:inherit;border-radius:0;text-transform:uppercase;letter-spacing:.05em;transition:all .12s}
+.gfn-lp-brutal .gfn-lp-nav-cta:hover{background:#f5f0e8;color:#000}
+.gfn-lp-brutal-body{flex:1;display:grid;grid-template-columns:1fr 1fr;position:relative}
+.gfn-lp-brutal-left{padding:4rem 3rem;display:flex;flex-direction:column;justify-content:center;border-right:3px solid #000}
+.gfn-lp-brutal-right{padding:3rem;display:flex;align-items:center;justify-content:center;background:#000;position:relative;overflow:hidden}
+.gfn-lp-brutal-badge{display:inline-block;background:#f5c842;color:#000;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;padding:.25rem .7rem;border:2px solid #000;margin-bottom:1.25rem;box-shadow:3px 3px 0 #000}
+.gfn-lp-brutal .gfn-lp-h1{font-family:'Syne',sans-serif;font-size:clamp(2.4rem,4.5vw,4rem);font-weight:800;letter-spacing:-.04em;line-height:1.04;color:#000;margin-bottom:1.25rem}
+.gfn-lp-brutal .gfn-lp-h1 u{text-decoration-color:#f5c842;text-underline-offset:5px;text-decoration-thickness:4px}
+.gfn-lp-brutal .gfn-lp-sub{font-size:.95rem;color:#3d3929;line-height:1.72;max-width:400px;margin-bottom:2rem;border-left:4px solid #f5c842;padding-left:1rem}
+.gfn-lp-brutal .gfn-lp-btn-primary{background:#f5c842;color:#000;border:3px solid #000;border-radius:0;box-shadow:4px 4px 0 #000;font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.82rem 1.9rem;transition:all .12s}
+.gfn-lp-brutal .gfn-lp-btn-primary:hover{box-shadow:6px 6px 0 #000;transform:translate(-2px,-2px)}
+.gfn-lp-brutal .gfn-lp-btn-primary:active{box-shadow:1px 1px 0 #000;transform:translate(3px,3px)}
+.gfn-lp-brutal .gfn-lp-btn-outline{color:#000;border:3px solid #000;border-radius:0;box-shadow:4px 4px 0 #000;font-size:.9rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.8rem 1.6rem;transition:all .12s}
+.gfn-lp-brutal .gfn-lp-btn-outline:hover{box-shadow:6px 6px 0 #000;transform:translate(-2px,-2px);background:rgba(0,0,0,.05)}
+.gfn-lp-brutal-right-text{color:#fff;font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(3.5rem,8vw,7rem);letter-spacing:-.05em;line-height:1;text-align:center;position:relative;z-index:1}
+.gfn-lp-brutal-right-text span{display:block}
+.gfn-lp-brutal-right-text em{font-style:normal;color:#f5c842}
+.gfn-lp-brutal-ticker{position:absolute;bottom:0;left:0;right:0;border-top:3px solid rgba(255,255,255,.12);padding:.65rem 1.5rem;display:flex;gap:2rem}
+.gfn-lp-brutal-ticker-item{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);display:flex;align-items:center;gap:.5rem}
+.gfn-lp-brutal-ticker-item::before{content:'✦';color:rgba(255,255,255,.2)}
+.gfn-lp-brutal-stripe{position:absolute;top:20%;right:0;width:60%;height:2px;background:rgba(255,255,255,.06)}
+@media(max-width:800px){.gfn-lp-brutal-body{grid-template-columns:1fr}.gfn-lp-brutal-right{display:none}.gfn-lp-brutal-left{border-right:none;padding:3rem 1.5rem}.gfn-lp-brutal .gfn-lp-nav{padding:1.1rem 1.5rem}}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Patterns / Landing Pages</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link active" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Landing Pages</div>
+    <p class="page-sub">
+      <span>5 full hero section layouts</span> ... click any preview to copy its HTML. Each is a complete, responsive hero ready to drop into any project.
+    </p>
+  </div>
+  <div class="landings-grid" id="landings-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="code-modal-backdrop" onclick="closeModal()"></div>
+  <div class="code-modal-box">
+    <div class="code-modal-header">
+      <div>
+        <div class="code-modal-title" id="modal-title">Hero HTML</div>
+        <div class="code-modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="code-modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="code-modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="code-modal-pre" id="modal-code"></pre>
+      <div class="code-modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your <code>&lt;head&gt;</code>. All classes use the <code>gfn-lp-</code> prefix, zero collisions guaranteed.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const LANDINGS = [
+{
+  name: 'Dark Particle Hero',
+  tag: 'SaaS / Tech',
+  html: `<!-- Dark Particle Hero -->
+<!-- Requires: griffin.min.css -->
+<section class="gfn-lp-hero gfn-lp-dark">
+
+  <!-- NAV -->
+  <nav class="gfn-lp-nav">
+    <a class="gfn-lp-logo" href="#"><em>G</em>riffin</a>
+    <div class="gfn-lp-nav-links">
+      <a class="gfn-lp-nav-link" href="#">Product</a>
+      <a class="gfn-lp-nav-link" href="#">Pricing</a>
+      <a class="gfn-lp-nav-link" href="#">Docs</a>
+    </div>
+    <button class="gfn-lp-nav-cta">Sign In</button>
+  </nav>
+
+  <!-- HERO BODY -->
+  <div class="gfn-lp-body">
+
+    <!-- Animated background -->
+    <div class="gfn-lp-dark-canvas">
+      <div class="gfn-lp-dark-grid"></div>
+      <div class="gfn-lp-dark-orb gfn-lp-dark-orb1"></div>
+      <div class="gfn-lp-dark-orb gfn-lp-dark-orb2"></div>
+      <div class="gfn-lp-dark-orb gfn-lp-dark-orb3"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="gfn-lp-center">
+      <div class="gfn-lp-eyebrow">✦ Now in Public Beta</div>
+      <h1 class="gfn-lp-h1">
+        Build interfaces<br>at the speed of<br><em>thought.</em>
+      </h1>
+      <p class="gfn-lp-sub">
+        Griffin CSS gives you 100+ production-ready components,
+        dark mode, and a fully-tokenised design system — all in one CDN link.
+      </p>
+      <div class="gfn-lp-actions">
+        <button class="gfn-lp-btn gfn-lp-btn-primary">
+          Start Building Free →
+        </button>
+        <button class="gfn-lp-btn gfn-lp-btn-outline">
+          View Components
+        </button>
+      </div>
+
+      <!-- Social proof -->
+      <div class="gfn-lp-proof">
+        <div class="gfn-lp-proof-avs">
+          <div class="gfn-lp-proof-av" style="background:#6366f1">A</div>
+          <div class="gfn-lp-proof-av" style="background:#ec4899">M</div>
+          <div class="gfn-lp-proof-av" style="background:#f59e0b">K</div>
+          <div class="gfn-lp-proof-av" style="background:#10b981">J</div>
+        </div>
+        <div class="gfn-lp-stars">★★★★★</div>
+        <span>Loved by 12,000+ developers</span>
+      </div>
+
+      <!-- Stats ticker -->
+      <div class="gfn-lp-ticker">
+        <div class="gfn-lp-ticker-item">
+          <div class="gfn-lp-ticker-num">100+</div>
+          <div class="gfn-lp-ticker-lbl">Components</div>
+        </div>
+        <div class="gfn-lp-ticker-item">
+          <div class="gfn-lp-ticker-num">0</div>
+          <div class="gfn-lp-ticker-lbl">Dependencies</div>
+        </div>
+        <div class="gfn-lp-ticker-item">
+          <div class="gfn-lp-ticker-num">∞</div>
+          <div class="gfn-lp-ticker-lbl">Themes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`
+},
+{
+  name: 'Editorial Split Hero',
+  tag: 'Dev Tool / Portfolio',
+  html: `<!-- Editorial Split Hero -->
+<!-- Requires: griffin.min.css -->
+<section class="gfn-lp-hero gfn-lp-split">
+
+  <!-- LEFT PANEL -->
+  <div class="gfn-lp-split-left">
+
+    <!-- Inline nav -->
+    <div class="gfn-lp-split-nav">
+      <a class="gfn-lp-logo" href="#"><em>G</em>riffin</a>
+      <div class="gfn-lp-nav-links" style="gap:1.25rem">
+        <a class="gfn-lp-nav-link" style="color:#64748b;font-size:.82rem" href="#">Docs</a>
+        <a class="gfn-lp-nav-link" style="color:#64748b;font-size:.82rem" href="#">Blog</a>
+        <button style="padding:.38rem 1rem;background:#0f172a;color:#fff;border:none;border-radius:9999px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit">Get Started</button>
+      </div>
+    </div>
+
+    <!-- Eyebrow -->
+    <div class="gfn-lp-split-tag">Open Source · MIT Licensed</div>
+
+    <!-- Headline -->
+    <h1 class="gfn-lp-h1" style="font-family:'Syne',sans-serif;font-size:clamp(2.2rem,4vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.06;color:#0f172a;margin-bottom:1.25rem">
+      The CSS framework<br>that <span>ships fast.</span>
+    </h1>
+
+    <!-- Sub -->
+    <p class="gfn-lp-sub" style="font-size:.95rem;color:#64748b;line-height:1.75;margin-bottom:2rem;max-width:420px">
+      Drop in one link tag and get 100+ hand-crafted components,
+      a full token system, and automatic dark mode. No build step.
+    </p>
+
+    <!-- CTAs -->
+    <div class="gfn-lp-split-actions">
+      <button class="gfn-lp-btn gfn-lp-btn-primary">
+        Copy CDN Link →
+      </button>
+      <button class="gfn-lp-btn gfn-lp-btn-outline">
+        Browse Components
+      </button>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="gfn-lp-split-right">
+    <div class="gfn-lp-split-right-orb"></div>
+    <div class="gfn-lp-split-right-inner">
+      <div class="gfn-lp-split-code">
+        <div class="gfn-lp-split-dots">
+          <div class="gfn-lp-split-dot" style="background:#ef4444"></div>
+          <div class="gfn-lp-split-dot" style="background:#f59e0b"></div>
+          <div class="gfn-lp-split-dot" style="background:#22c55e"></div>
+        </div>
+        <span class="gfn-lp-c-m">&lt;!-- Drop this in your &lt;head&gt; --&gt;</span><br>
+        <span class="gfn-lp-c-g">&lt;link</span>
+        <span class="gfn-lp-c-t"> rel</span><span class="gfn-lp-c-m">=</span><span class="gfn-lp-c-y">"stylesheet"</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="gfn-lp-c-t">href</span><span class="gfn-lp-c-m">=</span><span class="gfn-lp-c-y">"griffin.min.css"</span><br>
+        <span class="gfn-lp-c-g">/&gt;</span><br><br>
+        <span class="gfn-lp-c-m">&lt;!-- Now use any class --&gt;</span><br>
+        <span class="gfn-lp-c-g">&lt;div</span> <span class="gfn-lp-c-t">class</span><span class="gfn-lp-c-m">=</span><span class="gfn-lp-c-y">"gfn-btn-shimmer"</span><span class="gfn-lp-c-g">&gt;</span><br>
+        &nbsp;&nbsp;Ship it 🚀<br>
+        <span class="gfn-lp-c-g">&lt;/div&gt;</span><br><br>
+        <span class="gfn-lp-c-p">// 100+ components. Zero deps.</span>
+      </div>
+    </div>
+    <div class="gfn-lp-split-right-line">
+      <div class="gfn-lp-split-stat">
+        <div class="gfn-lp-split-stat-num">100+</div>
+        <div class="gfn-lp-split-stat-lbl">Components</div>
+      </div>
+      <div class="gfn-lp-split-stat">
+        <div class="gfn-lp-split-stat-num">12k</div>
+        <div class="gfn-lp-split-stat-lbl">Developers</div>
+      </div>
+      <div class="gfn-lp-split-stat">
+        <div class="gfn-lp-split-stat-num">0</div>
+        <div class="gfn-lp-split-stat-lbl">Build Steps</div>
+      </div>
+    </div>
+  </div>
+</section>`
+},
+{
+  name: 'Bold Gradient Hero',
+  tag: 'App / Creative',
+  html: `<!-- Bold Gradient Hero -->
+<!-- Requires: griffin.min.css -->
+<section class="gfn-lp-hero gfn-lp-bold">
+
+  <!-- Animated mesh & rings -->
+  <div class="gfn-lp-bold-mesh"></div>
+  <div class="gfn-lp-bold-rings">
+    <div class="gfn-lp-bold-ring"></div>
+    <div class="gfn-lp-bold-ring"></div>
+    <div class="gfn-lp-bold-ring"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="gfn-lp-nav">
+    <a class="gfn-lp-logo" href="#"><em>G</em>riffin</a>
+    <div class="gfn-lp-nav-links">
+      <a class="gfn-lp-nav-link" href="#">Explore</a>
+      <a class="gfn-lp-nav-link" href="#">Pricing</a>
+      <a class="gfn-lp-nav-link" href="#">Blog</a>
+    </div>
+    <button class="gfn-lp-nav-cta">Log In</button>
+  </nav>
+
+  <!-- BODY -->
+  <div class="gfn-lp-bold-body">
+    <div class="gfn-lp-center">
+      <div class="gfn-lp-eyebrow">✦ Creative Tools for Modern Teams</div>
+      <h1 class="gfn-lp-h1">
+        Design without<br><em>limits.</em>
+      </h1>
+      <p class="gfn-lp-sub">
+        A fully animated, dark-by-design CSS system built for
+        studios, creators, and indie hackers who refuse to ship boring UIs.
+      </p>
+      <div class="gfn-lp-actions">
+        <button class="gfn-lp-btn gfn-lp-btn-primary">
+          Start for Free
+        </button>
+        <button class="gfn-lp-btn gfn-lp-btn-outline">
+          Watch Demo ▶
+        </button>
+      </div>
+      <div class="gfn-lp-bold-features">
+        <div class="gfn-lp-bold-feature">
+          <div class="gfn-lp-bold-feature-dot"></div>
+          No build step
+        </div>
+        <div class="gfn-lp-bold-feature">
+          <div class="gfn-lp-bold-feature-dot" style="background:#ec4899"></div>
+          Dark mode native
+        </div>
+        <div class="gfn-lp-bold-feature">
+          <div class="gfn-lp-bold-feature-dot" style="background:#f97316"></div>
+          MIT licensed
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`
+},
+{
+  name: 'Warm Minimal Hero',
+  tag: 'Agency / Studio',
+  html: `<!-- Warm Minimal Hero -->
+<!-- Requires: griffin.min.css -->
+<section class="gfn-lp-hero gfn-lp-warm">
+
+  <!-- Noise texture overlay -->
+  <div class="gfn-lp-warm-noise"></div>
+
+  <!-- NAV -->
+  <nav class="gfn-lp-nav">
+    <a class="gfn-lp-logo" href="#"><em>G</em>riffin</a>
+    <div class="gfn-lp-nav-links">
+      <a class="gfn-lp-nav-link" href="#">Work</a>
+      <a class="gfn-lp-nav-link" href="#">About</a>
+      <a class="gfn-lp-nav-link" href="#">Journal</a>
+    </div>
+    <button class="gfn-lp-nav-cta">Start a Project</button>
+  </nav>
+
+  <!-- BODY -->
+  <div class="gfn-lp-warm-body">
+    <div class="gfn-lp-warm-inner">
+
+      <!-- Live badge -->
+      <div class="gfn-lp-warm-kicker">
+        <span class="gfn-lp-warm-kicker-dot"></span>
+        Available for new projects · 2025
+      </div>
+
+      <!-- Headline -->
+      <h1 class="gfn-lp-h1">
+        We make<br>
+        <span class="gfn-lp-warm-stamp">beautiful</span>
+        things<br>
+        for the web.
+      </h1>
+
+      <!-- Sub -->
+      <p class="gfn-lp-sub">
+        A small studio obsessed with craft, typography, and digital experiences
+        that leave a lasting impression. From idea to shipped in weeks.
+      </p>
+
+      <!-- CTAs -->
+      <div class="gfn-lp-actions">
+        <button class="gfn-lp-btn gfn-lp-btn-primary">
+          View Our Work →
+        </button>
+        <button class="gfn-lp-btn gfn-lp-btn-outline">
+          Get in Touch
+        </button>
+      </div>
+
+      <!-- Logo row -->
+      <div class="gfn-lp-warm-logos">
+        <div class="gfn-lp-warm-logos-label">Trusted by teams at</div>
+        <div class="gfn-lp-warm-logos-row">
+          <span class="gfn-lp-warm-logo-item">Vercel</span>
+          <span class="gfn-lp-warm-logo-item">Stripe</span>
+          <span class="gfn-lp-warm-logo-item">Figma</span>
+          <span class="gfn-lp-warm-logo-item">Linear</span>
+          <span class="gfn-lp-warm-logo-item">Loom</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>`
+},
+{
+  name: 'Brutalist Hero',
+  tag: 'Bold / Statement',
+  html: `<!-- Brutalist Hero -->
+<!-- Requires: griffin.min.css -->
+<section class="gfn-lp-hero gfn-lp-brutal">
+
+  <!-- NAV -->
+  <nav class="gfn-lp-nav">
+    <a class="gfn-lp-logo" href="#"><em>G</em>RIFFIN</a>
+    <div class="gfn-lp-nav-links">
+      <a class="gfn-lp-nav-link" href="#">Work</a>
+      <a class="gfn-lp-nav-link" href="#">Process</a>
+      <a class="gfn-lp-nav-link" href="#">Contact</a>
+    </div>
+    <button class="gfn-lp-nav-cta">Hire Us</button>
+  </nav>
+
+  <!-- SPLIT BODY -->
+  <div class="gfn-lp-brutal-body">
+
+    <!-- Left content -->
+    <div class="gfn-lp-brutal-left">
+      <div class="gfn-lp-brutal-badge">✦ Est. 2025 · Open Source</div>
+      <h1 class="gfn-lp-h1">
+        CSS that<br>
+        <u>doesn't</u><br>
+        apologise.
+      </h1>
+      <p class="gfn-lp-sub">
+        Raw, honest, and unapologetically bold. Griffin CSS is for teams
+        who know exactly what they want and ship it on Tuesday.
+      </p>
+      <div class="gfn-lp-actions" style="justify-content:flex-start">
+        <button class="gfn-lp-btn gfn-lp-btn-primary">
+          Get the Kit
+        </button>
+        <button class="gfn-lp-btn gfn-lp-btn-outline">
+          Read Docs
+        </button>
+      </div>
+    </div>
+
+    <!-- Right panel -->
+    <div class="gfn-lp-brutal-right">
+      <div class="gfn-lp-brutal-stripe"></div>
+      <div class="gfn-lp-brutal-right-text">
+        <span>SHIP</span>
+        <span><em>FAST.</em></span>
+        <span>SHIP</span>
+        <span>BOLD.</span>
+      </div>
+      <div class="gfn-lp-brutal-ticker">
+        <div class="gfn-lp-brutal-ticker-item">100+ Components</div>
+        <div class="gfn-lp-brutal-ticker-item">Zero Deps</div>
+        <div class="gfn-lp-brutal-ticker-item">MIT Licensed</div>
+        <div class="gfn-lp-brutal-ticker-item">Dark Mode</div>
+      </div>
+    </div>
+  </div>
+</section>`
+}
+];
+
+// Build previews
+const PREVIEW_HTMLS = [
+  // 1 — Dark Particle
+  `<section class="gfn-lp-hero gfn-lp-dark" style="min-height:420px">
+    <div class="gfn-lp-dark-canvas"><div class="gfn-lp-dark-grid"></div><div class="gfn-lp-dark-orb gfn-lp-dark-orb1"></div><div class="gfn-lp-dark-orb gfn-lp-dark-orb2"></div><div class="gfn-lp-dark-orb gfn-lp-dark-orb3"></div></div>
+    <nav class="gfn-lp-nav"><a class="gfn-lp-logo" href="#"><em>G</em>riffin</a><div class="gfn-lp-nav-links"><a class="gfn-lp-nav-link" href="#">Product</a><a class="gfn-lp-nav-link" href="#">Pricing</a><a class="gfn-lp-nav-link" href="#">Docs</a></div><button class="gfn-lp-nav-cta">Sign In</button></nav>
+    <div class="gfn-lp-body" style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem 2rem 3rem;position:relative">
+      <div class="gfn-lp-center">
+        <div class="gfn-lp-eyebrow">✦ Now in Public Beta</div>
+        <h1 class="gfn-lp-h1" style="font-size:clamp(1.8rem,4vw,3.2rem)">Build interfaces<br>at the speed of<br><em>thought.</em></h1>
+        <p class="gfn-lp-sub" style="font-size:.9rem;color:rgba(255,255,255,.6)">Griffin CSS gives you 100+ production-ready components, dark mode, and a fully-tokenised design system — all in one CDN link.</p>
+        <div class="gfn-lp-actions"><button class="gfn-lp-btn gfn-lp-btn-primary">Start Building Free →</button><button class="gfn-lp-btn gfn-lp-btn-outline">View Components</button></div>
+        <div class="gfn-lp-proof"><div class="gfn-lp-proof-avs"><div class="gfn-lp-proof-av" style="background:#6366f1">A</div><div class="gfn-lp-proof-av" style="background:#ec4899">M</div><div class="gfn-lp-proof-av" style="background:#f59e0b">K</div></div><div class="gfn-lp-stars">★★★★★</div><span>12,000+ developers</span></div>
+        <div class="gfn-lp-ticker"><div class="gfn-lp-ticker-item"><div class="gfn-lp-ticker-num">100+</div><div class="gfn-lp-ticker-lbl">Components</div></div><div class="gfn-lp-ticker-item"><div class="gfn-lp-ticker-num">0</div><div class="gfn-lp-ticker-lbl">Dependencies</div></div><div class="gfn-lp-ticker-item"><div class="gfn-lp-ticker-num">∞</div><div class="gfn-lp-ticker-lbl">Themes</div></div></div>
+      </div>
+    </div>
+  </section>`,
+  // 2 — Editorial Split
+  `<section class="gfn-lp-hero gfn-lp-split" style="min-height:420px">
+    <div class="gfn-lp-split-left" style="padding:5rem 3rem 3rem">
+      <div class="gfn-lp-split-nav" style="padding:1.25rem 3rem"><a class="gfn-lp-logo" href="#"><em>G</em>riffin</a><div style="display:flex;gap:1rem;align-items:center"><a style="font-size:.78rem;color:#64748b;font-weight:500;cursor:pointer">Docs</a><a style="font-size:.78rem;color:#64748b;font-weight:500;cursor:pointer">Blog</a><button style="padding:.35rem .9rem;background:#0f172a;color:#fff;border:none;border-radius:9999px;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit">Get Started</button></div></div>
+      <div class="gfn-lp-split-tag">Open Source · MIT Licensed</div>
+      <h1 style="font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.06;color:#0f172a;margin-bottom:1rem">The CSS framework<br>that <span style="position:relative;display:inline-block">ships fast.<span style="position:absolute;left:0;bottom:-4px;width:100%;height:4px;background:linear-gradient(90deg,#1E9E8C,#28C4AF);border-radius:99px"></span></span></h1>
+      <p style="font-size:.88rem;color:#64748b;line-height:1.72;margin-bottom:1.75rem;max-width:380px">Drop in one link tag and get 100+ hand-crafted components, a full token system, and automatic dark mode.</p>
+      <div style="display:flex;gap:.65rem;flex-wrap:wrap"><button class="gfn-lp-btn gfn-lp-btn-primary" style="background:#0f172a;color:#fff;border-radius:12px;padding:.72rem 1.5rem">Copy CDN Link →</button><button class="gfn-lp-btn gfn-lp-btn-outline" style="color:#0f172a;border-color:rgba(0,0,0,.18);border-radius:12px;padding:.7rem 1.3rem">Browse Components</button></div>
+    </div>
+    <div class="gfn-lp-split-right">
+      <div class="gfn-lp-split-right-orb"></div>
+      <div class="gfn-lp-split-right-inner">
+        <div class="gfn-lp-split-code"><div class="gfn-lp-split-dots"><div class="gfn-lp-split-dot" style="background:#ef4444"></div><div class="gfn-lp-split-dot" style="background:#f59e0b"></div><div class="gfn-lp-split-dot" style="background:#22c55e"></div></div><span class="gfn-lp-c-m">&lt;!-- Drop in &lt;head&gt; --&gt;</span><br><span class="gfn-lp-c-g">&lt;link</span> <span class="gfn-lp-c-t">rel</span><span class="gfn-lp-c-m">=</span><span class="gfn-lp-c-y">"stylesheet"</span><br>&nbsp;&nbsp;&nbsp;<span class="gfn-lp-c-t">href</span><span class="gfn-lp-c-m">=</span><span class="gfn-lp-c-y">"griffin.min.css"</span><br><span class="gfn-lp-c-g">/&gt;</span><br><br><span class="gfn-lp-c-p">// 100+ components. Zero deps.</span></div>
+      </div>
+      <div class="gfn-lp-split-right-line"><div class="gfn-lp-split-stat"><div class="gfn-lp-split-stat-num">100+</div><div class="gfn-lp-split-stat-lbl">Components</div></div><div class="gfn-lp-split-stat"><div class="gfn-lp-split-stat-num">12k</div><div class="gfn-lp-split-stat-lbl">Devs</div></div><div class="gfn-lp-split-stat"><div class="gfn-lp-split-stat-num">0</div><div class="gfn-lp-split-stat-lbl">Build Steps</div></div></div>
+    </div>
+  </section>`,
+  // 3 — Bold Gradient
+  `<section class="gfn-lp-hero gfn-lp-bold" style="min-height:420px">
+    <div class="gfn-lp-bold-mesh"></div>
+    <div class="gfn-lp-bold-rings"><div class="gfn-lp-bold-ring"></div><div class="gfn-lp-bold-ring"></div><div class="gfn-lp-bold-ring"></div></div>
+    <nav class="gfn-lp-nav"><a class="gfn-lp-logo" href="#"><em>G</em>riffin</a><div class="gfn-lp-nav-links"><a class="gfn-lp-nav-link" href="#">Explore</a><a class="gfn-lp-nav-link" href="#">Pricing</a></div><button class="gfn-lp-nav-cta">Log In</button></nav>
+    <div class="gfn-lp-bold-body" style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:2">
+      <div class="gfn-lp-center">
+        <div class="gfn-lp-eyebrow">✦ Creative Tools for Modern Teams</div>
+        <h1 class="gfn-lp-h1" style="font-size:clamp(2.2rem,5vw,4rem)">Design without<br><em>limits.</em></h1>
+        <p class="gfn-lp-sub" style="font-size:.95rem;color:rgba(255,255,255,.55)">A fully animated, dark-by-design CSS system built for studios, creators, and indie hackers who refuse to ship boring UIs.</p>
+        <div class="gfn-lp-actions"><button class="gfn-lp-btn gfn-lp-btn-primary">Start for Free</button><button class="gfn-lp-btn gfn-lp-btn-outline">Watch Demo ▶</button></div>
+        <div class="gfn-lp-bold-features"><div class="gfn-lp-bold-feature"><div class="gfn-lp-bold-feature-dot"></div>No build step</div><div class="gfn-lp-bold-feature"><div class="gfn-lp-bold-feature-dot" style="background:#ec4899"></div>Dark mode native</div><div class="gfn-lp-bold-feature"><div class="gfn-lp-bold-feature-dot" style="background:#f97316"></div>MIT licensed</div></div>
+      </div>
+    </div>
+  </section>`,
+  // 4 — Warm Minimal
+  `<section class="gfn-lp-hero gfn-lp-warm" style="min-height:420px">
+    <div class="gfn-lp-warm-noise"></div>
+    <nav class="gfn-lp-nav"><a class="gfn-lp-logo" href="#"><em>G</em>riffin</a><div class="gfn-lp-nav-links"><a class="gfn-lp-nav-link" href="#">Work</a><a class="gfn-lp-nav-link" href="#">About</a><a class="gfn-lp-nav-link" href="#">Journal</a></div><button class="gfn-lp-nav-cta">Start a Project</button></nav>
+    <div class="gfn-lp-warm-body" style="flex:1;display:flex;align-items:center;justify-content:center;padding:2rem;position:relative;z-index:2">
+      <div class="gfn-lp-warm-inner">
+        <div class="gfn-lp-warm-kicker"><span class="gfn-lp-warm-kicker-dot"></span>Available for new projects · 2025</div>
+        <h1 class="gfn-lp-h1" style="font-family:'Syne',sans-serif;font-size:clamp(2rem,4.5vw,3.8rem);font-weight:800;letter-spacing:-.05em;line-height:1.04;color:#1c1917;margin-bottom:1.25rem">We make <span class="gfn-lp-warm-stamp">beautiful</span> things for the web.</h1>
+        <p class="gfn-lp-sub" style="font-size:.92rem;color:#78716c;line-height:1.75;max-width:480px;margin:0 auto 2rem">A small studio obsessed with craft, typography, and digital experiences that leave a lasting impression.</p>
+        <div class="gfn-lp-actions"><button class="gfn-lp-btn gfn-lp-btn-primary" style="background:#1c1917;color:#fff;border-radius:12px;padding:.8rem 1.85rem">View Our Work →</button><button class="gfn-lp-btn gfn-lp-btn-outline" style="color:#1c1917;border-color:rgba(0,0,0,.18);border-radius:12px;padding:.78rem 1.6rem">Get in Touch</button></div>
+        <div class="gfn-lp-warm-logos"><div class="gfn-lp-warm-logos-label">Trusted by teams at</div><div class="gfn-lp-warm-logos-row"><span class="gfn-lp-warm-logo-item">Vercel</span><span class="gfn-lp-warm-logo-item">Stripe</span><span class="gfn-lp-warm-logo-item">Figma</span><span class="gfn-lp-warm-logo-item">Linear</span></div></div>
+      </div>
+    </div>
+  </section>`,
+  // 5 — Brutalist
+  `<section class="gfn-lp-hero gfn-lp-brutal" style="min-height:420px">
+    <nav class="gfn-lp-nav"><a class="gfn-lp-logo" href="#">GRIFFIN</a><div class="gfn-lp-nav-links"><a class="gfn-lp-nav-link" href="#">Work</a><a class="gfn-lp-nav-link" href="#">Process</a><a class="gfn-lp-nav-link" href="#">Contact</a></div><button class="gfn-lp-nav-cta">Hire Us</button></nav>
+    <div class="gfn-lp-brutal-body" style="flex:1;display:grid;grid-template-columns:1fr 1fr;min-height:360px">
+      <div class="gfn-lp-brutal-left" style="padding:2.5rem 2.5rem">
+        <div class="gfn-lp-brutal-badge">✦ Est. 2025 · Open Source</div>
+        <h1 class="gfn-lp-h1" style="font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-.04em;line-height:1.04;color:#000;margin-bottom:1.1rem">CSS that<br><u style="text-decoration-color:#f5c842;text-underline-offset:5px;text-decoration-thickness:4px">doesn't</u><br>apologise.</h1>
+        <p style="font-size:.88rem;color:#3d3929;line-height:1.7;margin-bottom:1.5rem;border-left:4px solid #f5c842;padding-left:.85rem;max-width:340px">Raw, honest, and unapologetically bold. For teams who know exactly what they want.</p>
+        <div style="display:flex;gap:.65rem;flex-wrap:wrap"><button class="gfn-lp-btn gfn-lp-btn-primary" style="background:#f5c842;color:#000;border:3px solid #000;border-radius:0;box-shadow:4px 4px 0 #000;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.75rem 1.5rem">Get the Kit</button><button class="gfn-lp-btn gfn-lp-btn-outline" style="color:#000;border:3px solid #000;border-radius:0;box-shadow:4px 4px 0 #000;font-weight:800;text-transform:uppercase;letter-spacing:.06em;padding:.73rem 1.3rem">Read Docs</button></div>
+      </div>
+      <div class="gfn-lp-brutal-right">
+        <div class="gfn-lp-brutal-stripe"></div>
+        <div class="gfn-lp-brutal-right-text"><span>SHIP</span><span><em>FAST.</em></span><span>SHIP</span><span>BOLD.</span></div>
+        <div class="gfn-lp-brutal-ticker"><div class="gfn-lp-brutal-ticker-item">100+ Components</div><div class="gfn-lp-brutal-ticker-item">Zero Deps</div><div class="gfn-lp-brutal-ticker-item">MIT Licensed</div></div>
+      </div>
+    </div>
+  </section>`
+];
+
+const grid = document.getElementById('landings-grid');
+LANDINGS.forEach((l, i) => {
+  const tile = document.createElement('div');
+  tile.className = 'landing-tile';
+  tile.innerHTML = `
+    <div class="landing-preview">${PREVIEW_HTMLS[i]}</div>
+    <div class="landing-meta">
+      <span class="landing-name">${l.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="landing-tag">${l.tag}</span>
+        <span class="click-hint">🖱 Click for HTML</span>
+      </div>
+    </div>
+  `;
+  tile.addEventListener('click', () => openModal(l));
+  grid.appendChild(tile);
+});
+
+let currentCode = '';
+function openModal(l) {
+  currentCode = l.html;
+  document.getElementById('modal-title').textContent = l.name;
+  document.getElementById('modal-subtitle').textContent = `${l.tag} — copy HTML and start customising`;
+  document.getElementById('modal-code').textContent = l.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('copy-btn').textContent = 'Copy Code';
+  document.getElementById('copy-btn').classList.remove('copied');
+}
+function copyCode() {
+  navigator.clipboard.writeText(currentCode).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
+
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if(s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

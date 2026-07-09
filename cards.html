@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cards ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* ── TOPBAR ── */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* ── LAYOUT ── */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* ── SIDEBAR ── */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* ── MAIN ── */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+.section-divider{height:1px;background:var(--bdr);margin:2.5rem 0}
+
+/* ── CARDS GRID ── */
+.cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.cards-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.cards-grid{grid-template-columns:1fr}}
+
+/* ── CARD WRAPPER (clickable preview tile) ── */
+.card-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.card-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.card-preview{padding:1.5rem;min-height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.card-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.card-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.card-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3);display:flex;align-items:center;gap:.25rem}
+
+/* ═══════════════════════════════════════════
+   20 CARD STYLES
+═══════════════════════════════════════════ */
+
+/* 1. Profile Card */
+.g-profile-card{background:#fff;border-radius:20px;width:200px;text-align:center;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.12);font-family:'Inter',sans-serif}
+.g-profile-card .pc-banner{height:60px;background:linear-gradient(135deg,#6366f1,#8b5cf6)}
+.g-profile-card .pc-avatar{width:52px;height:52px;border-radius:50%;border:3px solid #fff;margin:-26px auto 0;display:block;background:linear-gradient(135deg,#f472b6,#ec4899);font-size:1.3rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;position:relative;margin:-26px auto 0}
+.g-profile-card .pc-name{font-weight:700;font-size:.88rem;margin:.6rem 0 .1rem;color:#111}
+.g-profile-card .pc-role{font-size:.68rem;color:#888;margin-bottom:.65rem}
+.g-profile-card .pc-stats{display:flex;border-top:1px solid #f0f0f0;padding:.5rem 0}
+.g-profile-card .pc-stat{flex:1;text-align:center;font-size:.62rem;color:#aaa}
+.g-profile-card .pc-stat strong{display:block;font-size:.8rem;color:#333;font-weight:700}
+
+/* 2. Pricing Card */
+.g-pricing-card{background:linear-gradient(135deg,#0f172a,#1e293b);border-radius:20px;width:190px;padding:1.2rem;color:#fff;font-family:'Inter',sans-serif;position:relative;overflow:hidden}
+.g-pricing-card::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:rgba(99,102,241,.3)}
+.g-pricing-card .pr-badge{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;background:rgba(99,102,241,.3);color:#a5b4fc;padding:.2rem .55rem;border-radius:99px;display:inline-block;margin-bottom:.65rem}
+.g-pricing-card .pr-price{font-size:1.8rem;font-weight:800;line-height:1}
+.g-pricing-card .pr-price sup{font-size:.8rem;vertical-align:super}
+.g-pricing-card .pr-period{font-size:.65rem;color:rgba(255,255,255,.5);margin-bottom:.75rem}
+.g-pricing-card .pr-features{list-style:none;padding:0;margin-bottom:.8rem}
+.g-pricing-card .pr-features li{font-size:.68rem;color:rgba(255,255,255,.7);padding:.2rem 0;padding-left:1rem;position:relative}
+.g-pricing-card .pr-features li::before{content:'✓';position:absolute;left:0;color:#818cf8}
+.g-pricing-card .pr-btn{width:100%;padding:.5rem;border-radius:99px;border:none;background:linear-gradient(90deg,#6366f1,#8b5cf6);color:#fff;font-size:.72rem;font-weight:700;cursor:pointer}
+
+/* 3. Product Card */
+.g-product-card{background:#fff;border-radius:16px;width:190px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-product-card .prod-img{height:110px;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;font-size:2.8rem;position:relative}
+.g-product-card .prod-badge{position:absolute;top:.5rem;left:.5rem;background:#ef4444;color:#fff;font-size:.55rem;font-weight:700;padding:.15rem .45rem;border-radius:99px}
+.g-product-card .prod-info{padding:.75rem}
+.g-product-card .prod-name{font-size:.8rem;font-weight:700;color:#111;margin-bottom:.2rem}
+.g-product-card .prod-brand{font-size:.62rem;color:#999;margin-bottom:.45rem}
+.g-product-card .prod-price-row{display:flex;align-items:center;justify-content:space-between}
+.g-product-card .prod-price{font-size:.95rem;font-weight:800;color:#ef4444}
+.g-product-card .prod-old{font-size:.65rem;color:#ccc;text-decoration:line-through;margin-left:.3rem}
+.g-product-card .prod-cart{background:#111;color:#fff;border:none;border-radius:8px;padding:.4rem .7rem;font-size:.65rem;font-weight:600;cursor:pointer}
+
+/* 4. Blog Post Card */
+.g-blog-card{background:#fff;border-radius:16px;width:200px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-blog-card .bl-img{height:90px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);display:flex;align-items:center;justify-content:center;font-size:2rem}
+.g-blog-card .bl-body{padding:.75rem}
+.g-blog-card .bl-cat{font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#10b981;margin-bottom:.35rem}
+.g-blog-card .bl-title{font-size:.8rem;font-weight:700;color:#111;line-height:1.35;margin-bottom:.4rem}
+.g-blog-card .bl-meta{display:flex;align-items:center;gap:.4rem;font-size:.62rem;color:#999}
+.g-blog-card .bl-avatar{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.5rem;font-weight:700}
+
+/* 5. Testimonial Card */
+.g-testimonial-card{background:linear-gradient(135deg,#fffbeb,#fef3c7);border-radius:20px;width:200px;padding:1.1rem;font-family:'Inter',sans-serif;border:1px solid #fde68a;position:relative}
+.g-testimonial-card .tc-quote{font-size:2rem;color:#f59e0b;line-height:1;margin-bottom:.25rem}
+.g-testimonial-card .tc-text{font-size:.72rem;color:#78350f;line-height:1.55;margin-bottom:.75rem}
+.g-testimonial-card .tc-author{display:flex;align-items:center;gap:.5rem}
+.g-testimonial-card .tc-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700}
+.g-testimonial-card .tc-name{font-size:.7rem;font-weight:700;color:#92400e}
+.g-testimonial-card .tc-role{font-size:.6rem;color:#b45309}
+.g-testimonial-card .tc-stars{font-size:.65rem;color:#f59e0b;margin-bottom:.5rem}
+
+/* 6. Stats / Metric Card */
+.g-metric-card{background:#fff;border-radius:16px;width:190px;padding:1.1rem;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif;border-left:4px solid #3b82f6}
+.g-metric-card .mc-label{font-size:.65rem;text-transform:uppercase;letter-spacing:.1em;color:#94a3b8;font-weight:600;margin-bottom:.3rem}
+.g-metric-card .mc-value{font-size:1.8rem;font-weight:800;color:#1e293b;line-height:1;margin-bottom:.2rem}
+.g-metric-card .mc-change{display:inline-flex;align-items:center;gap:.25rem;font-size:.65rem;font-weight:600;background:#dcfce7;color:#16a34a;padding:.15rem .45rem;border-radius:99px}
+.g-metric-card .mc-chart{margin-top:.75rem;display:flex;align-items:flex-end;gap:3px;height:28px}
+.g-metric-card .mc-bar{flex:1;border-radius:3px 3px 0 0;background:#e2e8f0;transition:background .2s}
+.g-metric-card .mc-bar.active{background:#3b82f6}
+
+/* 7. Notification Card */
+.g-notif-card{background:#fff;border-radius:16px;width:210px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-notif-card .nc-item{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem 0;border-bottom:1px solid #f1f5f9}
+.g-notif-card .nc-item:last-child{border-bottom:none}
+.g-notif-card .nc-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.g-notif-card .nc-text{font-size:.68rem;color:#475569;line-height:1.45}
+.g-notif-card .nc-text strong{color:#1e293b}
+.g-notif-card .nc-time{font-size:.58rem;color:#94a3b8;margin-top:.15rem}
+.g-notif-card .nc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.g-notif-card .nc-title{font-size:.78rem;font-weight:700;color:#1e293b}
+.g-notif-card .nc-count{background:#6366f1;color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:99px}
+
+/* 8. Recipe Card */
+.g-recipe-card{background:#fff;border-radius:20px;width:200px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-recipe-card .rc-img{height:90px;background:linear-gradient(135deg,#fef9ec,#fde68a);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.g-recipe-card .rc-body{padding:.75rem}
+.g-recipe-card .rc-name{font-size:.82rem;font-weight:700;color:#111;margin-bottom:.3rem}
+.g-recipe-card .rc-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.5rem}
+.g-recipe-card .rc-tag{font-size:.58rem;background:#fff7ed;color:#ea580c;padding:.15rem .4rem;border-radius:99px;font-weight:600;border:1px solid #fed7aa}
+.g-recipe-card .rc-row{display:flex;gap:.75rem}
+.g-recipe-card .rc-info{text-align:center}
+.g-recipe-card .rc-info-val{font-size:.75rem;font-weight:700;color:#ea580c}
+.g-recipe-card .rc-info-lbl{font-size:.55rem;color:#999}
+
+/* 9. Weather Card */
+.g-weather-card{background:linear-gradient(135deg,#0ea5e9,#38bdf8);border-radius:24px;width:200px;padding:1.2rem;color:#fff;font-family:'Inter',sans-serif;position:relative;overflow:hidden}
+.g-weather-card::before{content:'☁';position:absolute;font-size:5rem;right:-10px;top:-10px;opacity:.15}
+.g-weather-card .wc-city{font-size:.68rem;opacity:.8;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.1rem}
+.g-weather-card .wc-temp{font-size:2.5rem;font-weight:800;line-height:1;margin-bottom:.1rem}
+.g-weather-card .wc-cond{font-size:.72rem;opacity:.85;margin-bottom:.8rem}
+.g-weather-card .wc-row{display:flex;gap:.75rem}
+.g-weather-card .wc-item{font-size:.62rem;opacity:.8}
+.g-weather-card .wc-item strong{display:block;font-size:.72rem;opacity:1;font-weight:700}
+
+/* 10. Task / Kanban Card */
+.g-task-card{background:#fff;border-radius:16px;width:200px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif;border-top:3px solid #8b5cf6}
+.g-task-card .tk-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem}
+.g-task-card .tk-title{font-size:.82rem;font-weight:700;color:#1e293b;line-height:1.3}
+.g-task-card .tk-priority{font-size:.58rem;font-weight:700;padding:.15rem .45rem;border-radius:99px;background:#ede9fe;color:#7c3aed}
+.g-task-card .tk-desc{font-size:.68rem;color:#64748b;margin-bottom:.7rem;line-height:1.45}
+.g-task-card .tk-progress-bar{height:4px;background:#e2e8f0;border-radius:99px;margin-bottom:.65rem;overflow:hidden}
+.g-task-card .tk-progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#8b5cf6,#a78bfa);width:65%}
+.g-task-card .tk-footer{display:flex;justify-content:space-between;align-items:center}
+.g-task-card .tk-avatars{display:flex}
+.g-task-card .tk-av{width:20px;height:20px;border-radius:50%;border:2px solid #fff;margin-left:-6px;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center}
+.g-task-card .tk-av:first-child{margin-left:0}
+.g-task-card .tk-due{font-size:.6rem;color:#94a3b8}
+
+/* 11. Music / Media Card */
+.g-music-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:24px;width:200px;padding:1.2rem;color:#fff;font-family:'Inter',sans-serif}
+.g-music-card .mu-cover{width:60px;height:60px;border-radius:12px;background:linear-gradient(135deg,#e879f9,#a855f7);margin:0 auto .75rem;display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 8px 20px rgba(168,85,247,.4)}
+.g-music-card .mu-title{font-size:.82rem;font-weight:700;text-align:center;margin-bottom:.15rem}
+.g-music-card .mu-artist{font-size:.65rem;text-align:center;opacity:.6;margin-bottom:.75rem}
+.g-music-card .mu-bar{height:3px;background:rgba(255,255,255,.15);border-radius:99px;margin-bottom:.65rem;overflow:hidden}
+.g-music-card .mu-fill{width:40%;height:100%;background:linear-gradient(90deg,#e879f9,#a855f7);border-radius:99px}
+.g-music-card .mu-controls{display:flex;justify-content:center;align-items:center;gap:1rem;font-size:1.1rem}
+
+/* 12. User Auth / Login Card */
+.g-auth-card{background:#fff;border-radius:20px;width:200px;padding:1.25rem;box-shadow:0 8px 30px rgba(0,0,0,.12);font-family:'Inter',sans-serif}
+.g-auth-card .au-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;margin-bottom:.75rem}
+.g-auth-card .au-title{font-size:.88rem;font-weight:800;color:#1e293b;margin-bottom:.15rem}
+.g-auth-card .au-sub{font-size:.65rem;color:#94a3b8;margin-bottom:.8rem}
+.g-auth-card .au-field{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:.45rem .7rem;font-size:.72rem;color:#64748b;margin-bottom:.45rem;display:flex;align-items:center;gap:.4rem}
+.g-auth-card .au-field span{font-size:.8rem}
+.g-auth-card .au-btn{width:100%;padding:.5rem;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;border:none;border-radius:8px;font-size:.72rem;font-weight:700;cursor:pointer;margin-bottom:.5rem}
+.g-auth-card .au-footer{text-align:center;font-size:.6rem;color:#94a3b8}
+.g-auth-card .au-footer a{color:#0ea5e9;font-weight:600}
+
+/* 13. Event Card */
+.g-event-card{background:#fff;border-radius:20px;width:200px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-event-card .ev-header{background:linear-gradient(135deg,#f43f5e,#e11d48);padding:1rem;color:#fff;position:relative}
+.g-event-card .ev-date{font-size:2rem;font-weight:800;line-height:1}
+.g-event-card .ev-month{font-size:.65rem;opacity:.8;text-transform:uppercase;letter-spacing:.1em}
+.g-event-card .ev-icon{position:absolute;top:1rem;right:1rem;font-size:1.5rem;opacity:.4}
+.g-event-card .ev-body{padding:.75rem}
+.g-event-card .ev-title{font-size:.82rem;font-weight:700;color:#1e293b;margin-bottom:.25rem}
+.g-event-card .ev-detail{font-size:.65rem;color:#64748b;display:flex;align-items:center;gap:.3rem;margin-bottom:.2rem}
+.g-event-card .ev-btn{display:block;text-align:center;margin-top:.6rem;padding:.4rem;background:#fef2f2;color:#f43f5e;border-radius:8px;font-size:.68rem;font-weight:700;border:none;cursor:pointer;width:100%}
+
+/* 14. Social Post Card */
+.g-social-card{background:#fff;border-radius:16px;width:200px;padding:1rem;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-social-card .sc-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.65rem}
+.g-social-card .sc-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#fb923c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.7rem;font-weight:700}
+.g-social-card .sc-name{font-size:.75rem;font-weight:700;color:#1e293b}
+.g-social-card .sc-handle{font-size:.6rem;color:#94a3b8}
+.g-social-card .sc-badge{margin-left:auto;color:#1d9bf0;font-size:.9rem}
+.g-social-card .sc-text{font-size:.72rem;color:#374151;line-height:1.55;margin-bottom:.7rem}
+.g-social-card .sc-tag{color:#1d9bf0;font-weight:600}
+.g-social-card .sc-actions{display:flex;gap:.9rem}
+.g-social-card .sc-action{display:flex;align-items:center;gap:.25rem;font-size:.65rem;color:#64748b;cursor:pointer}
+
+/* 15. Team Member Card */
+.g-team-card{background:#fff;border-radius:20px;width:190px;text-align:center;padding:1.25rem;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif;border:1px solid #f0f0f0}
+.g-team-card .tm-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#06b6d4);margin:0 auto .65rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.4rem;font-weight:800;box-shadow:0 4px 12px rgba(6,182,212,.3)}
+.g-team-card .tm-name{font-size:.88rem;font-weight:800;color:#1e293b;margin-bottom:.15rem}
+.g-team-card .tm-role{font-size:.65rem;color:#06b6d4;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.65rem}
+.g-team-card .tm-socials{display:flex;justify-content:center;gap:.5rem;margin-bottom:.75rem}
+.g-team-card .tm-social{width:26px;height:26px;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:.7rem;cursor:pointer}
+.g-team-card .tm-skills{display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem}
+.g-team-card .tm-skill{font-size:.58rem;background:#ecfeff;color:#0891b2;padding:.15rem .45rem;border-radius:99px;font-weight:600;border:1px solid #cffafe}
+
+/* 16. Glassmorphism Card */
+.g-glass-card{border-radius:20px;width:200px;padding:1.4rem;font-family:'Inter',sans-serif;position:relative;overflow:hidden;background:rgba(255,255,255,.18);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.4);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.g-glass-card .glass-bg{position:absolute;inset:0;background:linear-gradient(135deg,#667eea,#764ba2);z-index:-1}
+.g-glass-card .gl-icon{font-size:2rem;margin-bottom:.6rem}
+.g-glass-card .gl-title{font-size:.88rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.g-glass-card .gl-text{font-size:.7rem;color:rgba(255,255,255,.8);line-height:1.55;margin-bottom:.9rem}
+.g-glass-card .gl-btn{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:.4rem .9rem;border-radius:99px;font-size:.7rem;font-weight:700;cursor:pointer}
+
+/* 17. Crypto / Finance Card */
+.g-crypto-card{background:#0f172a;border-radius:20px;width:200px;padding:1.2rem;font-family:'Inter',sans-serif;color:#fff}
+.g-crypto-card .cr-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.8rem}
+.g-crypto-card .cr-icon{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.g-crypto-card .cr-name{font-size:.82rem;font-weight:700}
+.g-crypto-card .cr-sym{font-size:.62rem;color:#64748b}
+.g-crypto-card .cr-price{font-size:1.6rem;font-weight:800;margin-bottom:.15rem}
+.g-crypto-card .cr-change{display:inline-flex;align-items:center;gap:.2rem;font-size:.65rem;font-weight:700;background:rgba(34,197,94,.15);color:#22c55e;padding:.15rem .45rem;border-radius:99px}
+.g-crypto-card .cr-sparkline{margin-top:.75rem;display:flex;align-items:flex-end;gap:2px;height:30px}
+.g-crypto-card .cr-sp{flex:1;border-radius:2px;background:rgba(251,191,36,.2)}
+.g-crypto-card .cr-sp.hi{background:#fbbf24}
+
+/* 18. Job Listing Card */
+.g-job-card{background:#fff;border-radius:20px;width:210px;padding:1.1rem;box-shadow:0 4px 20px rgba(0,0,0,.1);font-family:'Inter',sans-serif}
+.g-job-card .jb-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.65rem}
+.g-job-card .jb-logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#4ade80,#22c55e);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.g-job-card .jb-company{font-size:.65rem;color:#64748b;margin-bottom:.1rem}
+.g-job-card .jb-title{font-size:.82rem;font-weight:800;color:#1e293b}
+.g-job-card .jb-tags{display:flex;gap:.35rem;flex-wrap:wrap;margin-bottom:.65rem}
+.g-job-card .jb-tag{font-size:.58rem;padding:.15rem .45rem;border-radius:99px;font-weight:600;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0}
+.g-job-card .jb-tag.remote{background:#eff6ff;color:#2563eb;border-color:#bfdbfe}
+.g-job-card .jb-footer{display:flex;align-items:center;justify-content:space-between}
+.g-job-card .jb-salary{font-size:.75rem;font-weight:800;color:#1e293b}
+.g-job-card .jb-apply{background:#1e293b;color:#fff;border:none;border-radius:8px;padding:.4rem .75rem;font-size:.65rem;font-weight:700;cursor:pointer}
+
+/* 19. Countdown / Timer Card */
+.g-countdown-card{background:linear-gradient(135deg,#ff6b6b,#ee5a24);border-radius:20px;width:200px;padding:1.2rem;color:#fff;text-align:center;font-family:'Inter',sans-serif}
+.g-countdown-card .cd-title{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;opacity:.8;margin-bottom:.6rem;font-weight:600}
+.g-countdown-card .cd-event{font-size:.9rem;font-weight:800;margin-bottom.9rem}
+.g-countdown-card .cd-units{display:flex;gap:.5rem;justify-content:center;margin:.75rem 0}
+.g-countdown-card .cd-unit{background:rgba(0,0,0,.2);border-radius:12px;padding:.5rem .6rem;min-width:42px}
+.g-countdown-card .cd-num{font-size:1.4rem;font-weight:800;line-height:1;display:block}
+.g-countdown-card .cd-lbl{font-size:.5rem;opacity:.7;text-transform:uppercase;letter-spacing:.08em}
+.g-countdown-card .cd-sep{font-size:1.2rem;font-weight:800;opacity:.5;align-self:flex-start;padding-top:.4rem}
+
+/* 20. Neumorphism Card */
+.g-neumorphic-card{background:#e8edf2;border-radius:24px;width:200px;padding:1.4rem;font-family:'Inter',sans-serif;box-shadow:6px 6px 12px #c8cfd7,-6px -6px 12px #fff}
+.g-neumorphic-card .nm-icon{width:52px;height:52px;border-radius:16px;background:#e8edf2;box-shadow:4px 4px 8px #c8cfd7,-4px -4px 8px #fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:.85rem}
+.g-neumorphic-card .nm-title{font-size:.88rem;font-weight:800;color:#2d3748;margin-bottom:.3rem}
+.g-neumorphic-card .nm-text{font-size:.7rem;color:#718096;line-height:1.55;margin-bottom:.9rem}
+.g-neumorphic-card .nm-btn{background:#e8edf2;border:none;color:#4a5568;font-size:.72rem;font-weight:700;padding:.5rem 1rem;border-radius:99px;box-shadow:3px 3px 6px #c8cfd7,-3px -3px 6px #fff;cursor:pointer}
+
+/* ── MODAL OVERLAY ── */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:680px;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2}
+.modal-note{margin-top:1rem;background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* animations */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card-tile{animation:fadeInUp .4s ease both}
+.card-tile:nth-child(1){animation-delay:.05s}
+.card-tile:nth-child(2){animation-delay:.1s}
+.card-tile:nth-child(3){animation-delay:.15s}
+.card-tile:nth-child(4){animation-delay:.2s}
+.card-tile:nth-child(5){animation-delay:.25s}
+.card-tile:nth-child(6){animation-delay:.3s}
+.card-tile:nth-child(7){animation-delay:.35s}
+.card-tile:nth-child(8){animation-delay:.4s}
+.card-tile:nth-child(9){animation-delay:.45s}
+.card-tile:nth-child(10){animation-delay:.5s}
+.card-tile:nth-child(11){animation-delay:.55s}
+.card-tile:nth-child(12){animation-delay:.6s}
+.card-tile:nth-child(13){animation-delay:.65s}
+.card-tile:nth-child(14){animation-delay:.7s}
+.card-tile:nth-child(15){animation-delay:.75s}
+.card-tile:nth-child(16){animation-delay:.8s}
+.card-tile:nth-child(17){animation-delay:.85s}
+.card-tile:nth-child(18){animation-delay:.9s}
+.card-tile:nth-child(19){animation-delay:.95s}
+.card-tile:nth-child(20){animation-delay:1s}
+
+/* Shimmer hover effect on tile */
+.card-tile .card-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s}
+.card-tile:hover .card-preview::after{transform:translateX(100%)}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Cards</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layout<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link active" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">10</span></a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Cards</div>
+    <p class="page-sub">
+      <span>20 unique card components</span> ... click any card to view & copy its HTML. Just swap in your own content.
+    </p>
+  </div>
+
+  <div class="cards-grid" id="cards-grid"></div>
+</main>
+
+</div><!-- /layout -->
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Card HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code"></pre>
+      <div class="modal-note">💡 Replace placeholder text, images, and values with your own content. Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to use Griffin CSS classes.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CARD DATA ──────────────────────────────────────────────────────────────
+const CARDS = [
+{
+  name:'Profile Card',
+  tag:'Social',
+  bgColor:'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  html:`<div class="g-profile-card">
+  <div class="pc-banner"></div>
+  <div class="pc-avatar">AJ</div>
+  <div class="pc-name">Alex Johnson</div>
+  <div class="pc-role">Senior Designer · San Francisco</div>
+  <div class="pc-stats">
+    <div class="pc-stat"><strong>128</strong>Projects</div>
+    <div class="pc-stat"><strong>4.9k</strong>Followers</div>
+    <div class="pc-stat"><strong>312</strong>Reviews</div>
+  </div>
+</div>`,
+  preview:`<div class="g-profile-card"><div class="pc-banner"></div><div class="pc-avatar" style="width:52px;height:52px;border-radius:50%;border:3px solid #fff;margin:-26px auto 0;background:linear-gradient(135deg,#f472b6,#ec4899);font-size:1.1rem;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">AJ</div><div class="pc-name">Alex Johnson</div><div class="pc-role">Senior Designer</div><div class="pc-stats"><div class="pc-stat"><strong>128</strong>Projects</div><div class="pc-stat"><strong>4.9k</strong>Followers</div><div class="pc-stat"><strong>312</strong>Reviews</div></div></div>`
+},
+{
+  name:'Pricing Card',
+  tag:'E-commerce',
+  bgColor:'linear-gradient(135deg,#f0f4ff,#e0e7ff)',
+  html:`<div class="g-pricing-card">
+  <div class="pr-badge">Pro Plan</div>
+  <div class="pr-price"><sup>$</sup>29</div>
+  <div class="pr-period">per month, billed annually</div>
+  <ul class="pr-features">
+    <li>Unlimited projects</li>
+    <li>Priority support</li>
+    <li>Advanced analytics</li>
+    <li>Custom domain</li>
+  </ul>
+  <button class="pr-btn">Get Started →</button>
+</div>`,
+  preview:`<div class="g-pricing-card"><div class="pr-badge">Pro Plan</div><div class="pr-price"><sup>$</sup>29</div><div class="pr-period">per month</div><ul class="pr-features"><li>Unlimited projects</li><li>Priority support</li><li>Advanced analytics</li></ul><button class="pr-btn">Get Started →</button></div>`
+},
+{
+  name:'Product Card',
+  tag:'E-commerce',
+  bgColor:'linear-gradient(135deg,#fffbeb,#fef3c7)',
+  html:`<div class="g-product-card">
+  <div class="prod-img">
+    👟
+    <span class="prod-badge">−20%</span>
+  </div>
+  <div class="prod-info">
+    <div class="prod-name">Air Sneaker X</div>
+    <div class="prod-brand">Nike Studio</div>
+    <div class="prod-price-row">
+      <div>
+        <span class="prod-price">$79</span>
+        <span class="prod-old">$99</span>
+      </div>
+      <button class="prod-cart">Add +</button>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="g-product-card"><div class="prod-img" style="height:90px;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;font-size:2.2rem;position:relative"><span class="prod-badge" style="position:absolute;top:.5rem;left:.5rem;background:#ef4444;color:#fff;font-size:.55rem;font-weight:700;padding:.15rem .45rem;border-radius:99px">−20%</span>👟</div><div class="prod-info"><div class="prod-name">Air Sneaker X</div><div class="prod-brand">Nike Studio</div><div class="prod-price-row"><div><span class="prod-price">$79</span><span class="prod-old" style="font-size:.65rem;color:#ccc;text-decoration:line-through;margin-left:.3rem">$99</span></div><button class="prod-cart">Add +</button></div></div></div>`
+},
+{
+  name:'Blog Post Card',
+  tag:'Content',
+  bgColor:'linear-gradient(135deg,#ecfdf5,#d1fae5)',
+  html:`<div class="g-blog-card">
+  <div class="bl-img">📝</div>
+  <div class="bl-body">
+    <div class="bl-cat">Design</div>
+    <div class="bl-title">10 UI Patterns Every Designer Should Know</div>
+    <div class="bl-meta">
+      <div class="bl-avatar">SR</div>
+      <span>Sara R. · 5 min read</span>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="g-blog-card"><div class="bl-img" style="height:80px;background:linear-gradient(135deg,#ecfdf5,#d1fae5);display:flex;align-items:center;justify-content:center;font-size:1.8rem">📝</div><div class="bl-body"><div class="bl-cat">Design</div><div class="bl-title">10 UI Patterns Every Designer Should Know</div><div class="bl-meta" style="display:flex;align-items:center;gap:.4rem;font-size:.62rem;color:#999"><div class="bl-avatar" style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#10b981,#059669);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.5rem;font-weight:700">SR</div>Sara R. · 5 min</div></div></div>`
+},
+{
+  name:'Testimonial Card',
+  tag:'Marketing',
+  bgColor:'linear-gradient(135deg,#fffbeb,#fef9c3)',
+  html:`<div class="g-testimonial-card">
+  <div class="tc-quote">"</div>
+  <div class="tc-stars">★★★★★</div>
+  <div class="tc-text">Griffin CSS cut our design time in half. Absolutely love the dark mode and components!</div>
+  <div class="tc-author">
+    <div class="tc-avatar">MK</div>
+    <div>
+      <div class="tc-name">Maria Kim</div>
+      <div class="tc-role">CTO, StartupXYZ</div>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="g-testimonial-card"><div class="tc-quote">"</div><div class="tc-stars">★★★★★</div><div class="tc-text">Griffin CSS cut our design time in half. Absolutely love the dark mode!</div><div class="tc-author" style="display:flex;align-items:center;gap:.5rem"><div class="tc-avatar" style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700">MK</div><div><div class="tc-name">Maria Kim</div><div class="tc-role">CTO, StartupXYZ</div></div></div></div>`
+},
+{
+  name:'Metric / Stats Card',
+  tag:'Dashboard',
+  bgColor:'linear-gradient(135deg,#eff6ff,#dbeafe)',
+  html:`<div class="g-metric-card">
+  <div class="mc-label">Total Revenue</div>
+  <div class="mc-value">$84.2k</div>
+  <span class="mc-change">▲ 12.4% this month</span>
+  <div class="mc-chart">
+    <div class="mc-bar" style="height:40%"></div>
+    <div class="mc-bar" style="height:60%"></div>
+    <div class="mc-bar active" style="height:80%"></div>
+    <div class="mc-bar" style="height:55%"></div>
+    <div class="mc-bar active" style="height:90%"></div>
+    <div class="mc-bar" style="height:70%"></div>
+    <div class="mc-bar active" style="height:100%"></div>
+  </div>
+</div>`,
+  preview:`<div class="g-metric-card"><div class="mc-label">Total Revenue</div><div class="mc-value">$84.2k</div><span class="mc-change">▲ 12.4% this month</span><div class="mc-chart" style="margin-top:.75rem;display:flex;align-items:flex-end;gap:3px;height:28px"><div class="mc-bar" style="flex:1;border-radius:3px 3px 0 0;background:#e2e8f0;height:40%"></div><div class="mc-bar" style="flex:1;border-radius:3px 3px 0 0;background:#e2e8f0;height:60%"></div><div class="mc-bar active" style="flex:1;border-radius:3px 3px 0 0;background:#3b82f6;height:80%"></div><div class="mc-bar" style="flex:1;border-radius:3px 3px 0 0;background:#e2e8f0;height:55%"></div><div class="mc-bar active" style="flex:1;border-radius:3px 3px 0 0;background:#3b82f6;height:100%"></div></div></div>`
+},
+{
+  name:'Notification Card',
+  tag:'UI',
+  bgColor:'linear-gradient(135deg,#f8faff,#eef2ff)',
+  html:`<div class="g-notif-card">
+  <div class="nc-header">
+    <div class="nc-title">Notifications</div>
+    <span class="nc-count">3</span>
+  </div>
+  <div class="nc-item">
+    <div class="nc-dot" style="background:#22c55e"></div>
+    <div>
+      <div class="nc-text"><strong>Deployment successful</strong> — production build went live.</div>
+      <div class="nc-time">2 min ago</div>
+    </div>
+  </div>
+  <div class="nc-item">
+    <div class="nc-dot" style="background:#f59e0b"></div>
+    <div>
+      <div class="nc-text"><strong>New comment</strong> on your latest post.</div>
+      <div class="nc-time">18 min ago</div>
+    </div>
+  </div>
+  <div class="nc-item">
+    <div class="nc-dot" style="background:#6366f1"></div>
+    <div>
+      <div class="nc-text"><strong>Alex</strong> sent you a friend request.</div>
+      <div class="nc-time">1 hr ago</div>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="g-notif-card"><div class="nc-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem"><div class="nc-title">Notifications</div><span class="nc-count" style="background:#6366f1;color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .4rem;border-radius:99px">3</span></div><div class="nc-item" style="display:flex;align-items:flex-start;gap:.6rem;padding:.4rem 0;border-bottom:1px solid #f1f5f9"><div style="width:8px;height:8px;border-radius:50%;background:#22c55e;flex-shrink:0;margin-top:4px"></div><div><div class="nc-text" style="font-size:.65rem;color:#475569"><strong>Deployment successful</strong></div><div style="font-size:.58rem;color:#94a3b8">2 min ago</div></div></div><div class="nc-item" style="display:flex;align-items:flex-start;gap:.6rem;padding:.4rem 0"><div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;margin-top:4px"></div><div><div style="font-size:.65rem;color:#475569"><strong>New comment</strong> on your post.</div><div style="font-size:.58rem;color:#94a3b8">18 min ago</div></div></div></div>`
+},
+{
+  name:'Recipe Card',
+  tag:'Lifestyle',
+  bgColor:'linear-gradient(135deg,#fff7ed,#ffedd5)',
+  html:`<div class="g-recipe-card">
+  <div class="rc-img">🍜</div>
+  <div class="rc-body">
+    <div class="rc-name">Spicy Ramen Bowl</div>
+    <div class="rc-tags">
+      <span class="rc-tag">30 min</span>
+      <span class="rc-tag">Easy</span>
+      <span class="rc-tag">Spicy 🌶</span>
+    </div>
+    <div class="rc-row">
+      <div class="rc-info">
+        <div class="rc-info-val">420</div>
+        <div class="rc-info-lbl">Calories</div>
+      </div>
+      <div class="rc-info">
+        <div class="rc-info-val">4</div>
+        <div class="rc-info-lbl">Servings</div>
+      </div>
+      <div class="rc-info">
+        <div class="rc-info-val">⭐ 4.8</div>
+        <div class="rc-info-lbl">Rating</div>
+      </div>
+    </div>
+  </div>
+</div>`,
+  preview:`<div class="g-recipe-card"><div class="rc-img" style="height:80px;background:linear-gradient(135deg,#fef9ec,#fde68a);display:flex;align-items:center;justify-content:center;font-size:2.5rem">🍜</div><div class="rc-body" style="padding:.65rem"><div class="rc-name" style="font-size:.8rem;font-weight:700;color:#111;margin-bottom:.3rem">Spicy Ramen Bowl</div><div style="display:flex;gap:.3rem;margin-bottom:.4rem"><span class="rc-tag" style="font-size:.55rem;background:#fff7ed;color:#ea580c;padding:.15rem .4rem;border-radius:99px;font-weight:600;border:1px solid #fed7aa">30 min</span><span class="rc-tag" style="font-size:.55rem;background:#fff7ed;color:#ea580c;padding:.15rem .4rem;border-radius:99px;font-weight:600;border:1px solid #fed7aa">Easy</span></div><div style="display:flex;gap:.75rem"><div style="text-align:center"><div style="font-size:.72rem;font-weight:700;color:#ea580c">420</div><div style="font-size:.55rem;color:#999">Cal</div></div><div style="text-align:center"><div style="font-size:.72rem;font-weight:700;color:#ea580c">4</div><div style="font-size:.55rem;color:#999">Servings</div></div><div style="text-align:center"><div style="font-size:.72rem;font-weight:700;color:#ea580c">⭐4.8</div><div style="font-size:.55rem;color:#999">Rating</div></div></div></div></div>`
+},
+{
+  name:'Weather Card',
+  tag:'Utility',
+  bgColor:'linear-gradient(135deg,#e0f2fe,#bae6fd)',
+  html:`<div class="g-weather-card">
+  <div class="wc-city">San Francisco, CA</div>
+  <div class="wc-temp">22°C</div>
+  <div class="wc-cond">☀️ Mostly Sunny</div>
+  <div class="wc-row">
+    <div class="wc-item"><strong>68%</strong>Humidity</div>
+    <div class="wc-item"><strong>12 km/h</strong>Wind</div>
+    <div class="wc-item"><strong>UV 5</strong>Index</div>
+  </div>
+</div>`,
+  preview:`<div class="g-weather-card"><div class="wc-city">San Francisco, CA</div><div class="wc-temp">22°C</div><div class="wc-cond">☀️ Mostly Sunny</div><div class="wc-row" style="display:flex;gap:.75rem"><div style="font-size:.62rem;opacity:.8"><strong style="display:block;font-size:.7rem">68%</strong>Humidity</div><div style="font-size:.62rem;opacity:.8"><strong style="display:block;font-size:.7rem">12 km/h</strong>Wind</div><div style="font-size:.62rem;opacity:.8"><strong style="display:block;font-size:.7rem">UV 5</strong>Index</div></div></div>`
+},
+{
+  name:'Task / Kanban Card',
+  tag:'Productivity',
+  bgColor:'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  html:`<div class="g-task-card">
+  <div class="tk-header">
+    <div class="tk-title">Redesign landing page</div>
+    <span class="tk-priority">High</span>
+  </div>
+  <div class="tk-desc">Update hero section, improve CTA visibility and add social proof section.</div>
+  <div class="tk-progress-bar">
+    <div class="tk-progress-fill"></div>
+  </div>
+  <div class="tk-footer">
+    <div class="tk-avatars">
+      <div class="tk-av" style="background:#6366f1;color:#fff">A</div>
+      <div class="tk-av" style="background:#f59e0b;color:#fff">B</div>
+      <div class="tk-av" style="background:#10b981;color:#fff">C</div>
+    </div>
+    <div class="tk-due">Due Jun 15</div>
+  </div>
+</div>`,
+  preview:`<div class="g-task-card"><div class="tk-header" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.5rem"><div style="font-size:.8rem;font-weight:700;color:#1e293b">Redesign landing page</div><span style="font-size:.58rem;font-weight:700;padding:.15rem .45rem;border-radius:99px;background:#ede9fe;color:#7c3aed">High</span></div><div style="font-size:.65rem;color:#64748b;margin-bottom:.6rem">Update hero section and improve CTA visibility.</div><div style="height:4px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin-bottom:.6rem"><div style="height:100%;width:65%;background:linear-gradient(90deg,#8b5cf6,#a78bfa);border-radius:99px"></div></div><div style="display:flex;justify-content:space-between;align-items:center"><div style="display:flex"><div style="width:20px;height:20px;border-radius:50%;border:2px solid #fff;background:#6366f1;color:#fff;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center">A</div><div style="width:20px;height:20px;border-radius:50%;border:2px solid #fff;margin-left:-6px;background:#f59e0b;color:#fff;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center">B</div></div><div style="font-size:.6rem;color:#94a3b8">Due Jun 15</div></div></div>`
+},
+{
+  name:'Music Player Card',
+  tag:'Media',
+  bgColor:'linear-gradient(135deg,#1a1a2e,#2d1b69)',
+  html:`<div class="g-music-card">
+  <div class="mu-cover">🎵</div>
+  <div class="mu-title">Neon Dreams</div>
+  <div class="mu-artist">The Synthwave Collective</div>
+  <div class="mu-bar">
+    <div class="mu-fill"></div>
+  </div>
+  <div class="mu-controls">
+    <span>⏮</span>
+    <span style="font-size:1.5rem">⏸</span>
+    <span>⏭</span>
+  </div>
+</div>`,
+  preview:`<div class="g-music-card"><div class="mu-cover" style="width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#e879f9,#a855f7);margin:0 auto .65rem;display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 8px 20px rgba(168,85,247,.4)">🎵</div><div style="font-size:.8rem;font-weight:700;text-align:center;color:#fff;margin-bottom:.1rem">Neon Dreams</div><div style="font-size:.62rem;text-align:center;opacity:.6;color:#fff;margin-bottom:.65rem">The Synthwave Collective</div><div style="height:3px;background:rgba(255,255,255,.15);border-radius:99px;overflow:hidden;margin-bottom:.6rem"><div style="width:40%;height:100%;background:linear-gradient(90deg,#e879f9,#a855f7);border-radius:99px"></div></div><div style="display:flex;justify-content:center;align-items:center;gap:1rem;font-size:1rem;color:#fff">⏮ <span style="font-size:1.3rem">⏸</span> ⏭</div></div>`
+},
+{
+  name:'Login / Auth Card',
+  tag:'Auth',
+  bgColor:'linear-gradient(135deg,#f0f9ff,#e0f2fe)',
+  html:`<div class="g-auth-card">
+  <div class="au-logo">🔐</div>
+  <div class="au-title">Welcome back</div>
+  <div class="au-sub">Sign in to your account</div>
+  <div class="au-field"><span>✉</span> hello@example.com</div>
+  <div class="au-field"><span>🔒</span> ••••••••</div>
+  <button class="au-btn">Sign In →</button>
+  <div class="au-footer">Don't have an account? <a href="#">Sign up</a></div>
+</div>`,
+  preview:`<div class="g-auth-card"><div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;margin-bottom:.65rem">🔐</div><div style="font-size:.85rem;font-weight:800;color:#1e293b;margin-bottom:.1rem">Welcome back</div><div style="font-size:.62rem;color:#94a3b8;margin-bottom:.75rem">Sign in to your account</div><div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:.4rem .65rem;font-size:.68rem;color:#64748b;margin-bottom:.4rem;display:flex;align-items:center;gap:.35rem"><span>✉</span>hello@example.com</div><div style="background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:8px;padding:.4rem .65rem;font-size:.68rem;color:#64748b;margin-bottom:.65rem;display:flex;align-items:center;gap:.35rem"><span>🔒</span>••••••••</div><button style="width:100%;padding:.45rem;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;border:none;border-radius:8px;font-size:.7rem;font-weight:700;cursor:pointer;margin-bottom:.45rem">Sign In →</button><div style="text-align:center;font-size:.6rem;color:#94a3b8">Don't have an account? <a href="#" style="color:#0ea5e9;font-weight:600">Sign up</a></div></div>`
+},
+{
+  name:'Event Card',
+  tag:'Events',
+  bgColor:'linear-gradient(135deg,#fff1f2,#ffe4e6)',
+  html:`<div class="g-event-card">
+  <div class="ev-header">
+    <div class="ev-date">28</div>
+    <div class="ev-month">June 2025</div>
+    <div class="ev-icon">🎤</div>
+  </div>
+  <div class="ev-body">
+    <div class="ev-title">UI/UX Design Summit</div>
+    <div class="ev-detail">📍 New York Convention Center</div>
+    <div class="ev-detail">🕐 9:00 AM – 6:00 PM EDT</div>
+    <button class="ev-btn">Reserve Seat →</button>
+  </div>
+</div>`,
+  preview:`<div class="g-event-card"><div class="ev-header" style="background:linear-gradient(135deg,#f43f5e,#e11d48);padding:.85rem;color:#fff;position:relative"><div style="font-size:1.8rem;font-weight:800;line-height:1">28</div><div style="font-size:.62rem;opacity:.8;text-transform:uppercase;letter-spacing:.1em">June 2025</div><div style="position:absolute;top:.85rem;right:.85rem;font-size:1.3rem;opacity:.4">🎤</div></div><div class="ev-body" style="padding:.7rem"><div style="font-size:.8rem;font-weight:700;color:#1e293b;margin-bottom:.2rem">UI/UX Design Summit</div><div style="font-size:.62rem;color:#64748b;margin-bottom:.15rem">📍 New York Convention Center</div><div style="font-size:.62rem;color:#64748b;margin-bottom:.5rem">🕐 9:00 AM – 6:00 PM</div><button style="display:block;text-align:center;padding:.35rem;background:#fef2f2;color:#f43f5e;border-radius:8px;font-size:.65rem;font-weight:700;border:none;cursor:pointer;width:100%">Reserve Seat →</button></div></div>`
+},
+{
+  name:'Social Post Card',
+  tag:'Social',
+  bgColor:'linear-gradient(135deg,#fff1f5,#ffe4ef)',
+  html:`<div class="g-social-card">
+  <div class="sc-header">
+    <div class="sc-avatar">LM</div>
+    <div>
+      <div class="sc-name">Luna Martinez</div>
+      <div class="sc-handle">@luna_designs</div>
+    </div>
+    <span class="sc-badge">✔</span>
+  </div>
+  <div class="sc-text">
+    Just launched my new portfolio! 🚀 Built entirely with
+    <span class="sc-tag">#GriffinCSS</span> — zero dependencies, pure CSS magic.
+    <span class="sc-tag">#WebDesign</span>
+  </div>
+  <div class="sc-actions">
+    <div class="sc-action">❤️ 248</div>
+    <div class="sc-action">🔁 84</div>
+    <div class="sc-action">💬 36</div>
+  </div>
+</div>`,
+  preview:`<div class="g-social-card"><div class="sc-header" style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem"><div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#f43f5e,#fb923c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.65rem;font-weight:700">LM</div><div><div style="font-size:.72rem;font-weight:700;color:#1e293b">Luna Martinez</div><div style="font-size:.58rem;color:#94a3b8">@luna_designs</div></div><span style="margin-left:auto;color:#1d9bf0;font-size:.85rem">✔</span></div><div style="font-size:.68rem;color:#374151;line-height:1.5;margin-bottom:.65rem">Just launched my new portfolio! 🚀 Built with <span style="color:#1d9bf0;font-weight:600">#GriffinCSS</span> — pure CSS magic.</div><div style="display:flex;gap:.85rem"><span style="font-size:.62rem;color:#64748b">❤️ 248</span><span style="font-size:.62rem;color:#64748b">🔁 84</span><span style="font-size:.62rem;color:#64748b">💬 36</span></div></div>`
+},
+{
+  name:'Team Member Card',
+  tag:'Team',
+  bgColor:'linear-gradient(135deg,#ecfeff,#cffafe)',
+  html:`<div class="g-team-card">
+  <div class="tm-avatar">JD</div>
+  <div class="tm-name">Jordan Davis</div>
+  <div class="tm-role">Lead Engineer</div>
+  <div class="tm-socials">
+    <div class="tm-social">𝕏</div>
+    <div class="tm-social">in</div>
+    <div class="tm-social">🐙</div>
+  </div>
+  <div class="tm-skills">
+    <span class="tm-skill">React</span>
+    <span class="tm-skill">TypeScript</span>
+    <span class="tm-skill">Node.js</span>
+    <span class="tm-skill">AWS</span>
+  </div>
+</div>`,
+  preview:`<div class="g-team-card"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#22d3ee,#06b6d4);margin:0 auto .6rem;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;font-weight:800;box-shadow:0 4px 12px rgba(6,182,212,.3)">JD</div><div style="font-size:.85rem;font-weight:800;color:#1e293b;margin-bottom:.1rem;text-align:center">Jordan Davis</div><div style="font-size:.62rem;color:#06b6d4;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.6rem;text-align:center">Lead Engineer</div><div style="display:flex;justify-content:center;gap:.5rem;margin-bottom:.65rem"><div style="width:24px;height:24px;border-radius:7px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:.65rem">𝕏</div><div style="width:24px;height:24px;border-radius:7px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:.65rem">in</div><div style="width:24px;height:24px;border-radius:7px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:.65rem">🐙</div></div><div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.3rem"><span style="font-size:.55rem;background:#ecfeff;color:#0891b2;padding:.12rem .4rem;border-radius:99px;font-weight:600;border:1px solid #cffafe">React</span><span style="font-size:.55rem;background:#ecfeff;color:#0891b2;padding:.12rem .4rem;border-radius:99px;font-weight:600;border:1px solid #cffafe">TypeScript</span><span style="font-size:.55rem;background:#ecfeff;color:#0891b2;padding:.12rem .4rem;border-radius:99px;font-weight:600;border:1px solid #cffafe">Node.js</span></div></div>`
+},
+{
+  name:'Glassmorphism Card',
+  tag:'Design',
+  bgColor:'linear-gradient(135deg,#667eea,#764ba2)',
+  html:`<div class="g-glass-card">
+  <div class="glass-bg"></div>
+  <div class="gl-icon">🌌</div>
+  <div class="gl-title">Explore the Galaxy</div>
+  <div class="gl-text">Glassmorphism design with frosted glass effect, subtle border, and depth-creating shadows.</div>
+  <button class="gl-btn">Discover More →</button>
+</div>`,
+  preview:`<div style="border-radius:20px;width:190px;padding:1.2rem;position:relative;overflow:hidden;background:rgba(255,255,255,.18);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.4);box-shadow:0 8px 32px rgba(0,0,0,.25)"><div style="position:absolute;inset:0;background:linear-gradient(135deg,#667eea,#764ba2);z-index:-1"></div><div style="font-size:1.8rem;margin-bottom:.5rem">🌌</div><div style="font-size:.85rem;font-weight:800;color:#fff;margin-bottom:.25rem">Explore the Galaxy</div><div style="font-size:.68rem;color:rgba(255,255,255,.8);line-height:1.5;margin-bottom:.8rem">Glassmorphism with frosted glass effect and depth.</div><button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:.38rem .85rem;border-radius:99px;font-size:.68rem;font-weight:700;cursor:pointer">Discover More →</button></div>`
+},
+{
+  name:'Crypto / Finance Card',
+  tag:'Finance',
+  bgColor:'linear-gradient(135deg,#0f172a,#1e293b)',
+  html:`<div class="g-crypto-card">
+  <div class="cr-header">
+    <div class="cr-icon">₿</div>
+    <div>
+      <div class="cr-name">Bitcoin</div>
+      <div class="cr-sym">BTC · Crypto</div>
+    </div>
+  </div>
+  <div class="cr-price">$67,420</div>
+  <span class="cr-change">▲ 3.82% today</span>
+  <div class="cr-sparkline">
+    <div class="cr-sp" style="height:40%"></div>
+    <div class="cr-sp hi" style="height:60%"></div>
+    <div class="cr-sp" style="height:50%"></div>
+    <div class="cr-sp hi" style="height:75%"></div>
+    <div class="cr-sp" style="height:55%"></div>
+    <div class="cr-sp hi" style="height:90%"></div>
+    <div class="cr-sp hi" style="height:100%"></div>
+  </div>
+</div>`,
+  preview:`<div style="background:#0f172a;border-radius:20px;width:190px;padding:1.1rem;color:#fff"><div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem"><div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#fbbf24);display:flex;align-items:center;justify-content:center;font-size:.85rem">₿</div><div><div style="font-size:.8rem;font-weight:700">Bitcoin</div><div style="font-size:.6rem;color:#64748b">BTC · Crypto</div></div></div><div style="font-size:1.5rem;font-weight:800;margin-bottom:.15rem">$67,420</div><div style="display:inline-flex;align-items:center;gap:.2rem;font-size:.62rem;font-weight:700;background:rgba(34,197,94,.15);color:#22c55e;padding:.12rem .42rem;border-radius:99px">▲ 3.82% today</div><div style="margin-top:.7rem;display:flex;align-items:flex-end;gap:2px;height:28px"><div style="flex:1;border-radius:2px;background:rgba(251,191,36,.2);height:40%"></div><div style="flex:1;border-radius:2px;background:#fbbf24;height:60%"></div><div style="flex:1;border-radius:2px;background:rgba(251,191,36,.2);height:50%"></div><div style="flex:1;border-radius:2px;background:#fbbf24;height:75%"></div><div style="flex:1;border-radius:2px;background:#fbbf24;height:100%"></div></div></div>`
+},
+{
+  name:'Job Listing Card',
+  tag:'Jobs',
+  bgColor:'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  html:`<div class="g-job-card">
+  <div class="jb-header">
+    <div class="jb-logo">🏢</div>
+    <div>
+      <div class="jb-company">Vercel Inc.</div>
+      <div class="jb-title">Senior Frontend Engineer</div>
+    </div>
+  </div>
+  <div class="jb-tags">
+    <span class="jb-tag">Full-time</span>
+    <span class="jb-tag remote">Remote</span>
+    <span class="jb-tag">React</span>
+    <span class="jb-tag">TypeScript</span>
+  </div>
+  <div class="jb-footer">
+    <div class="jb-salary">$140k – $180k</div>
+    <button class="jb-apply">Apply Now</button>
+  </div>
+</div>`,
+  preview:`<div class="g-job-card"><div style="display:flex;align-items:center;gap:.55rem;margin-bottom:.6rem"><div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#4ade80,#22c55e);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0">🏢</div><div><div style="font-size:.62rem;color:#64748b">Vercel Inc.</div><div style="font-size:.8rem;font-weight:800;color:#1e293b">Senior Frontend Eng.</div></div></div><div style="display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem"><span style="font-size:.56rem;padding:.12rem .42rem;border-radius:99px;font-weight:600;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0">Full-time</span><span style="font-size:.56rem;padding:.12rem .42rem;border-radius:99px;font-weight:600;background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe">Remote</span><span style="font-size:.56rem;padding:.12rem .42rem;border-radius:99px;font-weight:600;background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0">React</span></div><div style="display:flex;align-items:center;justify-content:space-between"><div style="font-size:.72rem;font-weight:800;color:#1e293b">$140k–$180k</div><button style="background:#1e293b;color:#fff;border:none;border-radius:8px;padding:.35rem .7rem;font-size:.62rem;font-weight:700;cursor:pointer">Apply Now</button></div></div>`
+},
+{
+  name:'Countdown Card',
+  tag:'Events',
+  bgColor:'linear-gradient(135deg,#ff6b6b,#ee5a24)',
+  html:`<div class="g-countdown-card">
+  <div class="cd-title">Launching in</div>
+  <div class="cd-event" style="margin-bottom:.1rem">Griffin CSS v2.0</div>
+  <div class="cd-units">
+    <div class="cd-unit">
+      <span class="cd-num">12</span>
+      <span class="cd-lbl">Days</span>
+    </div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit">
+      <span class="cd-num">08</span>
+      <span class="cd-lbl">Hrs</span>
+    </div>
+    <div class="cd-sep">:</div>
+    <div class="cd-unit">
+      <span class="cd-num">45</span>
+      <span class="cd-lbl">Min</span>
+    </div>
+  </div>
+</div>`,
+  preview:`<div style="background:linear-gradient(135deg,#ff6b6b,#ee5a24);border-radius:20px;width:190px;padding:1.1rem;color:#fff;text-align:center"><div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;opacity:.8;margin-bottom:.3rem;font-weight:600">Launching in</div><div style="font-size:.85rem;font-weight:800;margin-bottom:.5rem">Griffin CSS v2.0</div><div style="display:flex;gap:.45rem;justify-content:center;align-items:flex-end"><div style="background:rgba(0,0,0,.2);border-radius:12px;padding:.45rem .55rem;min-width:40px;text-align:center"><span style="font-size:1.3rem;font-weight:800;line-height:1;display:block">12</span><span style="font-size:.48rem;opacity:.7;text-transform:uppercase;letter-spacing:.08em">Days</span></div><span style="font-size:1.1rem;font-weight:800;opacity:.5;padding-bottom:.3rem">:</span><div style="background:rgba(0,0,0,.2);border-radius:12px;padding:.45rem .55rem;min-width:40px;text-align:center"><span style="font-size:1.3rem;font-weight:800;line-height:1;display:block">08</span><span style="font-size:.48rem;opacity:.7;text-transform:uppercase;letter-spacing:.08em">Hrs</span></div><span style="font-size:1.1rem;font-weight:800;opacity:.5;padding-bottom:.3rem">:</span><div style="background:rgba(0,0,0,.2);border-radius:12px;padding:.45rem .55rem;min-width:40px;text-align:center"><span style="font-size:1.3rem;font-weight:800;line-height:1;display:block">45</span><span style="font-size:.48rem;opacity:.7;text-transform:uppercase;letter-spacing:.08em">Min</span></div></div></div>`
+},
+{
+  name:'Neumorphism Card',
+  tag:'Design',
+  bgColor:'#dde1e7',
+  html:`<div class="g-neumorphic-card">
+  <div class="nm-icon">🎯</div>
+  <div class="nm-title">Daily Goal</div>
+  <div class="nm-text">You've completed 7 of 10 tasks today. Keep pushing — you're almost there!</div>
+  <button class="nm-btn">View Progress</button>
+</div>`,
+  preview:`<div style="background:#e8edf2;border-radius:24px;width:190px;padding:1.25rem;box-shadow:6px 6px 12px #c8cfd7,-6px -6px 12px #fff"><div style="width:48px;height:48px;border-radius:16px;background:#e8edf2;box-shadow:4px 4px 8px #c8cfd7,-4px -4px 8px #fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:.75rem">🎯</div><div style="font-size:.85rem;font-weight:800;color:#2d3748;margin-bottom:.25rem">Daily Goal</div><div style="font-size:.68rem;color:#718096;line-height:1.5;margin-bottom:.8rem">7 of 10 tasks done. Keep going!</div><button style="background:#e8edf2;border:none;color:#4a5568;font-size:.7rem;font-weight:700;padding:.45rem .95rem;border-radius:99px;box-shadow:3px 3px 6px #c8cfd7,-3px -3px 6px #fff;cursor:pointer">View Progress</button></div>`
+}
+];
+
+// ── RENDER GRID ────────────────────────────────────────────────────────────
+const grid = document.getElementById('cards-grid');
+CARDS.forEach((c, i) => {
+  const tile = document.createElement('div');
+  tile.className = 'card-tile';
+  tile.style.animationDelay = (i * 0.05) + 's';
+  tile.innerHTML = `
+    <div class="card-preview" style="background:${c.bgColor}">
+      ${c.preview}
+    </div>
+    <div class="card-meta">
+      <span class="card-name">${c.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="card-tag">${c.tag}</span>
+        <span class="click-hint">🖱 Click</span>
+      </div>
+    </div>
+  `;
+  tile.addEventListener('click', () => openModal(c));
+  grid.appendChild(tile);
+});
+
+// ── MODAL ─────────────────────────────────────────────────────────────────
+let currentCode = '';
+function openModal(c) {
+  currentCode = c.html;
+  document.getElementById('modal-title').textContent = c.name;
+  document.getElementById('modal-subtitle').textContent = `${c.tag} component — copy & customize`;
+  document.getElementById('modal-code').textContent = c.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+  const btn = document.getElementById('copy-btn');
+  btn.textContent = 'Copy Code';
+  btn.classList.remove('copied');
+}
+function copyCode() {
+  navigator.clipboard.writeText(currentCode).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+// ── THEME ─────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+// ── SIDEBAR TOGGLE (mobile) ───────────────────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>

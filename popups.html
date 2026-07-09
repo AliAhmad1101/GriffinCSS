@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Popups ... Griffin CSS</title>
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#1E9E8C;--accent-l:#28C4AF;--accent-d:#167A6C;--accent-m:rgba(30,158,140,.12);
+  --bg:#F7F6F3;--bg2:#EDEAE5;--bg3:#E2DDD7;
+  --surf:#FFF;--surf2:#F7F6F3;
+  --bdr:rgba(0,0,0,.08);--bdr2:rgba(0,0,0,.15);
+  --tx:#0F0F0F;--tx2:#4A4744;--tx3:#8A8480;
+  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 12px rgba(0,0,0,.04);
+  --sh2:0 4px 16px rgba(0,0,0,.08),0 8px 32px rgba(0,0,0,.06);
+  --sha:0 4px 20px rgba(30,158,140,.28);
+  --r:8px;--rm:12px;--rl:16px;--rx:24px;--rf:9999px;
+  --tr:.2s cubic-bezier(.4,0,.2,1);
+  --font-sans:'Inter',system-ui,sans-serif;
+  --font-disp:'Syne',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sb-w:240px;
+}
+[data-theme="dark"]{
+  --bg:#0F0F0F;--bg2:#171717;--bg3:#1F1F1F;
+  --surf:#1A1A1A;--surf2:#222;
+  --bdr:rgba(255,255,255,.08);--bdr2:rgba(255,255,255,.16);
+  --tx:#F7F6F3;--tx2:#A8A49F;--tx3:#666260;
+  --sh:0 1px 3px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2);
+  --sh2:0 4px 16px rgba(0,0,0,.4),0 8px 32px rgba(0,0,0,.3);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-sans);background:var(--bg);color:var(--tx);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .4s,color .4s}
+ul{list-style:none}
+button{font-family:inherit;cursor:pointer}
+
+/* TOPBAR */
+#topbar{position:fixed;top:0;left:0;right:0;z-index:500;height:56px;background:rgba(255,255,255,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr);display:flex;align-items:center;padding:0 1.25rem;gap:1rem;box-shadow:var(--sh)}
+[data-theme="dark"] #topbar{background:rgba(26,26,26,.9)}
+.tb-brand{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx);letter-spacing:-.02em;white-space:nowrap}
+.tb-brand span{color:var(--accent)}
+.tb-nav{display:flex;align-items:center;gap:.5rem;margin-left:.5rem}
+.tb-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:var(--rf);border:1.5px solid var(--bdr2);background:var(--surf);color:var(--tx2);font-size:.78rem;font-weight:600;transition:all var(--tr)}
+.tb-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-m)}
+.tb-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.tb-btn-primary:hover{background:var(--accent-d);border-color:var(--accent-d);color:#fff;box-shadow:var(--sha)}
+.tb-sep{width:1px;height:24px;background:var(--bdr2);margin:0 .25rem}
+.tb-right{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.page-label{font-family:var(--font-disp);font-weight:700;font-size:.88rem;color:var(--tx3);letter-spacing:.05em;text-transform:uppercase}
+.theme-btn{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all var(--tr)}
+.theme-btn:hover{background:var(--bg2);transform:rotate(20deg)}
+
+/* LAYOUT */
+.layout{display:flex;padding-top:56px;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:var(--sb-w);flex-shrink:0;position:fixed;top:56px;left:0;bottom:0;background:var(--surf);border-right:1px solid var(--bdr);overflow-y:auto;overflow-x:hidden;padding:1.25rem 0;z-index:400;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent}
+#sidebar::-webkit-scrollbar{width:4px}
+#sidebar::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:99px}
+.sb-section{margin-bottom:1.5rem}
+.sb-label{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--tx3);padding:.2rem 1.2rem .5rem;display:block}
+.sb-link{display:flex;align-items:center;gap:.6rem;padding:.5rem 1.2rem;font-size:.8rem;font-weight:500;color:var(--tx2);transition:all var(--tr);border-left:2px solid transparent;text-decoration:none;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sb-link:hover{color:var(--tx);background:var(--bg2);border-left-color:var(--bdr2)}
+.sb-link.active{color:var(--accent);background:var(--accent-m);border-left-color:var(--accent);font-weight:600}
+.sb-link .sb-icon{font-size:.95rem;width:1.2rem;text-align:center;flex-shrink:0}
+.sb-link .sb-badge{margin-left:auto;font-size:.6rem;background:var(--bg3);color:var(--tx3);padding:.1rem .4rem;border-radius:var(--rf);font-weight:600}
+.sb-link.active .sb-badge{background:var(--accent-m);color:var(--accent)}
+
+/* MAIN */
+#main{margin-left:var(--sb-w);flex:1;min-width:0;padding:2rem 2rem 4rem}
+.page-header{margin-bottom:2rem}
+.page-title{font-family:var(--font-disp);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--tx2)}
+.page-sub span{color:var(--accent);font-weight:600}
+
+/* POPUPS GRID */
+.popups-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:1100px){.popups-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.popups-grid{grid-template-columns:1fr}}
+
+/* POPUP TILE */
+.popup-tile{background:var(--surf);border:1.5px solid var(--bdr);border-radius:var(--rl);overflow:hidden;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--sh)}
+.popup-tile:hover{transform:translateY(-5px);box-shadow:var(--sh2);border-color:var(--accent)}
+.popup-preview{padding:1.5rem;min-height:200px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.popup-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);transform:translateX(-100%);transition:transform .5s}
+.popup-tile:hover .popup-preview::after{transform:translateX(100%)}
+.popup-meta{padding:.65rem 1rem;border-top:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;background:var(--surf2)}
+.popup-name{font-size:.77rem;font-weight:700;color:var(--tx);font-family:var(--font-disp)}
+.popup-tag{font-size:.62rem;font-weight:600;padding:.15rem .55rem;border-radius:var(--rf);background:var(--accent-m);color:var(--accent);letter-spacing:.06em;text-transform:uppercase}
+.click-hint{font-size:.65rem;color:var(--tx3);display:flex;align-items:center;gap:.25rem}
+
+@keyframes gfn-fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.popup-tile{animation:gfn-fadeInUp .4s ease both}
+.popup-tile:nth-child(1){animation-delay:.05s}.popup-tile:nth-child(2){animation-delay:.1s}.popup-tile:nth-child(3){animation-delay:.15s}
+.popup-tile:nth-child(4){animation-delay:.2s}.popup-tile:nth-child(5){animation-delay:.25s}.popup-tile:nth-child(6){animation-delay:.3s}
+.popup-tile:nth-child(7){animation-delay:.35s}.popup-tile:nth-child(8){animation-delay:.4s}.popup-tile:nth-child(9){animation-delay:.45s}
+.popup-tile:nth-child(10){animation-delay:.5s}
+
+/* CODE MODAL */
+#code-modal{position:fixed;inset:0;z-index:900;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
+#code-modal.open{opacity:1;pointer-events:all}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px)}
+.modal-box{position:relative;z-index:1;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--rl);width:100%;max-width:760px;max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,.25);transform:scale(.95) translateY(20px);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+#code-modal.open .modal-box{transform:scale(1) translateY(0)}
+.modal-header{padding:1rem 1.25rem;border-bottom:1px solid var(--bdr);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.modal-title{font-family:var(--font-disp);font-weight:800;font-size:1rem;color:var(--tx)}
+.modal-subtitle{font-size:.72rem;color:var(--tx3);margin-top:.1rem}
+.modal-close{width:2rem;height:2rem;border-radius:50%;border:1px solid var(--bdr2);background:var(--surf2);display:flex;align-items:center;justify-content:center;font-size:.9rem;cursor:pointer;transition:all var(--tr);flex-shrink:0}
+.modal-close:hover{background:var(--bg2)}
+.modal-body{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.code-block-header{display:flex;align-items:center;justify-content:space-between;background:var(--bg3);border-radius:var(--rm) var(--rm) 0 0;padding:.6rem 1rem;border:1px solid var(--bdr);border-bottom:none}
+.code-block-lang{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--tx3)}
+.code-block-copy{padding:.3rem .8rem;border-radius:var(--rf);background:var(--accent-m);border:none;color:var(--accent);font-size:.7rem;font-weight:700;cursor:pointer;transition:all var(--tr)}
+.code-block-copy:hover{background:var(--accent);color:#fff}
+.code-block-copy.copied{background:var(--accent);color:#fff}
+.modal-pre{background:var(--bg2);border:1px solid var(--bdr);border-radius:0 0 var(--rm) var(--rm);padding:1rem 1.1rem;font-family:var(--font-mono);font-size:.72rem;line-height:1.8;color:var(--tx);overflow-x:auto;white-space:pre;tab-size:2;margin:0}
+.modal-note{background:var(--accent-m);border:1px solid rgba(30,158,140,.25);border-radius:var(--rm);padding:.65rem .9rem;font-size:.73rem;color:var(--accent);line-height:1.55}
+
+/* CSS BLOCK */
+.css-block-wrap{display:flex;flex-direction:column}
+
+/* RESPONSIVE */
+@media(max-width:860px){
+  #sidebar{transform:translateX(-100%);transition:transform .3s}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .sb-toggle{display:flex!important}
+}
+@media(max-width:500px){.tb-nav .tb-btn:not(.tb-btn-primary){display:none}}
+.sb-toggle{display:none;width:2rem;height:2rem;border-radius:var(--r);border:1px solid var(--bdr2);background:var(--surf);align-items:center;justify-content:center;font-size:.85rem}
+
+/* =====================================================
+   GRIFFIN CSS — 10 POPUP STYLES
+   ===================================================== */
+
+/* 1. Slide-Down Toast */
+.gfnp-toast{position:relative;display:flex;align-items:center;gap:.75rem;background:#0f172a;color:#fff;padding:.85rem 1.1rem;border-radius:14px;font-family:'Inter',system-ui,sans-serif;font-size:.82rem;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.25);min-width:260px;max-width:340px;animation:gfnp-slideDown .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes gfnp-slideDown{from{opacity:0;transform:translateY(-20px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.gfnp-toast-icon{font-size:1.1rem;flex-shrink:0;width:2rem;height:2rem;background:rgba(255,255,255,.1);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.gfnp-toast-body{flex:1}
+.gfnp-toast-title{font-weight:700;font-size:.83rem;margin-bottom:.1rem}
+.gfnp-toast-msg{font-size:.74rem;opacity:.7}
+.gfnp-toast-close{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:1rem;line-height:1;padding:.1rem;transition:color .2s;flex-shrink:0}
+.gfnp-toast-close:hover{color:#fff}
+.gfnp-toast-bar{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,#1E9E8C,#28C4AF);border-radius:0 0 0 14px;animation:gfnp-toastbar 3s linear forwards}
+@keyframes gfnp-toastbar{from{width:100%}to{width:0%}}
+
+/* 2. Spotlight Modal */
+.gfnp-spotlight-wrap{position:relative;width:340px}
+.gfnp-spotlight{background:var(--gfnp-surf,#fff);border-radius:20px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.2);font-family:'Inter',system-ui,sans-serif;animation:gfnp-spotIn .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes gfnp-spotIn{from{opacity:0;transform:scale(.85) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.gfnp-spotlight-hero{height:130px;background:linear-gradient(135deg,#667eea,#764ba2);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.gfnp-spotlight-hero::before{content:'';position:absolute;width:200px;height:200px;background:rgba(255,255,255,.08);border-radius:50%;top:-60px;right:-40px}
+.gfnp-spotlight-hero::after{content:'';position:absolute;width:120px;height:120px;background:rgba(255,255,255,.06);border-radius:50%;bottom:-40px;left:-20px}
+.gfnp-spotlight-emoji{font-size:2.8rem;position:relative;z-index:1;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2))}
+.gfnp-spotlight-body{padding:1.25rem 1.4rem 1.4rem}
+.gfnp-spotlight-badge{display:inline-block;background:rgba(102,126,234,.12);color:#667eea;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.2rem .6rem;border-radius:99px;margin-bottom:.6rem}
+.gfnp-spotlight-title{font-weight:800;font-size:1.1rem;color:#0f172a;margin-bottom:.35rem;line-height:1.25;font-family:'Syne',sans-serif}
+.gfnp-spotlight-desc{font-size:.8rem;color:#64748b;line-height:1.6;margin-bottom:1rem}
+.gfnp-spotlight-actions{display:flex;gap:.6rem}
+.gfnp-spotlight-cta{flex:1;padding:.65rem;border-radius:10px;border:none;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnp-spotlight-cta:hover{box-shadow:0 6px 20px rgba(102,126,234,.45);transform:translateY(-1px)}
+.gfnp-spotlight-skip{padding:.65rem .9rem;border-radius:10px;border:1.5px solid #e2e8f0;background:none;color:#94a3b8;font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnp-spotlight-skip:hover{border-color:#94a3b8;color:#64748b}
+
+/* 3. Cookie Consent Banner */
+.gfnp-cookie{background:#0f172a;color:#fff;padding:1rem 1.25rem;border-radius:16px;font-family:'Inter',system-ui,sans-serif;max-width:360px;box-shadow:0 16px 48px rgba(0,0,0,.3);animation:gfnp-cookieIn .6s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes gfnp-cookieIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.gfnp-cookie-top{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.85rem}
+.gfnp-cookie-icon{font-size:1.6rem;flex-shrink:0;line-height:1}
+.gfnp-cookie-title{font-weight:700;font-size:.88rem;margin-bottom:.25rem}
+.gfnp-cookie-desc{font-size:.74rem;opacity:.6;line-height:1.55}
+.gfnp-cookie-actions{display:flex;gap:.5rem;flex-wrap:wrap}
+.gfnp-cookie-accept{flex:1;padding:.55rem .8rem;border-radius:9px;border:none;background:#1E9E8C;color:#fff;font-weight:700;font-size:.76rem;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Inter',sans-serif}
+.gfnp-cookie-accept:hover{background:#28C4AF;transform:translateY(-1px)}
+.gfnp-cookie-decline{padding:.55rem .8rem;border-radius:9px;border:1px solid rgba(255,255,255,.15);background:none;color:rgba(255,255,255,.5);font-size:.76rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;font-family:'Inter',sans-serif}
+.gfnp-cookie-decline:hover{border-color:rgba(255,255,255,.35);color:#fff}
+.gfnp-cookie-settings{padding:.55rem .8rem;border-radius:9px;border:none;background:none;color:rgba(255,255,255,.35);font-size:.72rem;font-weight:600;cursor:pointer;transition:color .2s;font-family:'Inter',sans-serif}
+.gfnp-cookie-settings:hover{color:rgba(255,255,255,.7)}
+
+/* 4. Command Palette */
+.gfnp-cmd{background:var(--gfnp-surf,#fff);border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.18),0 0 0 1px rgba(0,0,0,.06);font-family:'Inter',system-ui,sans-serif;width:340px;overflow:hidden;animation:gfnp-cmdIn .35s cubic-bezier(.4,0,.2,1) both}
+@keyframes gfnp-cmdIn{from{opacity:0;transform:scale(.96) translateY(-8px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.gfnp-cmd-search{display:flex;align-items:center;gap:.65rem;padding:.85rem 1rem;border-bottom:1px solid rgba(0,0,0,.07)}
+.gfnp-cmd-search-icon{font-size:.95rem;opacity:.4;flex-shrink:0}
+.gfnp-cmd-input{flex:1;border:none;outline:none;font-family:'Inter',sans-serif;font-size:.85rem;color:#0f172a;background:none}
+.gfnp-cmd-input::placeholder{color:#94a3b8}
+.gfnp-cmd-kbd{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:5px;padding:.1rem .35rem;font-size:.62rem;color:#94a3b8;font-family:'JetBrains Mono',monospace;flex-shrink:0}
+.gfnp-cmd-section{padding:.5rem .6rem .3rem;font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#94a3b8}
+.gfnp-cmd-item{display:flex;align-items:center;gap:.7rem;padding:.55rem .75rem;border-radius:9px;margin:0 .35rem .15rem;cursor:pointer;transition:background .15s}
+.gfnp-cmd-item:hover,.gfnp-cmd-item.gfnp-active{background:#f8fafc}
+.gfnp-cmd-item.gfnp-active{background:linear-gradient(90deg,rgba(30,158,140,.08),transparent)}
+.gfnp-cmd-item-icon{width:1.75rem;height:1.75rem;border-radius:7px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.gfnp-cmd-item.gfnp-active .gfnp-cmd-item-icon{background:rgba(30,158,140,.12)}
+.gfnp-cmd-item-label{font-size:.82rem;font-weight:500;color:#1e293b;flex:1}
+.gfnp-cmd-item-hint{font-size:.7rem;color:#94a3b8}
+.gfnp-cmd-footer{padding:.6rem 1rem;border-top:1px solid rgba(0,0,0,.06);display:flex;gap:.85rem}
+.gfnp-cmd-foot-hint{font-size:.67rem;color:#94a3b8;display:flex;align-items:center;gap:.3rem}
+
+/* 5. Confirmation Dialog */
+.gfnp-confirm{background:var(--gfnp-surf,#fff);border-radius:20px;padding:1.75rem 1.5rem 1.5rem;box-shadow:0 24px 64px rgba(0,0,0,.18);font-family:'Inter',system-ui,sans-serif;width:320px;text-align:center;animation:gfnp-confirmIn .45s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes gfnp-confirmIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.gfnp-confirm-icon{width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 1rem}
+.gfnp-confirm-title{font-weight:800;font-size:1rem;color:#0f172a;margin-bottom:.4rem;font-family:'Syne',sans-serif}
+.gfnp-confirm-desc{font-size:.79rem;color:#64748b;line-height:1.6;margin-bottom:1.25rem}
+.gfnp-confirm-actions{display:flex;gap:.6rem}
+.gfnp-confirm-danger{flex:1;padding:.65rem;border-radius:10px;border:none;background:linear-gradient(135deg,#f43f5e,#e11d48);color:#fff;font-weight:700;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnp-confirm-danger:hover{box-shadow:0 6px 20px rgba(244,63,94,.4);transform:translateY(-1px)}
+.gfnp-confirm-cancel{flex:1;padding:.65rem;border-radius:10px;border:1.5px solid #e2e8f0;background:none;color:#64748b;font-weight:600;font-size:.8rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif}
+.gfnp-confirm-cancel:hover{border-color:#94a3b8;color:#1e293b}
+
+/* 6. Notification Stack */
+.gfnp-notif-stack{display:flex;flex-direction:column;gap:.5rem;width:300px}
+.gfnp-notif{display:flex;align-items:flex-start;gap:.7rem;padding:.8rem .9rem;border-radius:12px;font-family:'Inter',system-ui,sans-serif;font-size:.79rem;border-left:3px solid transparent;position:relative;overflow:hidden;animation:gfnp-notifSlide .4s cubic-bezier(.34,1.56,.64,1) both}
+.gfnp-notif:nth-child(2){animation-delay:.08s}.gfnp-notif:nth-child(3){animation-delay:.16s}
+@keyframes gfnp-notifSlide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.gfnp-notif-success{background:#f0fdf4;border-color:#22c55e}
+.gfnp-notif-warning{background:#fffbeb;border-color:#f59e0b}
+.gfnp-notif-error{background:#fff1f2;border-color:#f43f5e}
+.gfnp-notif-icon{font-size:1rem;flex-shrink:0;margin-top:.05rem}
+.gfnp-notif-content{flex:1}
+.gfnp-notif-title{font-weight:700;color:#0f172a;margin-bottom:.1rem}
+.gfnp-notif-msg{color:#64748b;font-size:.74rem;line-height:1.5}
+.gfnp-notif-time{font-size:.65rem;color:#94a3b8;margin-top:.25rem}
+.gfnp-notif-x{background:none;border:none;color:#94a3b8;cursor:pointer;font-size:.85rem;line-height:1;padding:.05rem;transition:color .2s;flex-shrink:0}
+.gfnp-notif-x:hover{color:#1e293b}
+
+/* 7. Tooltip Bubble */
+.gfnp-tooltip-demo{display:flex;flex-direction:column;align-items:center;gap:1rem}
+.gfnp-tooltip-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.gfnp-tooltip-trigger{padding:.6rem 1.2rem;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;border:none;border-radius:9999px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s}
+.gfnp-tooltip-trigger:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(234,88,12,.4)}
+.gfnp-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.85);background:#0f172a;color:#fff;padding:.5rem .85rem;border-radius:9px;font-family:'Inter',sans-serif;font-size:.74rem;font-weight:500;white-space:nowrap;pointer-events:none;opacity:0;transition:all .25s cubic-bezier(.34,1.56,.64,1);z-index:10;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.gfnp-tooltip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#0f172a}
+.gfnp-tooltip-wrap:hover .gfnp-tooltip{opacity:1;transform:translateX(-50%) scale(1)}
+.gfnp-tooltip-rich{background:linear-gradient(135deg,#1e293b,#0f172a);padding:.7rem 1rem;border-radius:12px;min-width:180px;text-align:left;white-space:normal}
+.gfnp-tooltip-rich::after{border-top-color:#1e293b}
+.gfnp-tooltip-rich-title{font-weight:700;font-size:.8rem;margin-bottom:.2rem;color:#f8fafc}
+.gfnp-tooltip-rich-body{font-size:.72rem;color:#94a3b8;line-height:1.5}
+
+/* 8. Drawer / Side Panel */
+.gfnp-drawer-scene{position:relative;width:340px;height:200px;background:#f8fafc;border-radius:16px;overflow:hidden;border:1.5px solid #e2e8f0}
+.gfnp-drawer-trigger-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);padding:.65rem 1.3rem;background:#0f172a;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:'Inter',sans-serif;transition:all .2s;z-index:1;white-space:nowrap}
+.gfnp-drawer-trigger-btn:hover{transform:translate(-50%,-50%) scale(1.04);box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.gfnp-drawer{position:absolute;top:0;right:-100%;width:65%;height:100%;background:#fff;box-shadow:-12px 0 40px rgba(0,0,0,.12);padding:1.1rem .9rem;transition:right .35s cubic-bezier(.4,0,.2,1);border-left:1px solid #e2e8f0;z-index:2}
+.gfnp-drawer.gfnp-open{right:0}
+.gfnp-drawer-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.9rem}
+.gfnp-drawer-title{font-weight:800;font-size:.88rem;color:#0f172a;font-family:'Syne',sans-serif}
+.gfnp-drawer-close{background:none;border:none;color:#94a3b8;cursor:pointer;font-size:1rem;line-height:1;transition:color .2s}
+.gfnp-drawer-close:hover{color:#0f172a}
+.gfnp-drawer-item{display:flex;align-items:center;gap:.55rem;padding:.45rem .5rem;border-radius:8px;font-size:.75rem;color:#475569;transition:background .15s;cursor:pointer;font-family:'Inter',sans-serif}
+.gfnp-drawer-item:hover{background:#f8fafc;color:#0f172a}
+.gfnp-drawer-item-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* 9. Floating Action Menu */
+.gfnp-fab-scene{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center}
+.gfnp-fab-wrap{position:relative;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+.gfnp-fab-actions{display:flex;flex-direction:column;gap:.4rem;align-items:center;overflow:hidden;max-height:0;opacity:0;transition:max-height .35s cubic-bezier(.4,0,.2,1),opacity .25s}
+.gfnp-fab-wrap.gfnp-open .gfnp-fab-actions{max-height:200px;opacity:1}
+.gfnp-fab-action{display:flex;align-items:center;gap:.5rem;padding:.45rem .8rem .45rem .55rem;background:#fff;border:1px solid #e2e8f0;border-radius:99px;font-family:'Inter',sans-serif;font-size:.74rem;font-weight:600;color:#1e293b;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:all .2s;white-space:nowrap;transform:translateY(8px);opacity:0}
+.gfnp-fab-wrap.gfnp-open .gfnp-fab-action{transform:translateY(0);opacity:1}
+.gfnp-fab-wrap.gfnp-open .gfnp-fab-action:nth-child(1){transition-delay:.05s}
+.gfnp-fab-wrap.gfnp-open .gfnp-fab-action:nth-child(2){transition-delay:.1s}
+.gfnp-fab-wrap.gfnp-open .gfnp-fab-action:nth-child(3){transition-delay:.15s}
+.gfnp-fab-action:hover{background:#0f172a;color:#fff;border-color:#0f172a;transform:scale(1.04)}
+.gfnp-fab-action-icon{width:1.4rem;height:1.4rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.gfnp-fab-btn{width:3rem;height:3rem;border-radius:50%;background:linear-gradient(135deg,#1E9E8C,#28C4AF);border:none;color:#fff;font-size:1.3rem;cursor:pointer;box-shadow:0 6px 20px rgba(30,158,140,.4);transition:all .35s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;justify-content:center;line-height:1}
+.gfnp-fab-wrap.gfnp-open .gfnp-fab-btn{transform:rotate(45deg);box-shadow:0 8px 28px rgba(30,158,140,.55)}
+
+/* 10. Upgrade / Paywall Card */
+.gfnp-paywall{background:#0f172a;border-radius:20px;padding:1.5rem;font-family:'Inter',system-ui,sans-serif;width:320px;position:relative;overflow:hidden;animation:gfnp-paywallIn .55s cubic-bezier(.34,1.56,.64,1) both;box-shadow:0 24px 64px rgba(0,0,0,.3)}
+@keyframes gfnp-paywallIn{from{opacity:0;transform:scale(.9) rotateX(8deg)}to{opacity:1;transform:scale(1) rotateX(0)}}
+.gfnp-paywall-glow{position:absolute;top:-60px;right:-60px;width:180px;height:180px;background:radial-gradient(circle,rgba(30,158,140,.35),transparent 70%);pointer-events:none}
+.gfnp-paywall-badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(30,158,140,.2);border:1px solid rgba(30,158,140,.35);color:#28C4AF;font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.25rem .65rem;border-radius:99px;margin-bottom:.85rem}
+.gfnp-paywall-badge span{width:5px;height:5px;border-radius:50%;background:#28C4AF;animation:gfnp-blink 1.5s infinite}
+@keyframes gfnp-blink{0%,100%{opacity:1}50%{opacity:.3}}
+.gfnp-paywall-title{font-weight:800;font-size:1.25rem;color:#f8fafc;line-height:1.2;margin-bottom:.4rem;font-family:'Syne',sans-serif}
+.gfnp-paywall-title em{font-style:normal;color:#28C4AF}
+.gfnp-paywall-desc{font-size:.78rem;color:#64748b;line-height:1.6;margin-bottom:1rem}
+.gfnp-paywall-features{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1.25rem}
+.gfnp-paywall-feature{display:flex;align-items:center;gap:.55rem;font-size:.78rem;color:#94a3b8}
+.gfnp-paywall-feature-check{width:1.2rem;height:1.2rem;border-radius:50%;background:rgba(30,158,140,.2);display:flex;align-items:center;justify-content:center;font-size:.6rem;color:#28C4AF;flex-shrink:0}
+.gfnp-paywall-price{display:flex;align-items:baseline;gap:.3rem;margin-bottom:1rem}
+.gfnp-paywall-amount{font-weight:800;font-size:2rem;color:#f8fafc;font-family:'Syne',sans-serif}
+.gfnp-paywall-period{font-size:.78rem;color:#475569}
+.gfnp-paywall-cta{width:100%;padding:.8rem;border-radius:12px;border:none;background:linear-gradient(135deg,#1E9E8C,#28C4AF);color:#fff;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);font-family:'Inter',sans-serif;position:relative;overflow:hidden}
+.gfnp-paywall-cta::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);animation:gfnp-paywallShimmer 2.5s infinite}
+@keyframes gfnp-paywallShimmer{0%{left:-100%}100%{left:200%}}
+.gfnp-paywall-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(30,158,140,.45)}
+.gfnp-paywall-fine{text-align:center;margin-top:.6rem;font-size:.68rem;color:#334155}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <button class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()">☰</button>
+  <span class="tb-brand"><span>G</span>riffin CSS</span>
+  <div class="tb-sep"></div>
+  <span class="page-label">Components / Popups</span>
+  <div class="tb-nav">
+    <button class="tb-btn" onclick="window.location.href='index.html'">🏠 Home</button>
+    <button class="tb-btn tb-btn-primary" onclick="window.location.href='griffin-components.html'">← Components</button>
+  </div>
+  <div class="tb-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+</div>
+
+<div class="layout">
+<nav id="sidebar">
+  <div class="sb-section">
+    <span class="sb-label">Layout</span>
+    <a class="sb-link" href="layout.html"><span class="sb-icon">⬛</span>Layouts<span class="sb-badge">10</span></a>
+    <a class="sb-link" href="navigation.html"><span class="sb-icon">🧭</span>Navigation<span class="sb-badge">5</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">UI Elements</span>
+    <a class="sb-link" href="cards.html"><span class="sb-icon">🃏</span>Cards<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="buttons.html"><span class="sb-icon">🔘</span>Buttons<span class="sb-badge">20</span></a>
+    <a class="sb-link" href="forms.html"><span class="sb-icon">📝</span>Forms<span class="sb-badge">8</span></a>
+    <a class="sb-link" href="modals.html"><span class="sb-icon">🪟</span>Modals<span class="sb-badge">3</span></a>
+    <a class="sb-link active" href="popups.html"><span class="sb-icon">💬</span>Popups<span class="sb-badge">10</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Patterns</span>
+    <a class="sb-link" href="dashboard.html"><span class="sb-icon">📊</span>Dashboard<span class="sb-badge">4</span></a>
+    <a class="sb-link" href="landing.html"><span class="sb-icon">🚀</span>Landing Pages<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="feedback.html"><span class="sb-icon">🔔</span>Feedback<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="interaction.html"><span class="sb-icon">✨</span>Interaction<span class="sb-badge">4</span></a>
+  </div>
+  <div class="sb-section">
+    <span class="sb-label">Advanced</span>
+    <a class="sb-link" href="animated.html"><span class="sb-icon">🎭</span>Animated<span class="sb-badge">6</span></a>
+    <a class="sb-link" href="design.html"><span class="sb-icon">🎨</span>Design Components<span class="sb-badge">5</span></a>
+    <a class="sb-link" href="ui.html"><span class="sb-icon">🧩</span>UI<span class="sb-badge">6</span></a>
+  </div>
+</nav>
+
+<main id="main">
+  <div class="page-header">
+    <div class="page-title">Popups</div>
+    <p class="page-sub">
+      <span>10 animated popup components</span> ... click any tile to view &amp; copy its HTML. 
+    </p>
+  </div>
+  <div class="popups-grid" id="popups-grid"></div>
+</main>
+</div>
+
+<!-- CODE MODAL -->
+<div id="code-modal">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modal-title">Popup HTML</div>
+        <div class="modal-subtitle" id="modal-subtitle">Copy and paste into your project</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="code-block-header">
+        <span class="code-block-lang">HTML</span>
+        <button class="code-block-copy" id="copy-btn-html" onclick="copyCode()">Copy Code</button>
+      </div>
+      <pre class="modal-pre" id="modal-code-html"></pre>
+      <div class="modal-note">💡 Add <code>&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css"&gt;</code> to your &lt;head&gt;. All popup classes are prefixed <code>gfnp-</code> to guarantee zero collisions.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const POPUPS = [
+{
+  name: 'Slide-Down Toast',
+  tag: 'Feedback',
+  bg: 'linear-gradient(135deg,#0f172a,#1e293b)',
+  preview: `<div class="gfnp-toast">
+  <div class="gfnp-toast-icon">✓</div>
+  <div class="gfnp-toast-body">
+    <div class="gfnp-toast-title">Changes saved!</div>
+    <div class="gfnp-toast-msg">Your profile has been updated.</div>
+  </div>
+  <button class="gfnp-toast-close">✕</button>
+  <div class="gfnp-toast-bar"></div>
+</div>`,
+  html: `<div class="gfnp-toast">
+  <div class="gfnp-toast-icon">✓</div>
+  <div class="gfnp-toast-body">
+    <div class="gfnp-toast-title">Changes saved!</div>
+    <div class="gfnp-toast-msg">Your profile has been updated.</div>
+  </div>
+  <button class="gfnp-toast-close">✕</button>
+  <div class="gfnp-toast-bar"></div>
+</div>`
+},
+{
+  name: 'Spotlight Modal',
+  tag: 'Announce',
+  bg: 'linear-gradient(135deg,#f5f3ff,#ede9fe)',
+  preview: `<div class="gfnp-spotlight" style="width:260px">
+  <div class="gfnp-spotlight-hero">
+    <div class="gfnp-spotlight-emoji">🎉</div>
+  </div>
+  <div class="gfnp-spotlight-body">
+    <div class="gfnp-spotlight-badge">New Feature</div>
+    <div class="gfnp-spotlight-title">Meet AI Copilot</div>
+    <div class="gfnp-spotlight-desc">Your intelligent assistant is here to supercharge your workflow.</div>
+    <div class="gfnp-spotlight-actions">
+      <button class="gfnp-spotlight-cta">Try it now</button>
+      <button class="gfnp-spotlight-skip">Later</button>
+    </div>
+  </div>
+</div>`,
+  html: `<div class="gfnp-spotlight">
+  <div class="gfnp-spotlight-hero">
+    <div class="gfnp-spotlight-emoji">🎉</div>
+  </div>
+  <div class="gfnp-spotlight-body">
+    <div class="gfnp-spotlight-badge">New Feature</div>
+    <div class="gfnp-spotlight-title">Meet AI Copilot</div>
+    <div class="gfnp-spotlight-desc">Your intelligent assistant is here to supercharge your workflow in every way.</div>
+    <div class="gfnp-spotlight-actions">
+      <button class="gfnp-spotlight-cta">Try it now</button>
+      <button class="gfnp-spotlight-skip">Later</button>
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Cookie Consent',
+  tag: 'Legal',
+  bg: 'linear-gradient(135deg,#1e293b,#334155)',
+  preview: `<div class="gfnp-cookie" style="max-width:280px">
+  <div class="gfnp-cookie-top">
+    <div class="gfnp-cookie-icon">🍪</div>
+    <div>
+      <div class="gfnp-cookie-title">We use cookies</div>
+      <div class="gfnp-cookie-desc">We use cookies to improve your experience and analyze traffic.</div>
+    </div>
+  </div>
+  <div class="gfnp-cookie-actions">
+    <button class="gfnp-cookie-accept">Accept All</button>
+    <button class="gfnp-cookie-decline">Decline</button>
+    <button class="gfnp-cookie-settings">Settings</button>
+  </div>
+</div>`,
+  html: `<div class="gfnp-cookie">
+  <div class="gfnp-cookie-top">
+    <div class="gfnp-cookie-icon">🍪</div>
+    <div>
+      <div class="gfnp-cookie-title">We use cookies</div>
+      <div class="gfnp-cookie-desc">We use cookies to improve your experience and analyze site traffic.</div>
+    </div>
+  </div>
+  <div class="gfnp-cookie-actions">
+    <button class="gfnp-cookie-accept">Accept All</button>
+    <button class="gfnp-cookie-decline">Decline</button>
+    <button class="gfnp-cookie-settings">Settings</button>
+  </div>
+</div>`
+},
+{
+  name: 'Command Palette',
+  tag: 'Power',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  preview: `<div class="gfnp-cmd" style="width:290px">
+  <div class="gfnp-cmd-search">
+    <span class="gfnp-cmd-search-icon">⌕</span>
+    <input class="gfnp-cmd-input" placeholder="Search commands..." readonly>
+    <span class="gfnp-cmd-kbd">ESC</span>
+  </div>
+  <div class="gfnp-cmd-section">Recent</div>
+  <div class="gfnp-cmd-item gfnp-active">
+    <div class="gfnp-cmd-item-icon">📄</div>
+    <span class="gfnp-cmd-item-label">New Document</span>
+    <span class="gfnp-cmd-item-hint">⌘N</span>
+  </div>
+  <div class="gfnp-cmd-item">
+    <div class="gfnp-cmd-item-icon">🔍</div>
+    <span class="gfnp-cmd-item-label">Search Files</span>
+    <span class="gfnp-cmd-item-hint">⌘K</span>
+  </div>
+  <div class="gfnp-cmd-item" style="margin-bottom:.4rem">
+    <div class="gfnp-cmd-item-icon">⚙️</div>
+    <span class="gfnp-cmd-item-label">Settings</span>
+    <span class="gfnp-cmd-item-hint">⌘,</span>
+  </div>
+  <div class="gfnp-cmd-footer">
+    <span class="gfnp-cmd-foot-hint">↑↓ navigate</span>
+    <span class="gfnp-cmd-foot-hint">↵ select</span>
+  </div>
+</div>`,
+  html: `<div class="gfnp-cmd">
+  <div class="gfnp-cmd-search">
+    <span class="gfnp-cmd-search-icon">⌕</span>
+    <input class="gfnp-cmd-input" placeholder="Search commands...">
+    <span class="gfnp-cmd-kbd">ESC</span>
+  </div>
+  <div class="gfnp-cmd-section">Recent</div>
+  <div class="gfnp-cmd-item gfnp-active">
+    <div class="gfnp-cmd-item-icon">📄</div>
+    <span class="gfnp-cmd-item-label">New Document</span>
+    <span class="gfnp-cmd-item-hint">⌘N</span>
+  </div>
+  <div class="gfnp-cmd-item">
+    <div class="gfnp-cmd-item-icon">🔍</div>
+    <span class="gfnp-cmd-item-label">Search Files</span>
+    <span class="gfnp-cmd-item-hint">⌘K</span>
+  </div>
+  <div class="gfnp-cmd-item">
+    <div class="gfnp-cmd-item-icon">⚙️</div>
+    <span class="gfnp-cmd-item-label">Settings</span>
+    <span class="gfnp-cmd-item-hint">⌘,</span>
+  </div>
+  <div class="gfnp-cmd-footer">
+    <span class="gfnp-cmd-foot-hint">↑↓ navigate</span>
+    <span class="gfnp-cmd-foot-hint">↵ select</span>
+  </div>
+</div>`
+},
+{
+  name: 'Confirm Dialog',
+  tag: 'Action',
+  bg: 'linear-gradient(135deg,#fff7ed,#ffedd5)',
+  preview: `<div class="gfnp-confirm" style="width:260px">
+  <div class="gfnp-confirm-icon">🗑️</div>
+  <div class="gfnp-confirm-title">Delete Project?</div>
+  <div class="gfnp-confirm-desc">This action is permanent and cannot be undone. All files will be lost.</div>
+  <div class="gfnp-confirm-actions">
+    <button class="gfnp-confirm-cancel">Cancel</button>
+    <button class="gfnp-confirm-danger">Delete</button>
+  </div>
+</div>`,
+  html: `<div class="gfnp-confirm">
+  <div class="gfnp-confirm-icon">🗑️</div>
+  <div class="gfnp-confirm-title">Delete Project?</div>
+  <div class="gfnp-confirm-desc">This action is permanent and cannot be undone. All files will be lost forever.</div>
+  <div class="gfnp-confirm-actions">
+    <button class="gfnp-confirm-cancel">Cancel</button>
+    <button class="gfnp-confirm-danger">Delete</button>
+  </div>
+</div>`
+},
+{
+  name: 'Notification Stack',
+  tag: 'Alert',
+  bg: 'linear-gradient(135deg,#f8fafc,#f1f5f9)',
+  preview: `<div class="gfnp-notif-stack" style="width:260px">
+  <div class="gfnp-notif gfnp-notif-success">
+    <span class="gfnp-notif-icon">✅</span>
+    <div class="gfnp-notif-content">
+      <div class="gfnp-notif-title">Deployed!</div>
+      <div class="gfnp-notif-msg">v2.4.1 is live on production.</div>
+    </div>
+    <button class="gfnp-notif-x">✕</button>
+  </div>
+  <div class="gfnp-notif gfnp-notif-warning">
+    <span class="gfnp-notif-icon">⚠️</span>
+    <div class="gfnp-notif-content">
+      <div class="gfnp-notif-title">High Memory</div>
+      <div class="gfnp-notif-msg">Usage at 87% capacity.</div>
+    </div>
+    <button class="gfnp-notif-x">✕</button>
+  </div>
+  <div class="gfnp-notif gfnp-notif-error">
+    <span class="gfnp-notif-icon">🔴</span>
+    <div class="gfnp-notif-content">
+      <div class="gfnp-notif-title">Build Failed</div>
+      <div class="gfnp-notif-msg">Check logs for details.</div>
+    </div>
+    <button class="gfnp-notif-x">✕</button>
+  </div>
+</div>`,
+  html: `<div class="gfnp-notif-stack">
+  <div class="gfnp-notif gfnp-notif-success">
+    <span class="gfnp-notif-icon">✅</span>
+    <div class="gfnp-notif-content">
+      <div class="gfnp-notif-title">Deployed!</div>
+      <div class="gfnp-notif-msg">v2.4.1 is now live on production.</div>
+      <div class="gfnp-notif-time">Just now</div>
+    </div>
+    <button class="gfnp-notif-x">✕</button>
+  </div>
+  <div class="gfnp-notif gfnp-notif-warning">
+    <span class="gfnp-notif-icon">⚠️</span>
+    <div class="gfnp-notif-content">
+      <div class="gfnp-notif-title">High Memory Usage</div>
+      <div class="gfnp-notif-msg">Server memory at 87% capacity.</div>
+      <div class="gfnp-notif-time">2 min ago</div>
+    </div>
+    <button class="gfnp-notif-x">✕</button>
+  </div>
+  <div class="gfnp-notif gfnp-notif-error">
+    <span class="gfnp-notif-icon">🔴</span>
+    <div class="gfnp-notif-content">
+      <div class="gfnp-notif-title">Build Failed</div>
+      <div class="gfnp-notif-msg">Check your logs for more details.</div>
+      <div class="gfnp-notif-time">5 min ago</div>
+    </div>
+    <button class="gfnp-notif-x">✕</button>
+  </div>
+</div>`
+},
+{
+  name: 'Tooltip Bubble',
+  tag: 'UI Hint',
+  bg: 'linear-gradient(135deg,#fdf4ff,#fae8ff)',
+  preview: `<div class="gfnp-tooltip-demo">
+  <div class="gfnp-tooltip-wrap">
+    <div class="gfnp-tooltip">Keyboard shortcut: ⌘ + S</div>
+    <button class="gfnp-tooltip-trigger">Hover me</button>
+  </div>
+  <div class="gfnp-tooltip-wrap">
+    <div class="gfnp-tooltip gfnp-tooltip-rich">
+      <div class="gfnp-tooltip-rich-title">Pro Feature 🔒</div>
+      <div class="gfnp-tooltip-rich-body">Upgrade to unlock advanced analytics and team collaboration.</div>
+    </div>
+    <button class="gfnp-tooltip-trigger" style="background:linear-gradient(135deg,#a855f7,#ec4899)">Rich tooltip</button>
+  </div>
+</div>`,
+  html: `<!-- Simple Tooltip -->
+<div class="gfnp-tooltip-wrap">
+  <div class="gfnp-tooltip">Keyboard shortcut: ⌘ + S</div>
+  <button class="gfnp-tooltip-trigger">Hover me</button>
+</div>
+
+<!-- Rich Tooltip -->
+<div class="gfnp-tooltip-wrap">
+  <div class="gfnp-tooltip gfnp-tooltip-rich">
+    <div class="gfnp-tooltip-rich-title">Pro Feature 🔒</div>
+    <div class="gfnp-tooltip-rich-body">Upgrade to unlock advanced analytics and team collaboration tools.</div>
+  </div>
+  <button class="gfnp-tooltip-trigger">Rich tooltip</button>
+</div>`
+},
+{
+  name: 'Drawer Panel',
+  tag: 'Nav',
+  bg: 'linear-gradient(135deg,#f0fdf4,#dcfce7)',
+  preview: `<div class="gfnp-drawer-scene">
+  <button class="gfnp-drawer-trigger-btn" onclick="toggleDrawer(this)">Open Panel →</button>
+  <div class="gfnp-drawer" id="demo-drawer">
+    <div class="gfnp-drawer-head">
+      <span class="gfnp-drawer-title">Quick Nav</span>
+      <button class="gfnp-drawer-close" onclick="toggleDrawer(this.closest('.gfnp-drawer-scene').querySelector('.gfnp-drawer-trigger-btn'))">✕</button>
+    </div>
+    <div class="gfnp-drawer-item"><span class="gfnp-drawer-item-dot" style="background:#1E9E8C"></span>Dashboard</div>
+    <div class="gfnp-drawer-item"><span class="gfnp-drawer-item-dot" style="background:#6366f1"></span>Projects</div>
+    <div class="gfnp-drawer-item"><span class="gfnp-drawer-item-dot" style="background:#f59e0b"></span>Settings</div>
+    <div class="gfnp-drawer-item"><span class="gfnp-drawer-item-dot" style="background:#f43f5e"></span>Logout</div>
+  </div>
+</div>`,
+  html: `<!-- Wrap your trigger and drawer in a relative container -->
+<div style="position:relative;overflow:hidden;height:200px">
+  <button onclick="this.nextElementSibling.classList.toggle('gfnp-open')">
+    Open Panel →
+  </button>
+  <div class="gfnp-drawer">
+    <div class="gfnp-drawer-head">
+      <span class="gfnp-drawer-title">Quick Nav</span>
+      <button class="gfnp-drawer-close"
+        onclick="this.closest('.gfnp-drawer').classList.remove('gfnp-open')">✕</button>
+    </div>
+    <div class="gfnp-drawer-item">
+      <span class="gfnp-drawer-item-dot" style="background:#1E9E8C"></span>Dashboard
+    </div>
+    <div class="gfnp-drawer-item">
+      <span class="gfnp-drawer-item-dot" style="background:#6366f1"></span>Projects
+    </div>
+    <div class="gfnp-drawer-item">
+      <span class="gfnp-drawer-item-dot" style="background:#f59e0b"></span>Settings
+    </div>
+    <div class="gfnp-drawer-item">
+      <span class="gfnp-drawer-item-dot" style="background:#f43f5e"></span>Logout
+    </div>
+  </div>
+</div>`
+},
+{
+  name: 'Floating Action Menu',
+  tag: 'Speed Dial',
+  bg: 'linear-gradient(135deg,#ecfeff,#cffafe)',
+  preview: `<div class="gfnp-fab-scene">
+  <div class="gfnp-fab-wrap" id="fab-demo">
+    <div class="gfnp-fab-actions">
+      <div class="gfnp-fab-action"><span class="gfnp-fab-action-icon" style="background:#fef3c7">📷</span>Photo</div>
+      <div class="gfnp-fab-action"><span class="gfnp-fab-action-icon" style="background:#ede9fe">📁</span>File</div>
+      <div class="gfnp-fab-action"><span class="gfnp-fab-action-icon" style="background:#dcfce7">🔗</span>Link</div>
+    </div>
+    <button class="gfnp-fab-btn" onclick="document.getElementById('fab-demo').classList.toggle('gfnp-open')">+</button>
+  </div>
+</div>`,
+  html: `<div class="gfnp-fab-wrap" id="myFab">
+  <div class="gfnp-fab-actions">
+    <div class="gfnp-fab-action">
+      <span class="gfnp-fab-action-icon" style="background:#fef3c7">📷</span>Photo
+    </div>
+    <div class="gfnp-fab-action">
+      <span class="gfnp-fab-action-icon" style="background:#ede9fe">📁</span>File
+    </div>
+    <div class="gfnp-fab-action">
+      <span class="gfnp-fab-action-icon" style="background:#dcfce7">🔗</span>Link
+    </div>
+  </div>
+  <button class="gfnp-fab-btn"
+    onclick="document.getElementById('myFab').classList.toggle('gfnp-open')">+</button>
+</div>`
+},
+{
+  name: 'Upgrade Paywall',
+  tag: 'Convert',
+  bg: 'linear-gradient(135deg,#0f172a,#1e293b)',
+  preview: `<div class="gfnp-paywall" style="width:260px">
+  <div class="gfnp-paywall-glow"></div>
+  <div class="gfnp-paywall-badge"><span></span>Limited Offer</div>
+  <div class="gfnp-paywall-title">Go <em>Pro</em> today</div>
+  <div class="gfnp-paywall-desc">Unlock every feature and build without limits.</div>
+  <div class="gfnp-paywall-features">
+    <div class="gfnp-paywall-feature"><span class="gfnp-paywall-feature-check">✓</span>Unlimited projects</div>
+    <div class="gfnp-paywall-feature"><span class="gfnp-paywall-feature-check">✓</span>Priority support</div>
+    <div class="gfnp-paywall-feature"><span class="gfnp-paywall-feature-check">✓</span>Custom domains</div>
+  </div>
+  <div class="gfnp-paywall-price">
+    <span class="gfnp-paywall-amount">$9</span>
+    <span class="gfnp-paywall-period">/ month</span>
+  </div>
+  <button class="gfnp-paywall-cta">Upgrade Now →</button>
+  <div class="gfnp-paywall-fine">Cancel anytime · No hidden fees</div>
+</div>`,
+  html: `<div class="gfnp-paywall">
+  <div class="gfnp-paywall-glow"></div>
+  <div class="gfnp-paywall-badge"><span></span>Limited Offer</div>
+  <div class="gfnp-paywall-title">Go <em>Pro</em> today</div>
+  <div class="gfnp-paywall-desc">Unlock every feature and build without limits. Join 12,000+ teams.</div>
+  <div class="gfnp-paywall-features">
+    <div class="gfnp-paywall-feature">
+      <span class="gfnp-paywall-feature-check">✓</span>Unlimited projects
+    </div>
+    <div class="gfnp-paywall-feature">
+      <span class="gfnp-paywall-feature-check">✓</span>Priority support 24/7
+    </div>
+    <div class="gfnp-paywall-feature">
+      <span class="gfnp-paywall-feature-check">✓</span>Custom domains & SSL
+    </div>
+    <div class="gfnp-paywall-feature">
+      <span class="gfnp-paywall-feature-check">✓</span>Advanced analytics
+    </div>
+  </div>
+  <div class="gfnp-paywall-price">
+    <span class="gfnp-paywall-amount">$9</span>
+    <span class="gfnp-paywall-period">/ month</span>
+  </div>
+  <button class="gfnp-paywall-cta">Upgrade Now →</button>
+  <div class="gfnp-paywall-fine">Cancel anytime · No hidden fees</div>
+</div>`
+}
+];
+
+const grid = document.getElementById('popups-grid');
+POPUPS.forEach((p) => {
+  const tile = document.createElement('div');
+  tile.className = 'popup-tile';
+  tile.innerHTML = `
+    <div class="popup-preview" style="background:${p.bg}">
+      ${p.preview}
+    </div>
+    <div class="popup-meta">
+      <span class="popup-name">${p.name}</span>
+      <div style="display:flex;align-items:center;gap:.5rem">
+        <span class="popup-tag">${p.tag}</span>
+        <span class="click-hint">🖱 Click</span>
+      </div>
+    </div>
+  `;
+  tile.querySelector('.popup-meta').addEventListener('click', () => openModal(p));
+  tile.querySelector('.popup-preview').addEventListener('click', () => openModal(p));
+  grid.appendChild(tile);
+});
+
+let currentPopup = null;
+
+function openModal(p) {
+  currentPopup = p;
+  document.getElementById('modal-title').textContent = p.name;
+  document.getElementById('modal-subtitle').textContent = `${p.tag} popup — copy & customize`;
+  document.getElementById('modal-code-html').textContent = p.html;
+  document.getElementById('code-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('code-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyCode() {
+  navigator.clipboard.writeText(currentPopup.html).then(() => {
+    const btn = document.getElementById('copy-btn-html');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function toggleDrawer(triggerBtn) {
+  const scene = triggerBtn.closest('.gfnp-drawer-scene');
+  if (!scene) return;
+  const drawer = scene.querySelector('.gfnp-drawer');
+  if (drawer) drawer.classList.toggle('gfnp-open');
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function toggleTheme() {
+  const dark = document.documentElement.dataset.theme === 'dark';
+  document.documentElement.dataset.theme = dark ? 'light' : 'dark';
+  document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+  try { localStorage.setItem('griffin-theme', dark ? 'light' : 'dark'); } catch(e) {}
+}
+try {
+  const s = localStorage.getItem('griffin-theme');
+  if (s) { document.documentElement.dataset.theme = s; document.getElementById('theme-btn').textContent = s === 'dark' ? '☀️' : '🌙'; }
+} catch(e) {}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+</script>
+<script src="restrict.js"></script>
+</body>
+</html>
