@@ -55,7 +55,7 @@ Whether you're creating a portfolio, landing page, dashboard, blog, or web appli
 Simply include Griffin CSS inside your HTML.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/YOUR_USERNAME/griffin-css@v1.0.0/griffin.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/AliAhmad1101/griffin-css@main/griffin.css">
 ```
 
 That's it.
